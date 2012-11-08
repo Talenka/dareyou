@@ -1,4 +1,4 @@
-# DareYou (http://dareyou.boudah.pl)
+# http://dareyou.boudah.pl
 
 **N.B.** : This project is a joke, only for me to relax. But maybe one day it will become legen... *wait for it* ...dairy !
 
@@ -6,7 +6,7 @@ Dareyou lets everyone launch fun challenges to his friends or all web users who 
 
 Referees, randomly chosen, then designate the winners. Winners receive karma points, plus any other rewards specified in the bet / challenge. The losers lose karma points, and may need to perform a task ingratte specified in the challenge.
 
-Copyright [Boudah Talenka](http://boudah.pl) 2012, published under the [GNU General Public Licence version 3 or later](http://www.gnu.org/licenses/gpl.html).
+© [Boudah Talenka](http://boudah.pl) 2012, published under the [GNU General Public Licence version 3 or later](http://www.gnu.org/licenses/gpl.html).
 
 ## Installation
 

@@ -16,10 +16,11 @@ if(isFormKeyValid() && !empty($_POST['mail']) && !empty($_POST['password'])
 
     if($user->num_rows == 1)
     {
-        $client    = $user->fetch_object();
-        $sessionId = generateSessionId($client->id);
+        $client      = $user->fetch_object();
+        $sessionId   = generateSessionId($client->id); // stored in the user's browser (cookie)
+        $sessionHash = generateSessionId($sessionId);  // stored in the database
 
-        if($db->query("UPDATE users SET session='".$sessionId."' WHERE id=".$client->id." LIMIT 1"))
+        if($db->query("UPDATE users SET session='".$sessionHash."' WHERE id=".$client->id." LIMIT 1"))
         {
             sendSessionCookie($sessionId);
             redirectTo('.');
@@ -29,7 +30,8 @@ if(isFormKeyValid() && !empty($_POST['mail']) && !empty($_POST['password'])
 }
 
 $html = '<form action=login method=post>'
-        .'<input type=email name=mail maxlength=255 pattern="[\w@\.]+" autofocus'.(empty($_POST['mail'])? '' : ' value="'.$_POST['mail'].'"').' placeholder="'.lg('Email').'" required>'
+        .'<input type=email name=mail maxlength=255 pattern="[\w@\.]+" autofocus'
+            .(empty($_POST['mail'])? '' : ' value="'.$_POST['mail'].'"').' placeholder="'.lg('Email').'" required>'
         .'<input type=password name=password maxlength=255 placeholder="'.lg('Password').'" required>'
         .'<input type=submit value="'.lg('Log in').'" class="btn turquoise">'
         .generateFormKey()
@@ -39,4 +41,5 @@ $html = '<form action=login method=post>'
 if($loginError) $html='<div class=warning>'.lg('Email or password is incorrect, please retry').'</div>'.$html;
 
 sendPageToClient(lg('Login'),'<h2>'.lg('Login').'</h2>'.$html);
+
 ?>
