@@ -1,10 +1,26 @@
 <?php
 include 'core.php';
 
+
 $html .= '<h3><a href=victory>'.lg('Last completed challenges').'</a></h3>'
-        .'<ul>'.challengesList("SELECT r.value,r.end,u.name,u.mailHash,c.title,c.cid FROM realizations r,users u,challenges c WHERE r.status='accepted' AND r.cid=c.cid AND r.uid=u.id ORDER BY r.end DESC LIMIT 5", 'won', 'value', 'end').'</ul>'
-        .'<h3><a href=new>'.lg('New challenges').'</a></h3><ul>'.challengesList("SELECT c.title,c.cid,c.totalSum,c.created,u.name,u.mailHash FROM challenges c,users u WHERE c.author=u.id ORDER BY c.created DESC LIMIT 5", 'issued', 'totalSum', 'created').'</ul>'
-        .'<h3><a href=top>'.lg('Greatest challenges').'</a></h3><ul>'.challengesList("SELECT c.title,c.cid,c.totalSum,c.created,u.name,u.mailHash FROM challenges c,users u WHERE c.author=u.id ORDER BY c.totalSum DESC LIMIT 5", 'issued', 'totalSum', 'created').'</ul>';
+        .'<ul>'
+        	.challengesList("SELECT c.title,c.cid,r.value,r.end,u.name,u.mailHash "
+        				   ."FROM realizations r,users u,challenges c "
+        				   ."WHERE r.status='accepted' AND r.cid=c.cid AND r.uid=u.id "
+        				   ."ORDER BY r.end DESC LIMIT 5", 'won', 'value', 'end')
+        .'</ul>'
+        .'<h3><a href=new>'.lg('New challenges').'</a></h3><ul>'
+        	.challengesList("SELECT c.title,c.cid,c.totalSum,c.created,u.name,u.mailHash "
+        				   ."FROM challenges c,users u "
+        				   ."WHERE c.author=u.id "
+        				   ."ORDER BY c.created DESC LIMIT 5", 'issued', 'totalSum', 'created')
+        .'</ul>'
+        .'<h3><a href=top>'.lg('Greatest challenges').'</a></h3><ul>'
+        	.challengesList("SELECT c.title,c.cid,c.totalSum,c.created,u.name,u.mailHash "
+        				   ."FROM challenges c,users u "
+        				   ."WHERE c.author=u.id "
+        				   ."ORDER BY c.totalSum DESC LIMIT 5", 'issued', 'totalSum', 'created')
+        .'</ul>';
 
 $langs = array();
 

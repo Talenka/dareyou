@@ -58,6 +58,7 @@ $sentences = array(
 'out of'            => 'sur',
 'won'               => 'gagné',
 'issued'            => 'lancé',
+
 );
 
 

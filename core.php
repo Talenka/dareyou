@@ -9,7 +9,8 @@ function isHttps()
 
 function redirectTo($url)
 {
-    header("Location: " . $url, true, 307);
+    //header("Location: " . $url);
+    echo '<!doctype html><script>window.location="'.$url.'";</script>';
     exit;
 }
 
@@ -117,7 +118,7 @@ function isFormKeyValid()
 function lg($text)
 {
     global $sentences;
-    return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
+    return array_key_exists($text, $sentences) ? $sentences[$text] : '{'.$text.'}';
 }
 
 function challengesList($query, $verb, $karmaColumn, $timeColumn)
@@ -128,7 +129,7 @@ function challengesList($query, $verb, $karmaColumn, $timeColumn)
     $code = '';
 
     while($c = $sql->fetch_object()) $code .= '<li>'
-        .'<a href=challenge?'.$c->cid.'>'.utf8_encode($c->title).'</a> '
+        .'<a href="challenge?'.urlencode($c->title).'">'.utf8_encode($c->title).'</a> '
         .lg($verb).' '.lg('by').' '.userLinkWithAvatar($c->name, $c->mailHash)
         .' : <b>+'.$c->$karmaColumn.' ♣</b> '
         .'<time>('.date(lg('dateFormat'),$c->$timeColumn).')</time></li>';
