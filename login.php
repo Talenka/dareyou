@@ -36,10 +36,10 @@ $html = '<form action=login method=post>'
         .'<input type=submit value="'.lg('Log in').'" class="btn turquoise">'
         .generateFormKey()
         .'</form>'
-        .'<h3>&nbsp;</h3><a href=lost-password>'.lg('Have you lost your password ?').'</a>';
+        .'<h2>&nbsp;</h2><a href=lost-password>'.lg('Have you lost your password ?').'</a>';
 
 if($loginError) $html='<div class=warning>'.lg('Email or password is incorrect, please retry').'</div>'.$html;
 
-sendPageToClient(lg('Login'),'<h2>'.lg('Login').'</h2>'.$html);
+sendPageToClient(lg('Login'),'<h1>'.lg('Login').'</h1>'.$html);
 
 ?>

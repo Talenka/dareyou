@@ -118,7 +118,7 @@ function isFormKeyValid()
 function lg($text)
 {
     global $sentences;
-    return array_key_exists($text, $sentences) ? $sentences[$text] : '{'.$text.'}';
+    return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
 }
 
 function challengesList($query, $verb, $karmaColumn, $timeColumn)
@@ -143,6 +143,7 @@ function sendPageToClient($title, $html)
 
     header('Content-Type: text/html; charset=UTF-8');
     header('Cache-Control: no-cache', true);
+    header('Expires: '.date('r'));
 
     echo '<!doctype html><title>'.SITE_TITLE.' • '.$title.'</title>'
         .'<link rel=stylesheet href=s.css><header><nav>'

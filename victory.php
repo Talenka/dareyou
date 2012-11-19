@@ -3,7 +3,7 @@
 include 'core.php';
 
 sendPageToClient(lg('Last completed challenges'),
-    '<h2>'.lg('Last completed challenges').'</h2>'
+    '<h1><a href=victory>'.lg('Last completed challenges').'</a></h1>'
     .'<ul>'
         .challengesList("SELECT r.value,r.end,u.name,u.mailHash,c.title,c.cid "
             ."FROM realizations r,users u,challenges c "

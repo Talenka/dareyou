@@ -12,13 +12,13 @@ a
     color: #48B;
 }
 
-h3
+h2
 {
     color: #555;
     border-bottom: 1px #ddd solid;
 }
 
-h3 b, h3 a, h3 a:hover
+h2 b, h2 a, h2 a:hover
 {
     color: #f80;
 }
@@ -99,7 +99,7 @@ li
 
 section
 {
-    padding: 2% 0;
+    padding: 2% 4px;
     max-width: 800px;
 }
 

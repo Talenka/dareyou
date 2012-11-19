@@ -6,12 +6,13 @@ $html = '<ul>'
             .'<li><a href=#how-to-earn-karma>Comment gagner des points de karma ?</a></li>'
             .'<li><a href=#who-decide-who-win>Qui décide qu’un joueur à gagner un défi ?</a></li>'
             .'<li><a href=#how-to-buy-karma>Peut-on acheter des points de karma ?</a></li>'
+            .'<li><a href=#privacy>Mes données resteront-elles confidentielles ?</a></li>'
         .'</ul>'
 
-        .'<h3 id=ie>'.lg('I cannot use Internet Explorer here, why ?').'</h3>'
+        .'<h2 id=ie>'.lg('I cannot use Internet Explorer here, why ?').'</h2>'
         .'<p>'.lg('IE is a mess').'.</p>'
 
-        .'<h3 id=how-to-earn-karma>Comment gagner des points de karma ?</h3>'
+        .'<h2 id=how-to-earn-karma>Comment gagner des points de karma ?</h2>'
         .'<p align=justify>'
         .'Vous pouvez gagner des points de karma soit réalisant des défis, '
         .'soit en pariant sur le fait qu’un joueur va ou non réaliser un défi. '
@@ -23,7 +24,7 @@ $html = '<ul>'
         .'avait misé sur le joueur. Si le joueur perd le défi, c’est le '
         .'contraire qui se produit.</p>'
 
-        .'<h3 id=who-decide-who-win>Qui décide qu’un joueur à gagner un défi ?</h3>'
+        .'<h2 id=who-decide-who-win>Qui décide qu’un joueur à gagner un défi ?</h2>'
         .'<p align=justify>Des arbitres sont tirés au hasard parmis les '
         .'meilleurs joueurs (plus vous avez un karma élevé, plus vous avez de '
         .'chance d’arbitrer un défi). L’arbitre regarde la ou les preuves que '
@@ -41,11 +42,14 @@ $html = '<ul>'
             .'<li>etc...</li>'
         .'</ul>'
 
-        .'<h3 id=how-to-buy-karma>Peut-on acheter des points de karma ?</h3>'
+        .'<h2 id=how-to-buy-karma>Peut-on acheter des points de karma ?</h2>'
         .'<p align=justify>Non, pas pour le moment. Le karma est relativement '
         .'sacré. Si le site devient suffisament populaire et que la guilde des '
         .'druides de Cournouailles nous donne sont accord, nous ouvrirons un '
-        .'compte Paypal, probablement...';
+        .'compte Paypal, probablement...'
 
-sendPageToClient(lg('Frequently Asked Questions'),'<h2>'.lg('Frequently Asked Questions').'</h2>'.$html);
+        .'<h2 id=privacy>Mes données resteront-elles confidentielles ?</h2>'
+        .'<p align=justify>La seule donnée personnelle dont nous avons connaissance est votre pseudo. Votre email n’est sauvagardé dans notre base de données que sous une forme (md5) qui rend extrêmement difficile sont décodage. De la même manière, votre mot de passe est en sureté grâce à un hachage SHA512 bien salé.</p>';
+
+sendPageToClient(lg('Frequently Asked Questions'),'<h1>'.lg('Frequently Asked Questions').'</h1>'.$html);
 ?>

@@ -91,5 +91,5 @@ $html = ((sizeof($signupError) > 0)?'<p class=warning>'.implode('. ',$signupErro
         .'</ul>'
         .'</form>';
 
-sendPageToClient(lg('Signup'),'<h2>'.lg('Signup').'</h2>'.$html);
+sendPageToClient(lg('Signup'),'<h1>'.lg('Signup').'</h1>'.$html);
 ?>

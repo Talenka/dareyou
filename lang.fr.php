@@ -25,7 +25,7 @@ $sentences = array(
 'CONFIRMPASSWORD'   => 'Confirmez votre mot de passe',
 'Notes'             => 'Notes',
 'About'             => 'À propos',
-'JUSTLOWERCASE'     => 'Votre pseudo en lettres minuscules svp',
+'Just lowercase letters for your username'     => 'Votre pseudo en lettres minuscules svp',
 'Your email will stay confidential, no jokes' => 'Votre email restera confidentiel, juré',
 'Choose a long and unique password' => 'Choisissez un mot de passe long et unique',
 'Email or password is incorrect, please retry' => 'Email ou mot de passe incorrect, essayez à nouveau',
@@ -55,10 +55,21 @@ $sentences = array(
 'Last completed challenges' => 'Derniers défis relevés',
 'New challenges'    => 'Nouveaux défis',
 'Greatest challenges' => 'Les plus grands défis',
+'Challenge'    => 'Défi',
 'out of'            => 'sur',
 'won'               => 'gagné',
 'issued'            => 'lancé',
-
+'Some figures' => 'Quelques chiffres',
+'Players' => 'Joueurs',
+'Challenges'    => 'Défis',
+'Attempts' => 'Tentatives',
+'% successful' => '% de réussite',
+'Comments' => 'Commentaires',
+'Under the hood' => 'Sous le capot',
+'and' => 'et',
+' is a project of ' => ' est un projet de ',
+'published under the GPL3+ licence' => 'publié sous licence GPL3+',
+'freely available on Github' => 'disponible librement sur Github',
 );
 
 
