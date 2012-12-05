@@ -1,8 +1,9 @@
 <?php
-include 'core.php';
+include_once 'core.php';
 
 
-$html .= '<h2><a href=victory>'.lg('Last completed challenges').'</a></h2>'
+$html = (isset($notice)?'<div class=notice>'.$notice.'</div>':'')
+        .'<h2><a href=victory>'.lg('Last completed challenges').'</a></h2>'
         .'<ul>'
         	.challengesList("SELECT c.title,c.cid,r.value,r.end,u.name,u.mailHash "
         				   ."FROM realizations r,users u,challenges c "
@@ -27,7 +28,10 @@ $langs = array();
 foreach($definedLanguages as $lang => $language) $langs[] = '<a href=language?'.$lang.' title="'.lg($language).'">'.$language.'</a>';
 
 sendPageToClient(lg('What are you gonna do awesome today?'),
-                '<nav><a href=about class=btn>'.lg('About').'</a> <a href=faq class=btn title="'.lg('Frequently Asked Questions').'">FAQ</a></nav>'
+                '<nav>'
+                .(isset($client)?'<a href=start-challenge class=btn>'.lg('Start a challenge').'</a> ':'')
+                .'<a href=about class=btn>'.lg('About').'</a> '
+                .'<a href=faq class=btn title="'.lg('Frequently Asked Questions').'">FAQ</a></nav>'
                 .'<h1>'.lg('What are you gonna do awesome today?').'</h1>'
                 .$html.lg('In other languages').' : '.implode(', ', $langs));
 ?>

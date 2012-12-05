@@ -29,7 +29,7 @@ a:hover
     color: #369;
 }
 
-input
+input, textarea
 {
     font-size: larger;
     margin: 4px;
@@ -38,7 +38,7 @@ input
     padding: 5px;
     display: block;
     clear: both;
-    width: 300px;
+    width: 400px;
     max-width: 90%;
 }
 
@@ -47,9 +47,11 @@ input[type="submit"]
     width: auto;
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus
+input:focus,  
+textarea:focus
 {
-    background: #f5f5ff;
+    border-color: #91bd09;
+    box-shadow: 0 2px 5px #bbb;
 }
 
 header, section
@@ -148,6 +150,17 @@ time
     color: #f00;
 }
 
+.notice
+{
+    display: block;
+    background : rgb(252,255,163);
+    border: 1px rgb(255,240,50) solid;
+    padding: 3px 5px;
+    border-radius: 7px;
+    margin: 3px auto;
+}
+
+
 .u
 {
     background-position: 2px 0px;
@@ -162,12 +175,4 @@ li b
 {
     display: inline-block;
     color: #7c1;
-}
-
-@media (max-width: 320px)
-{
-    img
-    {
-        display: none
-    }
 }

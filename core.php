@@ -9,15 +9,17 @@ function isHttps()
 
 function redirectTo($url)
 {
-    //header("Location: " . $url);
-    echo '<!doctype html><script>window.location="'.$url.'";</script>';
+    echo '<!doctype html><script>window.location="'.$url.'";</script>'
+        .lg('If nothing happen, ')
+        .'<a href="'.$url.'">'.lg('click here to continue').'</a>';
     exit;
 }
 
 function displayError($message)
 {
-    error_log($message);
-    redirectTo('error');
+    echo $message;
+    //error_log($message);
+    //redirectTo('error');
 }
 
 function getSessionCookie()
@@ -25,14 +27,14 @@ function getSessionCookie()
     return (array_key_exists('u', $_COOKIE)) ? $_COOKIE['u'] : '';
 }
 
-function sendSessionCookie($sessionId)
+function sendSessionCookie($sessionId, $term = 3600)
 {
-    return setcookie('u', $sessionId, time()+3600, '/', $_SERVER['SERVER_NAME'], isHttps(), true);
+    setcookie('u', $sessionId, time()+$term, '/', $_SERVER['SERVER_NAME'], isHttps(), true);
 }
 
 function deleteSessionCookie()
 {
-    return setcookie('u', '', time()-3600, '/', $_SERVER['SERVER_NAME'], isHttps(), true);
+    sendSessionCookie('', -3600);
 }
 
 function hashPassword($password)
@@ -100,9 +102,9 @@ function publicProfileLink($mailHash)
     return ' <a href="'.gravatarProfile($mailHash).'" class=btn>Public profile</a>';
 }
 
-function generateFormKey($expire=600)
+function generateFormKey($term = 600)
 {
-    return '<input type=hidden name=formKey value="'.($expire+time()).'.'.hashText($expire+time()).'">';
+    return '<input type=hidden name=formKey value="'.($term+time()).'.'.hashText($term+time()).'">';
 }
 
 function isFormKeyValid()
@@ -137,15 +139,30 @@ function challengesList($query, $verb, $karmaColumn, $timeColumn)
     return $code;
 }
 
+function identifyClient($sessionId = '')
+{
+    global $client, $db;
+
+    if(empty($sessionId)) $sessionId = getSessionCookie();
+
+    $user = $db->query("SELECT * FROM users WHERE session='"
+                        .generateSessionId($db->real_escape_string($sessionId))
+                        ."' LIMIT 1");
+
+    if($user->num_rows == 1) $client = $user->fetch_object();
+}
+
 function sendPageToClient($title, $html)
 {
-    global $client;
+    global $client, $db;
+
+    $db->close();
 
     header('Content-Type: text/html; charset=UTF-8');
     header('Cache-Control: no-cache', true);
     header('Expires: '.date('r'));
 
-    echo '<!doctype html><title>'.SITE_TITLE.' • '.$title.'</title>'
+    echo '<!doctype html><title>'.$title.' - '.SITE_TITLE.'</title>'
         .'<link rel=stylesheet href=s.css><header><nav>'
         .(isset($client)
             ? userLinkWithAvatar($client->name, $client->mailHash)
@@ -155,6 +172,8 @@ function sendPageToClient($title, $html)
              .' <a href=login class="btn turquoise">'.lg('Log in').'</a>')
         .'</nav><h1><a href=.>'.SITE_TITLE.'</a></h1></header>'
         .'<section>'.$html.'</section>';
+
+    exit;
 }
 
 $definedLanguages = array('fr' => 'Français', 'en' => 'English');
@@ -183,16 +202,10 @@ include_once 'lang.'.$lang.'.php';
 
 if(__FILE__ != 'error.php')
 {
-    $db     = new mysqli(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DB);
+    $db = new mysqli(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DB);
 
     if($db->connect_errno) displayError('Unable to access database !');
-    elseif(getSessionCookie() != '')
-    {
-        $user = $db->query("SELECT * FROM users WHERE session='"
-                            .generateSessionId($db->real_escape_string(getSessionCookie()))."' LIMIT 1");
-
-        if($user->num_rows == 1) $client = $user->fetch_object();
-    }
+    elseif(getSessionCookie() != '') identifyClient();
 }
 
 ?>

@@ -75,7 +75,7 @@ if(isFormKeyValid() && !empty($_POST['name']) && !empty($_POST['mail'])
 
 $html = ((sizeof($signupError) > 0)?'<p class=warning>'.implode('. ',$signupError).'</p>' : '')
         .'<form action=signup method=post>'
-        .'<input type=text name=name maxlength=20 pattern="[a-zA-Z]{2,25}"'.(empty($_POST['name'])? '' : ' value="'.$_POST['name'].'"').' placeholder="'.lg('User name').'" required autofocus title="'.lg('JUSTLOWERCASE').'">'
+        .'<input type=text name=name maxlength=20 pattern="\w{2,25}"'.(empty($_POST['name'])? '' : ' value="'.$_POST['name'].'"').' placeholder="'.lg('User name').'" required autofocus title="'.lg('JUSTLOWERCASE').'">'
         .'<input type=email name=mail maxlength=255'.(empty($_POST['mail'])? '' : ' value="'.$_POST['mail'].'"').' placeholder="'.lg('Email').'" required>'
         .'<input type=password name=password maxlength=255 placeholder="'.lg('Password').'" required>'
         .'<input type=password name=password2 maxlength=255 placeholder="'.lg('CONFIRMPASSWORD').'" required>'

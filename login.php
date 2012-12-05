@@ -23,7 +23,9 @@ if(isFormKeyValid() && !empty($_POST['mail']) && !empty($_POST['password'])
         if($db->query("UPDATE users SET session='".$sessionHash."' WHERE id=".$client->id." LIMIT 1"))
         {
             sendSessionCookie($sessionId);
-            redirectTo('.');
+            $notice = lg('Hello again').', '.userLinkWithAvatar($client->name, $client->mailHash);
+            include 'index.php';
+            exit;
         }
     }
     else $loginError = true;

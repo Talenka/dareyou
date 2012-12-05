@@ -12,4 +12,4 @@ Referees, randomly chosen, then designate the winners. Winners receive karma poi
 
 1. Open [config.sample.php](https://github.com/Talenka/dareyou/blob/master/config.sample.php) 
 2. Modify it according to your MySql server, then rename it as **config.php**.
-3. Load [dareyou.sql.bz2](https://github.com/Talenka/dareyou/blob/master/dareyou.sql.bz2) in your database.
+3. Load [install.sql](https://github.com/Talenka/dareyou/blob/master/install.sql) in your database.

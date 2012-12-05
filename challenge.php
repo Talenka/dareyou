@@ -13,17 +13,23 @@ if(!empty($_SERVER['QUERY_STRING']))
 	{
 		$c = $challenge->fetch_object();
 
+		$attemptsNumber = $db->query("SELECT COUNT(*) AS n FROM realizations WHERE cid=".((int) $c->cid))->fetch_object()->n;
+
 		sendPageToClient(utf8_encode($c->title),
-						'<h1><a href="challenge?'.urlencode($c->title).'">'.utf8_encode($c->title).'</a> <strong class="btn green">'.$c->totalSum.' ♣</strong></h1>'
+						'<h1><a href="challenge?'.urlencode($c->title).'">'.utf8_encode($c->title).'</a>'
+								.' <strong class="btn green">'.$c->totalSum.' ♣</strong>'
+								.' <strong class="btn">'.$c->forSum.' ▲ – '.$c->againstSum.' ▼</strong>'
+						.'</h1>'
 						.'<p>'.utf8_encode($c->description).'</p>'
 						.'<ul>'
-						.'<li>'.lg('Time do complete the challenge :').' <strong>'.$c->timeToDo.'</strong> '.lg('days').'</li>'
+						.'<li>'.lg('Time to complete the challenge:').' <strong>'.$c->timeToDo.'</strong> '.lg('days').'</li>'
 						.'<li>'.lg('Bettors have wagered a total of ').' <strong>'.$c->totalSum.' ♣</strong> '.lg('on this challenge').'</li>'
 						.'<li>'.lg('Challenge').' '.lg('issued').' '.lg('by').' '.userLinkWithAvatar($c->name,$c->mailHash).' '
 						.'<time>('.date(lg('dateFormat'),$c->created).')</time>.').'</li>'
-						.'</ul>';
+						.'</ul>'
+						.'<h3><strong>'.$attemptsNumber.'</strong> '.lg( ($attemptsNumber > 1)?'buddies':'buddy' ).' '.lg('have tried the adventure').'</h3>';
 
-		//cid 	lang image 	forSum 	againstSum 	completed
+		//lang image ▲	forSum 	▼ againstSum 	completed
 	}
 	else redirectTo('/');
 }
