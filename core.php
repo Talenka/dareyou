@@ -10,16 +10,14 @@ function isHttps()
 function redirectTo($url)
 {
     echo '<!doctype html><script>window.location="'.$url.'";</script>'
-        .lg('If nothing happen, ')
-        .'<a href="'.$url.'">'.lg('click here to continue').'</a>';
+        .L('If nothing happen, ')
+        .'<a href="'.$url.'">'.L('click here to continue').'</a>';
     exit;
 }
 
 function displayError($message)
 {
-    echo $message;
-    //error_log($message);
-    //redirectTo('error');
+    redirectTo('error?'.urlencode($message));
 }
 
 function getSessionCookie()
@@ -117,7 +115,12 @@ function isFormKeyValid()
     }
 }
 
-function lg($text)
+function isAdmin($user)
+{
+    return (ADMIN_HASH == $user->mailHash) ? true : false;
+}
+
+function L($text)
 {
     global $sentences;
     return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
@@ -132,9 +135,9 @@ function challengesList($query, $verb, $karmaColumn, $timeColumn)
 
     while($c = $sql->fetch_object()) $code .= '<li>'
         .'<a href="challenge?'.urlencode($c->title).'">'.utf8_encode($c->title).'</a> '
-        .lg($verb).' '.lg('by').' '.userLinkWithAvatar($c->name, $c->mailHash)
+        .L($verb).' '.L('by').' '.userLinkWithAvatar($c->name, $c->mailHash)
         .' : <b>+'.$c->$karmaColumn.' ♣</b> '
-        .'<time>('.date(lg('dateFormat'),$c->$timeColumn).')</time></li>';
+        .'<time>('.date(L('dateFormat'),$c->$timeColumn).')</time></li>';
 
     return $code;
 }
@@ -167,9 +170,9 @@ function sendPageToClient($title, $html)
         .(isset($client)
             ? userLinkWithAvatar($client->name, $client->mailHash)
              .karmaButton($client->name, $client->karma)
-             .' <a href=logout class=btn>'.lg('Log out').'</a>'
-            : ' <a href=signup class="btn green">'.lg('Sign up').'</a>'
-             .' <a href=login class="btn turquoise">'.lg('Log in').'</a>')
+             .' <a href=logout class=btn>'.L('Log out').'</a>'
+            : ' <a href=signup class="btn green">'.L('Sign up').'</a>'
+             .' <a href=login class="btn turquoise">'.L('Log in').'</a>')
         .'</nav><h1><a href=.>'.SITE_TITLE.'</a></h1></header>'
         .'<section>'.$html.'</section>';
 

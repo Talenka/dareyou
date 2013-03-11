@@ -23,7 +23,7 @@ if(isFormKeyValid() && !empty($_POST['mail']) && !empty($_POST['password'])
         if($db->query("UPDATE users SET session='".$sessionHash."' WHERE id=".$client->id." LIMIT 1"))
         {
             sendSessionCookie($sessionId);
-            $notice = lg('Hello again').', '.userLinkWithAvatar($client->name, $client->mailHash);
+            $notice = L('Hello again').', '.userLinkWithAvatar($client->name, $client->mailHash);
             include 'index.php';
             exit;
         }
@@ -33,15 +33,15 @@ if(isFormKeyValid() && !empty($_POST['mail']) && !empty($_POST['password'])
 
 $html = '<form action=login method=post>'
         .'<input type=email name=mail maxlength=255 pattern="[\w@\.]+" autofocus'
-            .(empty($_POST['mail'])? '' : ' value="'.$_POST['mail'].'"').' placeholder="'.lg('Email').'" required>'
-        .'<input type=password name=password maxlength=255 placeholder="'.lg('Password').'" required>'
-        .'<input type=submit value="'.lg('Log in').'" class="btn turquoise">'
+            .(empty($_POST['mail'])? '' : ' value="'.$_POST['mail'].'"').' placeholder="'.L('Email').'" required>'
+        .'<input type=password name=password maxlength=255 placeholder="'.L('Password').'" required>'
+        .'<input type=submit value="'.L('Log in').'" class="btn turquoise">'
         .generateFormKey()
         .'</form>'
-        .'<h2>&nbsp;</h2><a href=lost-password>'.lg('Have you lost your password ?').'</a>';
+        .'<h2>&nbsp;</h2><a href=lost-password>'.L('Have you lost your password ?').'</a>';
 
-if($loginError) $html='<div class=warning>'.lg('Email or password is incorrect, please retry').'</div>'.$html;
+if($loginError) $html='<div class=warning>'.L('Email or password is incorrect, please retry').'</div>'.$html;
 
-sendPageToClient(lg('Login'),'<h1>'.lg('Login').'</h1>'.$html);
+sendPageToClient(L('Login'),'<h1>'.L('Login').'</h1>'.$html);
 
 ?>

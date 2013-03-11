@@ -2,9 +2,11 @@
 
 include 'core.php';
 
+$pageTitle = L('Users administration');
+
 $usersList = $db->query("SELECT * FROM users");
 
-$html = '<h2>'.lg('Users administration').'</h2>'
+$html = '<h2>'.$pageTitle.'</h2>'
 		.'<h3>Users list</h3><ul>';
 
 while($u = $usersList->fetch_object())
@@ -14,6 +16,6 @@ while($u = $usersList->fetch_object())
 
 $html .= '</ul>';
 
-sendPageToClient(lg('Users administration'), $html);
+sendPageToClient($pageTitle, $html);
 
 ?>

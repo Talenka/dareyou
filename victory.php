@@ -2,8 +2,8 @@
 
 include 'core.php';
 
-sendPageToClient(lg('Last completed challenges'),
-    '<h1><a href=victory>'.lg('Last completed challenges').'</a></h1>'
+sendPageToClient(L('Last completed challenges'),
+    '<h1><a href=victory>'.L('Last completed challenges').'</a></h1>'
     .'<ul>'
         .challengesList("SELECT r.value,r.end,u.name,u.mailHash,c.title,c.cid "
             ."FROM realizations r,users u,challenges c "

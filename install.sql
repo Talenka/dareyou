@@ -1,5 +1,3 @@
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
 CREATE TABLE IF NOT EXISTS `bets` (
   `bid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cid` int(7) unsigned NOT NULL,

@@ -9,7 +9,7 @@ $db->query("UPDATE users SET session='' WHERE session='"
 
 unset($client);
 
-$notice = lg('You have been logged out. Goodbye !');
+$notice = L('You have been logged out. Goodbye !');
 
 include "index.php";
 exit;

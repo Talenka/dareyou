@@ -1,4 +1,15 @@
 <?php
+
 include 'core.php';
-sendPageToClient(lg('Administration'),'<h2>'.lg('Administration').'</h2>');
+
+$pageTitle = L('Administration');
+
+$html = '<h1>'.$pageTitle.'</h1>'
+        .'<nav>'
+            .'<a href=admin-users>Users</a>'
+        .'</nav>';
+
+
+sendPageToClient($pageTitle, $html);
+
 ?>

@@ -6,5 +6,6 @@ define('SQL_HOST',     'localhost');        // The MySql database host
 define('SQL_USER',     'myhumblesite');     // The MySql database username
 define('SQL_PASSWORD', 'b62kH043b6wt4T6Q'); // The MySql database password
 define('SQL_DB',       'humblesite');       // Your MySql database name
+define('ADMIN_HASH',   'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'); // The MD5 digest of admin email
 
 ?>

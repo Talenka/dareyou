@@ -2,8 +2,8 @@
 
 include 'core.php';
 
-sendPageToClient(lg('New challenges'),
-				'<h1><a href=new>'.lg('New challenges').'</a></h1>'
+sendPageToClient(L('New challenges'),
+				'<h1><a href=new>'.L('New challenges').'</a></h1>'
 				.'<ul>'
 					.challengesList("SELECT c.title,c.cid,c.totalSum,c.created,u.name,u.mailHash "
 								   ."FROM challenges c,users u "

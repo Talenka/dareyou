@@ -1,4 +1,4 @@
 <?php
 include 'core.php';
-sendPageToClient(lg('Search'),'<h2>'.lg('Search').'</h2>');
+sendPageToClient(L('Search'),'<h2>'.L('Search').'</h2>');
 ?>

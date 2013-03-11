@@ -1,4 +1,11 @@
 <?php
+
 include 'core.php';
-sendPageToClient(lg('Contact'),'<h2>'.lg('Contact').'</h2>');
+
+$pageTitle = L('Contact');
+
+$html = '<h1>'.$pageTitle.'</h1>';
+
+sendPageToClient($pageTitle, $html);
+
 ?>
