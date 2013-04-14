@@ -1,11 +1,13 @@
 <?php
 
-include 'core.php';
+namespace Dareyou;
 
-$l = strtolower(preg_replace("/[^a-zA-Z]/", "", $_SERVER['QUERY_STRING']));
+require_once 'core.php';
 
-if(file_exists("lang.".$l.".php")) setcookie("lang", $l, time()+31536000);
+$l = preg_replace('/[^a-z]/', '', strtolower($_SERVER['QUERY_STRING']));
+
+if (file_exists('lang.' . $l . '.php')) {
+    setcookie('lang', $l, time() + 31536000);
+}
 
 redirectTo('.');
-
-?>

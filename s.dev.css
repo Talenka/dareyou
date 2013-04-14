@@ -1,9 +1,14 @@
 body
 {
-    font: 300 16px 'Helvetica Neue',Helvetica,sans-serif;
+    font: 300 16px 'Helvetica Neue', Helvetica, sans-serif;
     padding: 0;
     margin: 0;
     border: none;
+}
+
+nav, header, section, input, textarea, .n
+{
+    display: block;
 }
 
 a
@@ -50,10 +55,10 @@ input, textarea
     border-radius: 5px;
     border: 1px #999 solid;
     padding: 5px;
-    display: block;
     clear: both;
     width: 400px;
     max-width: 90%;
+    resize: vertical;
 }
 
 input[type="submit"]
@@ -61,8 +66,7 @@ input[type="submit"]
     width: auto;
 }
 
-input:focus,  
-textarea:focus
+input:focus, textarea:focus
 {
     border-color: #91bd09;
     box-shadow: 0 2px 5px #bbb;
@@ -70,7 +74,6 @@ textarea:focus
 
 header, section
 {
-    display: block;
     width: 100%;
     margin: 0 auto;
 }
@@ -79,13 +82,12 @@ header
 {
     font-size: larger;
     background: #ccc;
-    background-image: -moz-linear-gradient(top, #eee, #ccc);
+    background-image: linear-gradient(#eee, #ccc);
     border-bottom: 1px #999 solid;
 }
 
 nav
 {
-    display: block;
     float: right;
     padding: 3px;
 }
@@ -101,21 +103,25 @@ section
     max-width: 800px;
 }
 
+time, .b, .g, .t, li b
+{
+    color: #7c1;
+    display: inline-block;
+}
+
 time
 {
     color: #999;
     font-size: smaller;
-    display: inline-block;
 }
 
-.btn
+.b, .g, .t
 {
-    display: inline-block;
     border: 1px #ddd solid;
     border-bottom-color: #bbb;
     border-radius: 3px;
     background-color: #f5f5f5;
-    background-image: -moz-linear-gradient(transparent, rgba(0,0,0,.2));
+    background-image: linear-gradient(transparent, rgba(0, 0, 0, .2));
     padding: 5px 12px;
     font-size: 12px;
     font-weight: 600;
@@ -124,38 +130,39 @@ time
     box-shadow: 0 1px 0 #fff;
 }
 
-.btn:hover
+.b:hover, .t:hover, .g:hover
 {
-    background-image: -moz-linear-gradient(transparent, rgba(0,0,0,.3));
+    background-image: linear-gradient(transparent, rgba(0, 0, 0, .3));
     color: #222;
 }
 
-.turquoise, .turquoise:hover
+.t, .t:hover, .g, .g:hover
 {
-    background-color: #2daebe;
     text-shadow: 0 1px 0 #666;
     color: #fff;
 }
 
-.green, .green:hover
+.t, .t:hover
+{
+    background-color: #2daebe;
+}
+
+.g, .g:hover
 {
     background-color: #8add6d;
     border-color: #74bb5a #74bb5a #509438;
-    text-shadow: 0 1px 0 #666;
-    color: #fff;
 }
 
-.warning
+.w
 {
     font-weight: bold;
     color: #f00;
 }
 
-.notice
+.n
 {
-    display: block;
-    background : rgb(252,255,163);
-    border: 1px rgb(255,240,50) solid;
+    background : #ffffa3;
+    border: 1px #fff032 solid;
     padding: 3px 5px;
     border-radius: 7px;
     margin: 3px auto;
@@ -166,10 +173,4 @@ time
     background-position: 2px 0px;
     background-repeat: no-repeat;
     padding-left: 26px;
-}
-
-li b
-{
-    display: inline-block;
-    color: #7c1;
 }

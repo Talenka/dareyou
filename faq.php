@@ -1,19 +1,22 @@
 <?php
-include 'core.php';
+
+namespace Dareyou;
+
+require_once 'core.php';
 
 $pageTitle = L('Frequently Asked Questions');
 
-$html = '<h1>'.$pageTitle.'</h1>'
-        .'<ul>'
+$html = '<h1>' . $pageTitle . '</h1>' .
+        '<ul>'
             .'<li><a href=#ie>'.L('I cannot use Internet Explorer here, why ?').'</a></li>'
             .'<li><a href=#how-to-earn-karma>Comment gagner des points de karma ?</a></li>'
             .'<li><a href=#who-decide-who-win>Qui décide qu’un joueur à gagner un défi ?</a></li>'
             .'<li><a href=#how-to-buy-karma>Peut-on acheter des points de karma ?</a></li>'
             .'<li><a href=#privacy>Mes données resteront-elles confidentielles ?</a></li>'
-        .'</ul>'
+        .'</ul>' .
 
-        .'<h2 id=ie>'.L('I cannot use Internet Explorer here, why ?').'</h2>'
-        .'<p>'.L('IE is a mess').'.</p>'
+        '<h2 id=ie>' . L('I cannot use Internet Explorer here, why ?').'</h2>' .
+        '<p>' . L('IE is a mess') . '.</p>'
 
         .'<h2 id=how-to-earn-karma>Comment gagner des points de karma ?</h2>'
         .'<p align=justify>'
@@ -55,4 +58,3 @@ $html = '<h1>'.$pageTitle.'</h1>'
         .'<p align=justify>La seule donnée personnelle dont nous avons connaissance est votre pseudo. Votre email n’est sauvagardé dans notre base de données que sous une forme (md5) qui rend extrêmement difficile sont décodage. De la même manière, votre mot de passe est en sureté grâce à un hachage SHA512 bien salé.</p>';
 
 sendPageToClient($pageTitle, $html);
-?>

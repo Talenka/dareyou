@@ -1,4 +1,7 @@
 <?php
-include 'core.php';
-sendPageToClient(L('Search'),'<h2>'.L('Search').'</h2>');
-?>
+
+namespace Dareyou;
+
+require_once 'core.php';
+
+sendPageToClient(L('Search'), '<h2>' . L('Search') . '</h2>');
