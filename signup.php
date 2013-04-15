@@ -128,7 +128,7 @@ $html = ((sizeof($signupError) > 0) ?
         '<input type=text name=name maxlength=20 pattern="\w{2,25}"' .
             (empty($_POST['name']) ? '' : ' value="' . $_POST['name'] . '"') .
             ' placeholder="' . L('User name') . '" required autofocus ' .
-            'title="' . L('JUSTLOWERCASE') . '">' .
+            'title="' . L('Just lowercase letters for your username') . '">' .
         '<input type=email name=mail maxlength=255' .
             (empty($_POST['mail']) ? '' : ' value="' . $_POST['mail'] . '"') .
             ' placeholder="' . L('Email') . '" required>' .

@@ -6,6 +6,10 @@ require_once 'config.php';
 
 define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
 
+$definedLanguages = array('en' => 'English', 'fr' => 'Français');
+
+$lang = 'en'; // English is the default language
+
 function isHttps()
 {
     return ($_SERVER['HTTPS'] == 'on');
@@ -212,11 +216,6 @@ function selectCount($table, $where = '')
 {
     return select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
 }
-
-$definedLanguages = array('fr' => 'Français', 'en' => 'English');
-
-// English is the default language
-$lang = 'en';
 
 if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 

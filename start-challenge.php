@@ -38,7 +38,8 @@ $html = '<form action=start-challenge method=post>' .
             L('There are some errors that prevent starting the challenge:') .
             '<br>' . implode('<br>', $warnings) . '</div>') .
         '<input type=text name=challengeTitle maxlength=255 placeholder="' .
-            L('The challenge title (simple and unique)') . '" autofocus>' .
+            L('The challenge title (simple and unique)') . '" autofocus ' .
+            'pattern="\w{3,255}">' .
         '<textarea name=challengeDescription maxlength=65535 placeholder="' .
             L('Challenge description with details') . '" rows=5></textarea>' .
         '<input type=number name=challengeTimeToDo maxlength=3 min=1 max=365 ' .

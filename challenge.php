@@ -25,21 +25,16 @@ sendPageToClient(utf8_encode($c->title),
 				 ' <strong class=g>' . $c->totalSum . ' ♣</strong>' .
 				 ' <strong class=b>' . $c->forSum . ' ▲ – ' .
 				 $c->againstSum . ' ▼</strong>' .
-				 '</h1>' .
-				 '<p>' . utf8_encode($c->description) . '</p>' .
-				 '<ul>' .
-				 '<li>' . L('Time to complete the challenge:') .
+				 '</h1><p>' . utf8_encode($c->description) . '</p>' .
+				 '<ul><li>' . L('Time to complete the challenge:') .
 				 ' <strong>' . $c->timeToDo . '</strong> ' . L('days') .
-				 '</li>' .
-				'<li>' . L('Bettors have wagered a total of ') .
+				 '</li><li>' . L('Bettors have wagered a total of ') .
 				' <strong>' . $c->totalSum . ' ♣</strong> ' .
 				L('on this challenge') . '</li>' .
 				'<li>' . L('Challenge').' '.L('issued') . ' ' . L('by') . ' ' .
 				userLinkWithAvatar($c->name, $c->mailHash) . ' ' .
 				'<time>(' . date(L('dateFormat'), $c->created) . ')</time>.' .
-                '</li>' .
-				'</ul>' .
-				'<h3><strong>' . $attemptsNumber . '</strong> ' .
+                '</li></ul><h3><strong>' . $attemptsNumber . '</strong> ' .
 				L( ($attemptsNumber > 1) ? 'buddies' : 'buddy' ) . ' ' .
 				L('have tried the adventure') . '</h3>');
 
