@@ -4,37 +4,31 @@ namespace Dareyou;
 
 require_once 'config.php';
 
-
 define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
-
 
 function isHttps()
 {
-    return ($_SERVER['HTTPS'] == 'on') ? true : false;
+    return ($_SERVER['HTTPS'] == 'on');
 }
-
 
 function redirectTo($url)
 {
-    echo '<!doctype html><script>window.location="' . $url . '";</script>' .
-         L('If nothing happen, ') .
+    echo '<!doctype html><script>window.location="' . $url . '";</script>',
+         L('If nothing happen, '),
          '<a href="' . $url . '">' . L('click here to continue') . '</a>';
 
     exit;
 }
-
 
 function displayError($message)
 {
     redirectTo('error?' . urlencode($message));
 }
 
-
 function getSessionCookie()
 {
     return (array_key_exists('u', $_COOKIE)) ? $_COOKIE['u'] : '';
 }
-
 
 function sendSessionCookie($sessionId = '', $term = 3600)
 {
@@ -42,18 +36,15 @@ function sendSessionCookie($sessionId = '', $term = 3600)
               isHttps(), true);
 }
 
-
 function deleteSessionCookie()
 {
     sendSessionCookie('', -3600);
 }
 
-
 function hashPassword($password)
 {
     return substr(crypt($password . CRYPT_SALT, '$6$' . CRYPT_SALT . '$'), 20);
 }
-
 
 function hashText($text)
 {
@@ -61,30 +52,25 @@ function hashText($text)
                         $_SERVER['HTTP_USER_AGENT'] . CRYPT_SALT), 16, 36);
 }
 
-
 function generateSessionId($userId)
 {
     return hashText($userId);
 }
-
 
 function cleanUserMail($userMail)
 {
     return preg_replace('/[^a-z0-9\.@\-_]/', '', strtolower($userMail));
 }
 
-
 function cleanUserName($userName)
 {
     return substr(preg_replace('/[^a-zA-Z0-9]/', '', $userName), 0, 20);
 }
 
-
 function gravatarUrl($hash, $size)
 {
     return '//gravatar.com/avatar/' . $hash . '?s=' . $size . '&amp;d=wavatar';
 }
-
 
 function getAvatar($name, $hash)
 {
@@ -92,31 +78,26 @@ function getAvatar($name, $hash)
            gravatarUrl($hash, 128) . '" width=128 height=128 align=right></a>';
 }
 
-
 function gravatarProfile($hash)
 {
     return '//gravatar.com/' . $hash;
 }
 
-
 function gravatarProfileLink($hash)
 {
     return ' <a href="' . gravatarProfile($hash) .
-           '" class=b>Public profile</a>';
+           '" class=b>' . L('Public profile') . '</a>';
 }
-
 
 function karmaButton($name, $karma)
 {
     return ' <a href=profile?' . $name . ' class=g>' . $karma . ' ♣</a>';
 }
 
-
 function userLink($name)
 {
     return '<a href=profile?' . $name . '>' . ucfirst($name) . '</a>';
 }
-
 
 function userLinkWithAvatar($name, $hash)
 {
@@ -125,21 +106,12 @@ function userLinkWithAvatar($name, $hash)
            ucfirst($name) . '</a>';
 }
 
-
-function publicProfileLink($mailHash)
-{
-    return ' <a href="' . gravatarProfile($mailHash) .
-           '" class=b>Public profile</a>';
-}
-
-
 function generateFormKey($term = 600)
 {
     return '<input type=hidden name=formKey value=' .
            base_convert($term + time(), 10, 36) . 'O' .
            hashText($term + time()) . '>';
 }
-
 
 function isFormKeyValid()
 {
@@ -154,19 +126,16 @@ function isFormKeyValid()
     }
 }
 
-
 function isAdmin($user)
 {
     return (ADMIN_HASH == $user->mailHash) ? true : false;
 }
-
 
 function L($text)
 {
     global $sentences;
     return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
 }
-
 
 function challengesList($query, $verb, $karmaColumn, $timeColumn)
 {
@@ -189,7 +158,6 @@ function challengesList($query, $verb, $karmaColumn, $timeColumn)
     return $code;
 }
 
-
 function identifyClient($sessionId = '')
 {
     global $client, $db;
@@ -203,7 +171,6 @@ function identifyClient($sessionId = '')
     if ($user->num_rows == 1) $client = $user->fetch_object();
 }
 
-
 function sendPageToClient($title, $html)
 {
     global $client, $db;
@@ -214,8 +181,8 @@ function sendPageToClient($title, $html)
     header('Cache-Control: no-cache', true);
     header('Expires: ' . date('r'));
 
-    echo '<!doctype html><title>' . $title . ' - ' . SITE_TITLE . '</title>' .
-         '<link rel=stylesheet href=s.css><header><nav>' .
+    echo '<!doctype html><title>' . $title . ' - ' . SITE_TITLE . '</title>',
+         '<link rel=stylesheet href=s.css><header><nav>',
          (isset($client) ?
              userLinkWithAvatar($client->name, $client->mailHash) .
              karmaButton($client->name, $client->karma) .
@@ -224,13 +191,12 @@ function sendPageToClient($title, $html)
                 ' <a href=signup class=g>' . L('Sign up') . '</a>') .
              ((PHP_FILE == '/login.php') ? '' :
                 ' <a href=login class=t>' . L('Log in') . '</a>')
-         ) .
-         '</nav><h1><a href=.>' . SITE_TITLE . '</a></h1></header>' .
+         ),
+         '</nav><h1><a href=.>' . SITE_TITLE . '</a></h1></header>',
          '<section>' . $html . '</section>';
 
     exit;
 }
-
 
 function select($table, $cols = '*', $where = '', $limit = '', $order = '')
 {
@@ -242,12 +208,10 @@ function select($table, $cols = '*', $where = '', $limit = '', $order = '')
                       (empty($limit) ? '' : ' LIMIT ' . $limit));
 }
 
-
 function selectCount($table, $where = '')
 {
     return select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
 }
-
 
 $definedLanguages = array('fr' => 'Français', 'en' => 'English');
 
@@ -260,7 +224,7 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
                  explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) :
                  array($_COOKIE['lang']);
 
-    for ($i = 0; $i < sizeof($langs); $i++) {
+    for ($i = 0, $j = sizeof($langs); $i < $j; $i++) {
 
         $language = substr($langs[$i], 0, 2);
 

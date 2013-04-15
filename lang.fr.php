@@ -111,4 +111,5 @@ $sentences = array(
     'L’URL de votre image est trop longue (255 caractères maximum)',
 'There are some errors that prevent starting the challenge:' =>
     'Quelques erreurs empêchent de lancer le défi :',
+'Public profile' => 'Profil public'
 );
