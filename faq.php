@@ -6,7 +6,7 @@ require_once 'core.php';
 
 $pageTitle = L('Frequently Asked Questions');
 
-$html = '<h1>' . $pageTitle . '</h1>' .
+$html = h1($pageTitle) .
         '<ul>'
             .'<li><a href=#ie>'.L('I cannot use Internet Explorer here, why ?').'</a></li>'
             .'<li><a href=#how-to-earn-karma>Comment gagner des points de karma ?</a></li>'

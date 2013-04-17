@@ -9,7 +9,7 @@ $successfulAttempts = round(100 *
                             selectCount('realizations', "status='accepted'") /
                             $attemptsNumber);
 
-$html = '<h2>' . L('About') . '</h2>' .
+$html = h2(L('About')) .
         '<h3>' . L('How it works') . '</h3>' .
         '<p align=justify>' . L('How it works ...') . '</p>' .
         '<h3>' . L('Some figures') . '</h3>' .

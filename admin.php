@@ -6,7 +6,7 @@ require_once 'core.php';
 
 $pageTitle = L('Administration');
 
-$html = '<h1>' . $pageTitle . '</h1>' .
+$html = h1($pageTitle) .
         '<nav>' .
         '<a href=admin-users>Users</a>' .
         '</nav>';

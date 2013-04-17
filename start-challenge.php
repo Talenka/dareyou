@@ -50,5 +50,4 @@ $html = '<form action=start-challenge method=post>' .
         '<input type=submit value="' . L('Start a challenge') .
             '" class=g>' . generateFormKey() . '</form>';
 
-sendPageToClient(L('Start a challenge'),
-                 '<h1>' . L('Start a challenge') . '</h1>' . $html);
+sendPageToClient(L('Start a challenge'), h1(L('Start a challenge')) . $html);

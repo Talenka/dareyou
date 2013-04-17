@@ -6,7 +6,7 @@ require_once 'core.php';
 
 $pageTitle = L('Oups, something wrong happen!');
 
-$html = '<h1>' . $pageTitle . '</h1>' .
+$html = h1($pageTitle) .
         '<tt>' . urldecode($_SERVER['QUERY_STRING']) . '</tt>' .
         '<p>' . L('Try to go back to') .
         ' <a href=# onClick="history.go(-1)">' . L('the previous page') .

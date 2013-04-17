@@ -6,9 +6,9 @@ require_once 'core.php';
 
 deleteSessionCookie();
 
-$db->query("UPDATE users SET session='' WHERE session='" .
+$db->query('UPDATE users SET session="" WHERE session="' .
            generateSessionId($db->real_escape_string(getSessionCookie())) .
-           "' LIMIT 1");
+           '" LIMIT 1');
 
 unset($client);
 

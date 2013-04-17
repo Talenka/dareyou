@@ -5,6 +5,7 @@ namespace Dareyou;
 require_once 'config.php';
 
 define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
+define('NOW', time());
 
 $definedLanguages = array('en' => 'English', 'fr' => 'Français');
 
@@ -12,7 +13,7 @@ $lang = 'en'; // English is the default language
 
 function isHttps()
 {
-    return ($_SERVER['HTTPS'] == 'on');
+    return !empty($_SERVER['HTTPS']);
 }
 
 function redirectTo($url)
@@ -36,7 +37,7 @@ function getSessionCookie()
 
 function sendSessionCookie($sessionId = '', $term = 3600)
 {
-    setcookie('u', $sessionId, time() + $term, '/', $_SERVER['SERVER_NAME'],
+    setcookie('u', $sessionId, NOW + $term, '/', $_SERVER['SERVER_NAME'],
               isHttps(), true);
 }
 
@@ -113,8 +114,8 @@ function userLinkWithAvatar($name, $hash)
 function generateFormKey($term = 600)
 {
     return '<input type=hidden name=formKey value=' .
-           base_convert($term + time(), 10, 36) . 'O' .
-           hashText($term + time()) . '>';
+           base_convert($term + NOW, 10, 36) . 'O' .
+           hashText($term + NOW) . '>';
 }
 
 function isFormKeyValid()
@@ -126,13 +127,13 @@ function isFormKeyValid()
 
         $expire = base_convert($expire, 36, 10);
 
-        return ($expire > time() && hashText($expire) == $hash) ? true : false;
+        return ($expire > NOW && hashText($expire) == $hash);
     }
 }
 
 function isAdmin($user)
 {
-    return (ADMIN_HASH == $user->mailHash) ? true : false;
+    return (ADMIN_HASH == $user->mailHash);
 }
 
 function L($text)
@@ -141,25 +142,37 @@ function L($text)
     return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
 }
 
-function challengesList($query, $verb, $karmaColumn, $timeColumn)
+function challengesList($reals = false,
+                         $where = '',
+                         $order = 'c.created DESC',
+                         $number = 5)
 {
     global $db;
 
-    $sql  = $db->query($query);
-    $code = '';
+    $timeColumn  = $reals ? 'end' : 'created';
+    $karmaColumn = $reals ? 'value' : 'totalSum';
+    $verb = L($reals ? 'won' : 'issued');
+
+    $sql = select('users u,challenges c' . ($reals ? ',realizations r' : ''),
+                  'u.name,u.mailHash,c.title,c.cid,' .
+                      ($reals ? 'r.value,r.end' : 'c.totalSum,c.created'),
+                  (empty($where) ? '' : $where . ' AND ') .
+                  ($reals ? 'r.cid=c.cid AND r.uid=u.id' : 'c.author=u.id'),
+                  $number, $order);
+
+    $code = '<ul>';
 
     while ($c = $sql->fetch_object()) {
 
-        $code .= '<li>' .
-                 '<a href="challenge?' . urlencode($c->title) . '">' .
-                 utf8_encode($c->title) . '</a> ' . L($verb) . ' ' . L('by') .
+        $code .= '<li><a href="challenge?' . urlencode($c->title) . '">' .
+                 utf8_encode($c->title) . '</a> ' . $verb . ' ' . L('by') .
                  ' ' . userLinkWithAvatar($c->name, $c->mailHash) .
-                 ' : <b>+' . $c->$karmaColumn . ' ♣</b> ' .
-                 '<time>(' . date(L('dateFormat'), $c->$timeColumn) .
-                 ')</time></li>';
+                 ' : <b>+' . $c->$karmaColumn . ' ♣</b> <time>' .
+                 '(' . date(L('dateFormat'), $c->$timeColumn) . ')</time></li>';
     }
 
-    return $code;
+    return $code . '</ul>';
+
 }
 
 function identifyClient($sessionId = '')
@@ -179,7 +192,7 @@ function sendPageToClient($title, $html)
 {
     global $client, $db;
 
-    $db->close();
+    if(isset($db)) $db->close();
 
     header('Content-Type: text/html; charset=UTF-8');
     header('Cache-Control: no-cache', true);
@@ -206,15 +219,38 @@ function select($table, $cols = '*', $where = '', $limit = '', $order = '')
 {
     global $db;
 
-    return $db->query('SELECT ' . $cols . ' FROM ' . $table .
-                      (empty($where) ? '' : ' WHERE ' . $where) .
-                      (empty($order) ? '' : ' ORDER BY ' . $order) .
-                      (empty($limit) ? '' : ' LIMIT ' . $limit));
+    $query = 'SELECT ' . $cols . ' FROM ' . $table .
+             (empty($where) ? '' : ' WHERE ' . $where) .
+             (empty($order) ? '' : ' ORDER BY ' . $order) .
+             (empty($limit) ? '' : ' LIMIT ' . $limit);
+
+    $sql = $db->query($query);
+
+    // echo '<!-- ' . $query . ' -->';
+
+    if($sql === false) displayError($db->error . '<br>' . $query);
+    else return $sql;
 }
 
 function selectCount($table, $where = '')
 {
     return select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
+}
+
+function languageSelector()
+{
+    global $definedLanguages, $lang;
+
+    $langs = array();
+
+    foreach ($definedLanguages as $lg => $language) {
+        if ($lg != $lang) {
+            $langs[] = '<a href=language?' . $lg .
+                       ' title=' . L($language) . '>' . $language . '</a>';
+        }
+    }
+
+    return L('In other languages') . ' : ' . implode(', ', $langs);
 }
 
 if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
@@ -233,6 +269,21 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             break;
         }
     }
+}
+
+function h1($html)
+{
+    return '<h1>' . $html . '</h1>';
+}
+
+function h2($html)
+{
+    return '<h2>' . $html . '</h2>';
+}
+
+function a($href, $title)
+{
+    return '<a href=' . $href . '>' . $title . '</a>';
 }
 
 include_once 'lang.' . $lang . '.php';

@@ -19,8 +19,8 @@ if (!isset($user)) {
 }
 
 $html = '<nav>' . karmaButton($user->name, $user->karma) .
-        gravatarProfileLink($user->mailHash).'</nav>' .
-        '<h2>' . ucfirst($user->name) . '</h2>' .
+        gravatarProfileLink($user->mailHash) . '</nav>' .
+        h2(ucfirst($user->name)) .
         '<h3>Stats & awards</h3>' .
         getAvatar($user->name, $user->mailHash) .
         '<ul>' .

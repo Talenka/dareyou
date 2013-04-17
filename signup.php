@@ -93,13 +93,13 @@ if (isFormKeyValid() &&
         $mailHash = md5($db->real_escape_string(cleanUserMail($_POST['mail'])));
         $pass = $db->real_escape_string(hashPassword($_POST['password']));
 
-        $user = $db->query("SELECT * FROM users WHERE name='" . $name . "'");
+        $user = select('users', '*', 'name="' . $name . '"');
 
         if ($user->num_rows > 0) {
             $signupError[] = L('This name is already used by another user');
         }
 
-        $user = $db->query("SELECT * FROM users WHERE mailHash='" . $mailHash . "'");
+        $user = select('users', '*', 'mailHash="' . $mailHash . '"');
 
         if ($user->num_rows > 0) {
             $signupError[] = L('This email is already used by another user');
@@ -148,4 +148,4 @@ $html = ((sizeof($signupError) > 0) ?
         '</ul>' .
         '</form>';
 
-sendPageToClient(L('Signup'), '<h1>' . L('Signup') . '</h1>' . $html);
+sendPageToClient(L('Signup'), h1(L('Signup')) . $html);

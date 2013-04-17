@@ -17,7 +17,7 @@ if (isFormKeyValid() &&
     $mailHash = $db->real_escape_string( md5( cleanUserMail($_POST['mail']) ) );
     $password = $db->real_escape_string( hashPassword( $_POST['password'] ) );
 
-    $user = $db->query("SELECT * FROM users WHERE mailHash='".$mailHash."' AND pass='".$password."' LIMIT 1");
+    $user = select('users', '*', 'mailHash="' . $mailHash . '" AND pass="' . $password . '"', 1);
 
     if ($user->num_rows == 1) {
 
@@ -60,4 +60,4 @@ if ($loginError) {
             $html;
 }
 
-sendPageToClient(L('Login'), '<h1>' . L('Login') . '</h1>' . $html);
+sendPageToClient(L('Login'), h1(L('Login')) . $html);

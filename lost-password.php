@@ -4,7 +4,7 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$html = '<h2>' . L('Have you lost your password ?') . '</h2>' .
+$html = h2(L('Have you lost your password ?')) .
         '<p class=n>Sorry, but for the moment there is no way to reinitialize' .
         ' your password.</p>' .
         '<form action=lost_password method=post>' .
