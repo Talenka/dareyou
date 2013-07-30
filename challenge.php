@@ -24,15 +24,15 @@ sendPageToClient(utf8_encode($c->title),
                  utf8_encode($c->title) . '</a> <strong class=g>' .
                  $c->totalSum . ' ♣</strong> <strong class=b>' .
                  $c->forSum . ' ▲ – ' . $c->againstSum . ' ▼</strong>') .
-                 '<p>' . utf8_encode($c->description) . '</p><ul><li>' .
-                 L('Time to complete the challenge:') .
-                 ' <strong>' . $c->timeToDo . '</strong> ' . L('days') .
-                 '</li><li>' . L('Bettors have wagered a total of ') .
+                 '<p>' . utf8_encode($c->description) . '</p><ul>' .
+                 li(L('Time to complete the challenge:') .
+                 ' <strong>' . $c->timeToDo . '</strong> ' . L('days')) .
+                 li(L('Bettors have wagered a total of ') .
                  ' <strong>' . $c->totalSum . ' ♣</strong> ' .
-                 L('on this challenge') . '</li><li>' .
-                 L('Challenge').' '.L('issued') . ' ' . L('by') . ' <time>(' .
-                 date(L('dateFormat'), $c->created) . ')</time>.' .
-                 '</li></ul><h3><strong>' . $attemptsNumber . '</strong> ' .
+                 L('on this challenge')) . li(L('Challenge').' '.L('issued') .
+                 ' ' . L('by') . ' <time>(' .
+                 date(L('dateFormat'), $c->created) . ')</time>.') .
+                 '</ul><h3><strong>' . $attemptsNumber . '</strong> ' .
                  L( ($attemptsNumber > 1) ? 'buddies' : 'buddy' ) . ' ' .
                  L('have tried the adventure') . '</h3>' .
                  $c->lang . '<br>' .

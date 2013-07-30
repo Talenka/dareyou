@@ -14,12 +14,12 @@ $html = h2(L('About')) .
         '<p align=justify>' . L('How it works ...') . '</p>' .
         h3(L('Some figures')) .
         '<ul>' .
-        '<li>' . L('Players') . ': <b>' . selectCount('users') . '</b></li>' .
-        '<li>' . L('Challenges') . ': <b>' . selectCount('challenges') . '</b></li>' .
-        '<li>' . L('Attempts') . ': <b>' . $attemptsNumber . '</b> (' .
-        $successfulAttempts . L('% successful') . ')</li>' .
-        '<li>' . L('Bets') . ': <b>' . selectCount('bets') . '</b></li>' .
-        '<li>' . L('Comments') . ': <b>' . selectCount('comments') . '</b></li>' .
+        li(L('Players') . ': <b>' . selectCount('users') . '</b>') .
+        li(L('Challenges') . ': <b>' . selectCount('challenges') . '</b>') .
+        li(L('Attempts') . ': <b>' . $attemptsNumber . '</b> (' .
+        $successfulAttempts . L('% successful') . ')') .
+        li(L('Bets') . ': <b>' . selectCount('bets') . '</b>') .
+        li(L('Comments') . ': <b>' . selectCount('comments') . '</b>') .
         '</ul>' .
         h3(L('Under the hood')) .
         SITE_TITLE . L(' is a project of ') .

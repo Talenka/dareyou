@@ -7,13 +7,13 @@ require_once 'core.php';
 $pageTitle = L('Frequently Asked Questions');
 
 $html = h1($pageTitle) .
-        '<ul>'
-            .'<li><a href=#ie>'.L('I cannot use Internet Explorer here, why ?').'</a></li>'
-            .'<li><a href=#how-to-earn-karma>Comment gagner des points de karma ?</a></li>'
-            .'<li><a href=#who-decide-who-win>Qui décide qu’un joueur à gagner un défi ?</a></li>'
-            .'<li><a href=#how-to-buy-karma>Peut-on acheter des points de karma ?</a></li>'
-            .'<li><a href=#privacy>Mes données resteront-elles confidentielles ?</a></li>'
-        .'</ul>' .
+        '<ul>' .
+            li('<a href=#ie>'.L('I cannot use Internet Explorer here, why ?').'</a>') .
+            li('<a href=#how-to-earn-karma>Comment gagner des points de karma ?</a>') .
+            li('<a href=#who-decide-who-win>Qui décide qu’un joueur à gagner un défi ?</a>') .
+            li('<a href=#how-to-buy-karma>Peut-on acheter des points de karma ?</a>') .
+            li('<a href=#privacy>Mes données resteront-elles confidentielles ?</a>') .
+        '</ul>' .
 
         '<h2 id=ie>' . L('I cannot use Internet Explorer here, why ?').'</h2>' .
         '<p>' . L('IE is a mess') . '.</p>'
@@ -39,14 +39,14 @@ $html = h1($pageTitle) .
         .'sinon un autre arbitre choisi. L’arbitre 5 ♣ par décision rendue. Le '
         .'nombre d’arbitres nécessaire pour valider un défi dépend des sommes '
         .'misées sur le défi : </p>'
-        .'<ul>'
-            .'<li>De 1 à 10 ♣ : 1 arbitre</li>'
-            .'<li>De 11 à 100 ♣ : 2 arbitres</li>'
-            .'<li>De 101 à 1000 ♣ : 3 arbitres</li>'
-            .'<li>De 1001 à 10000 ♣ : 4 arbitres</li>'
-            .'<li>De 10001 à 100000 ♣ : 5 arbitres</li>'
-            .'<li>etc...</li>'
-        .'</ul>'
+        .'<ul>' .
+            li('De 1 à 10 ♣ : 1 arbitre</li>') .
+            li('De 11 à 100 ♣ : 2 arbitres</li>') .
+            li('De 101 à 1000 ♣ : 3 arbitres</li>') .
+            li('De 1001 à 10000 ♣ : 4 arbitres</li>') .
+            li('De 10001 à 100000 ♣ : 5 arbitres</li>') .
+            li('etc...') .
+        '</ul>'
 
         .'<h2 id=how-to-buy-karma>Peut-on acheter des points de karma ?</h2>'
         .'<p align=justify>Non, pas pour le moment. Le karma est relativement '

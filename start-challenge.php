@@ -11,10 +11,10 @@ if (isFormKeyValid()) {
     if (empty($_POST['challengeTitle'])) {
         $warnings[] = L('You have not given a challenge title');
 
-    } else if (strlen($_POST['challengeTitle']) < 3) {
+    } elseif (strlen($_POST['challengeTitle']) < 3) {
         $warnings[] = L('Your title is too short (3 letters minimum)');
 
-    } else if (strlen($_POST['challengeTitle']) > 255) {
+    } elseif (strlen($_POST['challengeTitle']) > 255) {
         $warnings[] = L('Your title is too long (255 letters maximum)');
     }
 
@@ -30,7 +30,6 @@ if (isFormKeyValid()) {
         $warnings[] = L('Your image URL is too long (255 characters maximum)');
     }
 }
-
 
 $html = '<form action=start-challenge method=post>' .
         (empty($warnings) ? '' :

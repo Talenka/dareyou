@@ -12,8 +12,8 @@ $html = h2($pageTitle) . h3('Users list') . '<ul>';
 
 while ($u = $usersList->fetch_object()) {
 
-	$html .= '<li>' . userLinkWithAvatar($u->name, $u->mailHash) . ' ' .
-             karmaButton($u->name, $u->karma) . '</li>';
+    $html .= li(userLinkWithAvatar($u->name, $u->mailHash) . ' ' .
+             karmaButton($u->name, $u->karma));
 }
 
 $html .= '</ul>';

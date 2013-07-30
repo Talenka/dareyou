@@ -38,10 +38,8 @@ if (isFormKeyValid() &&
 
             include 'index.php';
             exit;
-        }
-        else $loginError = true;
-    }
-    else $loginError = true;
+        } else $loginError = true;
+    } else $loginError = true;
 }
 
 $html = '<form action=login method=post>' .
@@ -50,7 +48,7 @@ $html = '<form action=login method=post>' .
         . '<input type=password name=password maxlength=255 placeholder="' . L('Password') . '" required>'
         . '<input type=submit value="'.L('Log in').'" class=t>' .
         generateFormKey() . '</form>' .
-        '<h2>&nbsp;</h2>' .
+        h2('&nbsp;') .
         '<a href=lost-password>' . L('Have you lost your password ?') . '</a>';
 
 if ($loginError) {

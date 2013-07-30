@@ -6,7 +6,7 @@ require_once 'core.php';
 
 $signupError = array();
 
-// Here is the list of common passwords, which are forbidden on this website 
+// Here is the list of common passwords, which are forbidden on this website
 $commonPasswords = array('123456','porsche','firebird','prince','rosebud',
     'password','guitar','butter','beach','jaguar','12345678','chelsea','united',
     'amateur','great','1234','black','turtle','7777777','cool','pussy',

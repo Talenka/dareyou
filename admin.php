@@ -11,5 +11,4 @@ $html = h1($pageTitle) .
         '<a href=admin-users>Users</a>' .
         '</nav>';
 
-
 sendPageToClient($pageTitle, $html);

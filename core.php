@@ -11,7 +11,6 @@ $definedLanguages = array('en' => 'English', 'fr' => 'Français');
 
 $lang = 'en'; // English is the default language
 
-
 /**
  * @return boolean true if the connection uses https protocal, false otherwise.
  */
@@ -19,7 +18,6 @@ function isHttps()
 {
     return !empty($_SERVER['HTTPS']);
 }
-
 
 /**
  * @param string $url Where to redirect the user.
@@ -33,7 +31,6 @@ function redirectTo($url)
     exit;
 }
 
-
 /**
  * @param string $message Explanation message (optionnal).
  */
@@ -42,7 +39,6 @@ function displayError($message)
     redirectTo('error?' . urlencode($message));
 }
 
-
 /**
  * @return string The identification cookie.
  */
@@ -50,7 +46,6 @@ function getSessionCookie()
 {
     return (array_key_exists('u', $_COOKIE)) ? $_COOKIE['u'] : '';
 }
-
 
 /**
  * @param string $sessionId Session identificator (optionnal).
@@ -62,12 +57,10 @@ function sendSessionCookie($sessionId = '', $term = 3600)
               isHttps(), true);
 }
 
-
 function deleteSessionCookie()
 {
     sendSessionCookie('', -3600);
 }
-
 
 /**
  * @param string $password
@@ -77,7 +70,6 @@ function hashPassword($password)
 {
     return substr(crypt($password . CRYPT_SALT, '$6$' . CRYPT_SALT . '$'), 20);
 }
-
 
 /**
  * @param string $text
@@ -89,7 +81,6 @@ function hashText($text)
                         $_SERVER['HTTP_USER_AGENT'] . CRYPT_SALT), 16, 36);
 }
 
-
 /**
  * @param int $userId
  * @return string
@@ -98,7 +89,6 @@ function generateSessionId($userId)
 {
     return hashText($userId);
 }
-
 
 /**
  * @param string $userMail
@@ -109,7 +99,6 @@ function cleanUserMail($userMail)
     return preg_replace('/[^a-z0-9\.@\-_]/', '', strtolower($userMail));
 }
 
-
 /**
  * @param string $userName
  * @return string
@@ -118,7 +107,6 @@ function cleanUserName($userName)
 {
     return substr(preg_replace('/[^a-zA-Z0-9]/', '', $userName), 0, 20);
 }
-
 
 /**
  * @param string $hash md5 hash of a mail adress (32 chars long).
@@ -129,7 +117,6 @@ function gravatarUrl($hash, $size)
 {
     return '//gravatar.com/avatar/' . $hash . '?s=' . $size . '&amp;d=wavatar';
 }
-
 
 /**
  * @param string $name User canonical name.
@@ -142,7 +129,6 @@ function getAvatar($name, $hash)
            gravatarUrl($hash, 128) . '" width=128 height=128 align=right></a>';
 }
 
-
 /**
  * @param string $hash MD5 hash of mail address.
  * @return Gravatar profile URL.
@@ -151,7 +137,6 @@ function gravatarProfile($hash)
 {
     return '//gravatar.com/' . $hash;
 }
-
 
 /**
  * @param string $hash MD5 hash of mail address.
@@ -163,7 +148,6 @@ function gravatarProfileLink($hash)
            '" class=b>' . L('Public profile') . '</a>';
 }
 
-
 /**
  * @param string $name User canonical name.
  * @param integer $karma User karma quantity.
@@ -174,7 +158,6 @@ function karmaButton($name, $karma)
     return ' <a href=profile?' . $name . ' class=g>' . $karma . ' ♣</a>';
 }
 
-
 /**
  * @param string $name User canonical name.
  * @return string Html link to user profile.
@@ -183,7 +166,6 @@ function userLink($name)
 {
     return '<a href=profile?' . $name . '>' . ucfirst($name) . '</a>';
 }
-
 
 /**
  * @param string $name User canonical name.
@@ -197,7 +179,6 @@ function userLinkWithAvatar($name, $hash)
            ucfirst($name) . '</a>';
 }
 
-
 /**
  * @param integer $term Form expiration (in seconds from now, optionnal).
  * @return string Html code for the hidden input containing the key.
@@ -208,7 +189,6 @@ function generateFormKey($term = 600)
            base_convert($term + NOW, 10, 36) . 'O' .
            hashText($term + NOW) . '>';
 }
-
 
 /**
  * Check whether the form key sent by user is valid and not expired.
@@ -227,7 +207,6 @@ function isFormKeyValid()
     }
 }
 
-
 /**
  * @param Object $user
  * @return boolean True if $user is the admin, false otherwise.
@@ -237,7 +216,6 @@ function isAdmin($user)
     return (ADMIN_HASH == $user->mailHash);
 }
 
-
 /**
  * Translate the text in the user language, or returns the text if it fails.
  * @param string $text
@@ -246,9 +224,9 @@ function isAdmin($user)
 function L($text)
 {
     global $sentences;
+
     return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
 }
-
 
 /**
  * @param boolean $reals
@@ -279,17 +257,16 @@ function challengesList($reals = false,
 
     while ($c = $sql->fetch_object()) {
 
-        $code .= '<li><a href="challenge?' . urlencode($c->title) . '">' .
+        $code .= li('<a href="challenge?' . urlencode($c->title) . '">' .
                  utf8_encode($c->title) . '</a> ' . $verb . ' ' . L('by') .
                  ' ' . userLinkWithAvatar($c->name, $c->mailHash) .
                  ' : <b>+' . $c->$karmaColumn . ' ♣</b> <time>' .
-                 '(' . date(L('dateFormat'), $c->$timeColumn) . ')</time></li>';
+                 '(' . date(L('dateFormat'), $c->$timeColumn) . ')</time>');
     }
 
     return $code . '</ul>';
 
 }
-
 
 /**
  * @param string $sessionId
@@ -306,7 +283,6 @@ function identifyClient($sessionId = '')
 
     if ($user->num_rows == 1) $client = $user->fetch_object();
 }
-
 
 /**
  * Responds to the user request with an HTML page.
@@ -334,12 +310,11 @@ function sendPageToClient($title, $html)
              ((PHP_FILE == '/login.php') ? '' :
                 ' <a href=login class=t>' . L('Log in') . '</a>')
          ),
-         '</nav><h1><a href=.>' . SITE_TITLE . '</a></h1></header>',
+         '</nav>' . h1('<a href=.>' . SITE_TITLE . '</a>') . '</header>',
          '<section>' . $html . '</section>';
 
     exit;
 }
-
 
 /**
  * @param string $table SQL table name.
@@ -365,7 +340,6 @@ function select($table, $cols = '*', $where = '', $limit = '', $order = '')
     if($sql === false) displayError($db->error . '<br>' . $query);
     else return $sql;
 }
-
 
 /**
  * Count items from an SQL table with optionnal filter
@@ -398,6 +372,7 @@ function languageSelector()
     return L('In other languages') . ' : ' . implode(', ', $langs);
 }
 
+
 /**
  * @param string $html
  * @return string
@@ -427,6 +402,14 @@ function h3($html)
     return '<h3>' . $html . '</h3>';
 }
 
+/**
+ * @param string $html
+ * @return string
+ */
+function li($html)
+{
+    return '<li>' . $html . '</li>';
+}
 
 /**
  * @param string $href
@@ -438,11 +421,9 @@ function a($href, $title)
     return '<a href=' . $href . '>' . $title . '</a>';
 }
 
-
-/////////////////////////////
-// Main script begins here //
-/////////////////////////////
-
+/**************************
+* Main script begins here *
+**************************/
 
 if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 
@@ -462,9 +443,8 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
     }
 }
 
-
 // Include the current user language file.
-include_once 'lang.' . $lang . '.php';
+include_once 'lang.'. $lang . '.php';
 
 // If this is not an error page, we connect to the database.
 if (PHP_FILE != '/error.php') {

@@ -15,7 +15,7 @@ $sentences = array(
     'little respect for the Internet standards and for your privacy. Do ' .
     'yourself a favor, <b><a href=//www.mozilla.org>use Firefox</a></b> instead',
 
-'We use Gravatar as your icon' => 
+'We use Gravatar as your icon' =>
     'Your email + <a href="//gravatar.com">Gravatar</a> = your avatar',
 
 'How it works ...'  => 'Dareyou lets everyone launch fun challenges to his ' .
