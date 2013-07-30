@@ -21,7 +21,7 @@ if (!isset($user)) {
 $html = '<nav>' . karmaButton($user->name, $user->karma) .
         gravatarProfileLink($user->mailHash) . '</nav>' .
         h2(ucfirst($user->name)) .
-        '<h3>Stats & awards</h3>' .
+        h3('Stats & awards') .
         getAvatar($user->name, $user->mailHash) .
         '<ul>' .
             '<li><a href="prize?awesomeness">Awesomeness prize</a></li>' .
@@ -30,7 +30,7 @@ $html = '<nav>' . karmaButton($user->name, $user->karma) .
             '<li><a href=#challenge-completed>1 challenge completed</a></li>' .
             '<li><a href=#challenge-accepted>3 challenge accepted</a></li>' .
         '</ul>' .
-        '<h3>Recent activity</h3>' .
+        h3('Recent activity') .
         '<a href="http://knowyourmeme.com/memes/true-story">' .
         '<img src="img/true-story" width=128 height=128 align=right>' .
         '</a>' .

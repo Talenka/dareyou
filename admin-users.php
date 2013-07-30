@@ -8,7 +8,7 @@ $pageTitle = L('Users administration');
 
 $usersList = select('users');
 
-$html = h2($pageTitle) . '<h3>Users list</h3><ul>';
+$html = h2($pageTitle) . h3('Users list') . '<ul>';
 
 while ($u = $usersList->fetch_object()) {
 

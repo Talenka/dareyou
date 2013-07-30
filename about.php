@@ -10,9 +10,9 @@ $successfulAttempts = round(100 *
                             $attemptsNumber);
 
 $html = h2(L('About')) .
-        '<h3>' . L('How it works') . '</h3>' .
+        h3(L('How it works')) .
         '<p align=justify>' . L('How it works ...') . '</p>' .
-        '<h3>' . L('Some figures') . '</h3>' .
+        h3(L('Some figures')) .
         '<ul>' .
         '<li>' . L('Players') . ': <b>' . selectCount('users') . '</b></li>' .
         '<li>' . L('Challenges') . ': <b>' . selectCount('challenges') . '</b></li>' .
@@ -21,7 +21,7 @@ $html = h2(L('About')) .
         '<li>' . L('Bets') . ': <b>' . selectCount('bets') . '</b></li>' .
         '<li>' . L('Comments') . ': <b>' . selectCount('comments') . '</b></li>' .
         '</ul>' .
-        '<h3>' . L('Under the hood') . '</h3>' .
+        h3(L('Under the hood')) .
         SITE_TITLE . L(' is a project of ') .
         '<a href="//boudah.pl">Boudah Talenka</a>, ' .
         '<a href="//www.gnu.org/licenses/gpl.html">' .
