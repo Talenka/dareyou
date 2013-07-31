@@ -14,7 +14,7 @@ $fc = 's.dev.css';
 
 header('Content-Type: text/css');
 header('Cache-Control: public');
-header('Expires: ' . date('r', time() + 31536000));
+header('Expires: ' . date('r', time() + 31536000)); // CSS expires in 1 year
 header('X-Powered-By:');
 header('Last-Modified: ' . date('r', filemtime($fc)));
 header('Content-Encoding: gzip');

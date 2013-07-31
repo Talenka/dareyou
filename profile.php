@@ -20,8 +20,11 @@ if (!isset($user)) {
     else redirectTo(HOME, 404);
 }
 
-$html = '<nav>' . karmaButton($user->name, $user->karma) .
-        gravatarProfileLink($user->mailHash) . '</nav>' .
+$html = '<nav>' .
+        karmaButton($user->name, $user->karma) .
+        gravatarProfileLink($user->mailHash) .
+        (($user->name == $client->name) ? ' ' . a('edit-profile class=t', L('Edit my profile')) : '') .
+        '</nav>' .
         h2(ucfirst($user->name)) .
         h3('Stats & awards') .
         getAvatar($user->name, $user->mailHash) .

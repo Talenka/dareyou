@@ -7,9 +7,9 @@ require_once 'core.php';
 sendPageToClient(L('What are you gonna do awesome today?'),
         '<nav>' .
         (isset($client) ?
-        '<a href=start-challenge class=b>' . L('Start a challenge') . '</a> ' : '') .
-        '<a href=about class=b>' . L('About') . '</a> ' .
-        '<a href=faq class=b title="' . L('Frequently Asked Questions') . '">FAQ</a>' .
+        a('start-challenge class=b', L('Start a challenge')) . ' ' : '') .
+        a('about class=b', L('About')) . ' ' .
+        a('faq class=b title="' . L('Frequently Asked Questions') . '"', 'FAQ') .
         '</nav>' . h1(L('What are you gonna do awesome today?')) .
         (isset($notice) ? '<div class=n>' . $notice . '</div>' : '') .
         h2(a('victory', L('Last completed challenges'))) .

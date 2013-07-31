@@ -14,7 +14,7 @@ nav, header, section, input, textarea, .n
 a
 {
     text-decoration: none;
-    color: #48B;
+    color: #48b;
 }
 
 h1
@@ -50,7 +50,7 @@ h2
 
 input, textarea
 {
-    font-size: larger;
+    font-size: 18px;
     margin: 4px;
     border-radius: 5px;
     border: 1px #999 solid;

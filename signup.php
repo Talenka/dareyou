@@ -129,28 +129,18 @@ if (isFormKeyValid() &&
 
 $html = ((sizeof($signupError) > 0) ?
             '<p class=w>' . implode('. ', $signupError) . '</p>' : '') .
-        '<form action=signup method=post>' .
-        '<input type=text name=name maxlength=20 pattern="\w{2,25}"' .
-            (empty($_POST['name']) ? '' : ' value="' . $_POST['name'] . '"') .
-            ' placeholder="' . L('User name') . '" required autofocus ' .
-            'title="' . L('Just lowercase letters for your username') . '">' .
-        '<input type=email name=mail maxlength=255' .
-            (empty($_POST['mail']) ? '' : ' value="' . $_POST['mail'] . '"') .
-            ' placeholder="' . L('Email') . '" required>' .
-        '<input type=password name=password maxlength=255 ' .
-            'placeholder="' . L('Password') . '" required>' .
+        form('signup', usernameFormInput(true) . usermailFormInput() .
+        userpasswordFormInput() .
         '<input type=password name=password2 maxlength=255 ' .
             'placeholder="' . L('CONFIRMPASSWORD') . '" required>' .
-        '<input type=submit value="' . L('Dare to sign up') . '" class=g>' .
-        generateFormKey() .
-        '<h3>&nbsp;</h3>' .
+        '<input type=submit value="' . L('Dare to sign up') . '" class=g>') .
+        h3('&nbsp;') .
         '<ul>' .
-        '<li>' . L('You will start with 20 karma points, you may bet with it') . '</li>' .
-        '<li>' . L('Just lowercase letters for your username') . '</li>' .
-        '<li>' . L('Your email will stay confidential, no jokes') . '</li>' .
-        '<li>' . L('Choose a long and unique password') . '</li>' .
-        '<li>' . L('We use Gravatar as your icon') . '</li>' .
-        '</ul>' .
-        '</form>';
+        li(L('You will start with 20 karma points, you may bet with it')) .
+        li(L('Just lowercase letters for your username')) .
+        li(L('Your email will stay confidential, no jokes')) .
+        li(L('Choose a long and unique password')) .
+        li(L('We use Gravatar as your icon')) .
+        '</ul>';
 
 sendPageToClient(L('Signup'), h1(L('Signup')) . $html);

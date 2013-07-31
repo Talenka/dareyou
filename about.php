@@ -5,9 +5,7 @@ namespace Dareyou;
 require_once 'core.php';
 
 $attemptsNumber = selectCount('realizations');
-$successfulAttempts = round(100 *
-                            selectCount('realizations', "status='accepted'") /
-                            $attemptsNumber);
+$successfulAttempts = round(100 * selectCount('realizations', "status='accepted'") / $attemptsNumber);
 
 $html = h2(L('About')) .
         h3(L('How it works')) .
@@ -22,11 +20,8 @@ $html = h2(L('About')) .
         li(L('Comments') . ': <b>' . selectCount('comments') . '</b>') .
         '</ul>' .
         h3(L('Under the hood')) .
-        SITE_TITLE . L(' is a project of ') .
-        '<a href="//boudah.pl">Boudah Talenka</a>, ' .
-        '<a href="//www.gnu.org/licenses/gpl.html">' .
-        L('published under the GPL3+ licence') . '</a> ' . L('and') .
-        ' <a href="//github.com/talenka/dareyou">' .
-        L('freely available on Github') . '</a>.';
+        SITE_TITLE . L(' is a project of ') . a('"//boudah.pl"', 'Boudah Talenka') . ', ' .
+        a('"//www.gnu.org/licenses/gpl.html"', L('published under the GPL3+ licence')) . L('and') .
+        ' ' . a('"//github.com/talenka/dareyou"', L('freely available on Github')) . '.';
 
 sendPageToClient(L('About'), $html);

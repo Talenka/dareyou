@@ -9,10 +9,7 @@ if (empty($_SERVER['QUERY_STRING'])) redirectTo(HOME, 400);
 
 // We look in the database for the challenge with the specified name
 $challenge = select('challenges c, users u', 'c.*,u.name,u.mailHash',
-                    'c.title="' .
-                    addslashes(
-                        $db->real_escape_string(
-                            urldecode($_SERVER['QUERY_STRING']))) .
+                    'c.title="' . addslashes($db->real_escape_string(urldecode($_SERVER['QUERY_STRING']))) .
                     '" AND c.author=u.id', 1);
 
 // If there is no result, respond to user that the challenge is not found.

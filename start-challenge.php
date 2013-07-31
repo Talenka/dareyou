@@ -31,7 +31,7 @@ if (isFormKeyValid()) {
     }
 }
 
-$html = '<form action=start-challenge method=post>' .
+$html = form('start-challenge',
         (empty($warnings) ? '' :
             '<div class=w>' .
             L('There are some errors that prevent starting the challenge:') .
@@ -47,6 +47,6 @@ $html = '<form action=start-challenge method=post>' .
         '<input type=url name=challengeImage maxlength=255 placeholder="' .
             L('Challenge image URL like http://...') . '">' .
         '<input type=submit value="' . L('Start a challenge') .
-            '" class=g>' . generateFormKey() . '</form>';
+            '" class=g>');
 
 sendPageToClient(L('Start a challenge'), h1(L('Start a challenge')) . $html);

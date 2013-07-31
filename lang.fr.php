@@ -29,8 +29,7 @@ $sentences = array(
 'About' => 'À propos',
 
 'Lost password' => 'Mot de passe oublié',
-'What are you gonna do awesome today?' =>
-    'Qu’allez-vous faire de génial aujourd’hui ?',
+'What are you gonna do awesome today?' => 'Qu’allez-vous faire de génial aujourd’hui ?',
 'Last completed challenges' => 'Derniers défis relevés',
 'New challenges' => 'Nouveaux défis',
 'Greatest challenges' => 'Les plus grands défis',
@@ -64,14 +63,9 @@ $sentences = array(
 
 // signup.php
 
-'Just lowercase letters for your username' =>
-    'Votre pseudo en lettres minuscules svp',
-
-'Your email will stay confidential, no jokes' =>
-    'Votre email restera confidentiel, juré',
-
-'Choose a long and unique password' =>
-    'Choisissez un mot de passe long et unique',
+'Just lowercase letters for your username' => 'Votre pseudo en lettres minuscules svp',
+'Your email will stay confidential, no jokes' => 'Votre email restera confidentiel, juré',
+'Choose a long and unique password' => 'Choisissez un mot de passe long et unique',
 
 'You will start with 20 karma points, you may bet with it' =>
     'Vous démarrez avec 20 points de karma, avec lesquels vous pourrez parier.',
@@ -91,8 +85,7 @@ $sentences = array(
 'In other languages'=> 'Dans d’autres langues',
 'Frequently Asked Questions' => 'Questions fréquemment posées',
 'You need to sign up to fully enjoy the site, but it is done in a wink.' =>
-    'Vous devez vous inscrire pour profiter pleinement du site, mais ça se ' .
-    'fait en un clin d’oeil.',
+    'Vous devez vous inscrire pour profiter pleinement du site, mais ça se fait en un clin d’oeil.',
 
 'Have you lost your password ?' => 'Mot de passe perdu ?',
 
@@ -116,26 +109,18 @@ $sentences = array(
 
 // start-challenge.php
 
-'The challenge title (simple and unique)' =>
-    'L‘intitulé du défi (simple et unique)',
+'The challenge title (simple and unique)' => 'L‘intitulé du défi (simple et unique)',
 'Challenge description with details' => 'Description détaillée du défi',
-'Time to accomplish the challenge (in days)' =>
-    'Temps pour réaliser le défi (en jours)',
+'Time to accomplish the challenge (in days)' => 'Temps pour réaliser le défi (en jours)',
 'Challenge image URL like http://...' => 'URL de l’image du défi http://...',
-'You have not given a challenge title' =>
-    'Vous n’avez pas donné de titre au défi',
-'Your title is too short (3 letters minimum)' =>
-    'Le titre est trop court (3 lettres minimum)',
-'Your title is too long (255 letters minimum)' =>
-    'Le titre est trop long (255 lettres maximum)',
-'Your description is too long (65535 letters maximum)' =>
-    'La description est trop longue (65535 caractères max)',
-'It takes at least 1 day to complete the challenge' =>
-    'Cela prend au moins 1 jour pour réaliser le défi',
+'You have not given a challenge title' => 'Vous n’avez pas donné de titre au défi',
+'Your title is too short (3 letters minimum)' => 'Le titre est trop court (3 lettres minimum)',
+'Your title is too long (255 letters minimum)' => 'Le titre est trop long (255 lettres maximum)',
+'Your description is too long (65535 letters maximum)' => 'La description est trop longue (65535 caractères max)',
+'It takes at least 1 day to complete the challenge' => 'Cela prend au moins 1 jour pour réaliser le défi',
 'Your image URL is too long (255 characters maximum)' =>
     'L’URL de votre image est trop longue (255 caractères maximum)',
-'There are some errors that prevent starting the challenge:' =>
-    'Quelques erreurs empêchent de lancer le défi :',
+'There are some errors that prevent starting the challenge:' => 'Quelques erreurs empêchent de lancer le défi :',
 'Public profile' => 'Profil public',
 
 // faq.php
@@ -164,13 +149,11 @@ $sentences = array(
     'contraire qui se produit.'
 
 'Who decides that a player has won a challenge?' => 'Qui décide qu’un joueur a gagné un défi ?',
-'REFEREESDECIDE' => 'Des arbitres sont tirés au hasard parmis les meilleurs ' .
-    'joueurs (plus vous avez un karma élevé, plus vous avez de chance d’arbitrer ' .
-    'un défi). L’arbitre regarde la ou les preuves que le joueur a envoyé, et ' .
-    'juge si le défi est bien gagné et si bien le  joueur qu’il l’a gagné. Un ' .
-    'arbitre a 48h pour rendre sa décision, sinon un autre arbitre choisi. ' .
-    'L’arbitre gagne 5 ♣ par décision rendue. Le nombre d’arbitres nécessaire ' .
-    'pour valider un défi dépend des sommes misées sur le défi :'
+'REFEREESDECIDE' => 'Des arbitres sont tirés au hasard parmis les meilleurs joueurs (plus vous avez un karma élevé, ' .
+    'plus vous avez de chance d’arbitrer un défi). L’arbitre regarde la ou les preuves que le joueur a envoyé, et ' .
+    'juge si le défi est bien gagné et si bien le  joueur qu’il l’a gagné. Un arbitre a 48h pour rendre sa décision, ' .
+    'sinon un autre arbitre choisi. L’arbitre gagne 5 ♣ par décision rendue. Le nombre d’arbitres nécessaire pour ' .
+    'valider un défi dépend des sommes misées sur le défi :'
 
 'I cannot use Internet Explorer here, why?' =>
     'Pourquoi ne puis-je utiliser Internet Explorer ici ?',
@@ -178,4 +161,8 @@ $sentences = array(
     'Internet Explorer est un navigateur mal conçu, peu respectueux des ' .
     'standards de l’Internet et de votre vie privée. Rendez-vous service, ' .
     '<b><a href=//www.mozilla.org>utilisez Firefox</a></b> à la place',
+
+// edit-profile.php
+
+'Edit my profile' => 'Modifier mon profil'
 );

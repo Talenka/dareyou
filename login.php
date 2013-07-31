@@ -14,27 +14,22 @@ if (isFormKeyValid() &&
     strlen($_POST['mail']) > 6 &&
     strlen($_POST['password']) > 2) {
 
-    $mailHash = $db->real_escape_string( md5( cleanUserMail($_POST['mail']) ) );
-    $password = $db->real_escape_string( hashPassword( $_POST['password'] ) );
+    $mailHash = $db->real_escape_string(md5(cleanUserMail($_POST['mail'])));
+    $password = $db->real_escape_string(hashPassword($_POST['password']));
 
     $user = select('users', '*', 'mailHash="' . $mailHash . '" AND pass="' . $password . '"', 1);
 
     if ($user->num_rows == 1) {
 
         $client      = $user->fetch_object();
-
-        // stored in the user's browser (cookie)
-        $sessionId   = generateSessionId($client->id);
-
-        // stored in the database
-        $sessionHash = generateSessionId($sessionId);
+        $sessionId   = generateSessionId($client->id); // stored in the user's browser (cookie)
+        $sessionHash = generateSessionId($sessionId); // stored in the database
 
         if ($db->query("UPDATE users SET session='" . $sessionHash . "' WHERE id=" . $client->id . ' LIMIT 1')) {
 
             sendSessionCookie($sessionId);
 
-            $notice = L('Hello again') . ', ' .
-                      userLinkWithAvatar($client->name, $client->mailHash);
+            $notice = L('Hello again') . ', ' . userLinkWithAvatar($client->name, $client->mailHash);
 
             include 'index.php';
             exit;
@@ -43,20 +38,12 @@ if (isFormKeyValid() &&
     } else $loginError = true;
 }
 
-$html = '<form action=login method=post>' .
-        '<input type=email name=mail maxlength=255 pattern="[\w@\.]+" autofocus'
-            . (empty($_POST['mail']) ? '' : ' value="' . $_POST['mail'] . '"') . ' placeholder="' . L('Email') . '" required>'
-        . '<input type=password name=password maxlength=255 placeholder="' . L('Password') . '" required>'
-        . '<input type=submit value="'.L('Log in').'" class=t>' .
-        generateFormKey() . '</form>' .
-        h2('&nbsp;') .
-        '<a href=lost-password>' . L('Have you lost your password ?') . '</a>';
+$html = form('login', usermailFormInput(true) . userpasswordFormInput() .
+        '<input type=submit value="' . L('Log in') . '" class=t>') .
+        h2('&nbsp;') . a('lost-password', L('Have you lost your password ?'));
 
 if ($loginError) {
-
-    $html = '<div class=w>' .
-            L('Email or password is incorrect, please retry') . '</div>' .
-            $html;
+    $html = '<div class=w>' . L('Email or password is incorrect, please retry') . '</div>' . $html;
 }
 
 sendPageToClient(L('Login'), h1(L('Login')) . $html);

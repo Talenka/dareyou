@@ -139,8 +139,8 @@ function gravatarUrl($hash, $size)
  */
 function getAvatar($name, $hash)
 {
-    return '<a href=profile?' . $name . '><img src="' .
-           gravatarUrl($hash, 128) . '" width=128 height=128 align=right></a>';
+    return a('profile?' . $name, '<img src="' .
+           gravatarUrl($hash, 128) . '" width=128 height=128 align=right>');
 }
 
 /**
@@ -158,8 +158,7 @@ function gravatarProfile($hash)
  */
 function gravatarProfileLink($hash)
 {
-    return ' <a href="' . gravatarProfile($hash) .
-           '" class=b>' . L('Public profile') . '</a>';
+    return ' ' . a('"' . gravatarProfile($hash) . '" class=b', L('Public profile'));
 }
 
 /**
@@ -169,7 +168,7 @@ function gravatarProfileLink($hash)
  */
 function karmaButton($name, $karma)
 {
-    return ' <a href=profile?' . $name . ' class=g>' . $karma . ' ♣</a>';
+    return ' ' . a('profile?' . $name . ' class=g', $karma . ' ♣');
 }
 
 /**
@@ -178,7 +177,7 @@ function karmaButton($name, $karma)
  */
 function userLink($name)
 {
-    return '<a href=profile?' . $name . '>' . ucfirst($name) . '</a>';
+    return a('profile?' . $name, ucfirst($name));
 }
 
 /**
@@ -188,9 +187,8 @@ function userLink($name)
  */
 function userLinkWithAvatar($name, $hash)
 {
-    return '<a href=profile?' . $name . ' class=u ' .
-           'style="background-image:url(' . gravatarUrl($hash, 20) . ')">' .
-           ucfirst($name) . '</a>';
+    return a('profile?' . $name . ' class=u ' .
+           'style="background-image:url(' . gravatarUrl($hash, 20) . ')"', ucfirst($name));
 }
 
 /**
@@ -243,11 +241,12 @@ function L($text)
 }
 
 /**
- * @param boolean $reals
+ * Display a challenges list
+ * @param boolean $reals Realizations
  * @param string $where
  * @param string $order
- * @param integer $number
- * @return string
+ * @param integer $number Challenges number
+ * @return string HTML challenges list.
  */
 function challengesList($reals = false,
                          $where = '',
@@ -318,13 +317,11 @@ function sendPageToClient($title, $html)
          (isset($client) ?
              userLinkWithAvatar($client->name, $client->mailHash) .
              karmaButton($client->name, $client->karma) .
-             ' <a href=logout class=b>' . L('Log out') . '</a>' :
-             ((PHP_FILE == '/signup.php') ? '' :
-                '<a href=signup class=g>' . L('Sign up') . '</a>') .
-             ((PHP_FILE == '/login.php') ? '' :
-                ' <a href=login class=t>' . L('Log in') . '</a>')
+             ' ' . a('logout class=b', L('Log out')) :
+             ((PHP_FILE == '/signup.php') ? '' : a('signup class=g', L('Sign up'))) .
+             ((PHP_FILE == '/login.php') ? '' : ' ' . a('login class=t', L('Log in')))
          ),
-         '</nav>' . h1('<a href=.>' . SITE_TITLE . '</a>') . '</header>',
+         '</nav>' . h1(a('.', SITE_TITLE)) . '</header>',
          '<section>' . $html . '</section>';
 
     exit;
@@ -376,10 +373,7 @@ function languageSelector()
     $langs = array();
 
     foreach ($definedLanguages as $lg => $language) {
-        if ($lg != $lang) {
-            $langs[] = '<a href=language?' . $lg .
-                       ' title=' . L($language) . '>' . $language . '</a>';
-        }
+        if ($lg != $lang) $langs[] = a('language?' . $lg . ' title=' . L($language), $language);
     }
 
     return L('In other languages') . ' : ' . implode(', ', $langs);
@@ -431,6 +425,46 @@ function a($href, $title)
     return '<a href=' . $href . '>' . $title . '</a>';
 }
 
+/**
+ * @param boolean $autofocus
+ * @return string
+ */
+function usernameFormInput($autofocus = false)
+{
+    return '<input type=text name=name maxlength=20 pattern="\w{2,25}"' .
+            (empty($_POST['name']) ? '' : ' value="' . $_POST['name'] . '"') .
+            ' placeholder="' . L('User name') . '" required' .
+            ($autofocus ? ' autofocus' : '') .
+            ' title="' . L('Just lowercase letters for your username') . '">';
+}
+
+/**
+ * @param boolean $autofocus
+ * @return string
+ */
+function usermailFormInput($autofocus = false)
+{
+    return '<input type=email name=mail maxlength=255 pattern="[\w@\.]+"' .
+           ($autofocus ? ' autofocus' : '') .
+           (empty($_POST['mail']) ? '' : ' value="' . $_POST['mail'] . '"') .
+           ' placeholder="' . L('Email') . '" required>';
+}
+
+function userpasswordFormInput()
+{
+    return '<input type=password name=password maxlength=255 placeholder="' . L('Password') . '" required>';
+}
+
+/**
+ * @param string $url Form destination URL.
+ * @param string $html inner html.
+ * @return string HTML code.
+ */
+function form($url, $html)
+{
+    return '<form action=' . $url .' method=post>' . $html . generateFormKey() . '</form>';
+}
+
 /**************************
 * Main script begins here *
 **************************/
@@ -454,7 +488,7 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 }
 
 // Include the current user language file.
-include_once 'lang.' . $lang . '.php';
+include_once 'lang.'. $lang . '.php';
 
 // If this is not an error page, we connect to the database.
 if (PHP_FILE != '/error.php') {
