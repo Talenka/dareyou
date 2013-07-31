@@ -6,6 +6,7 @@ require_once 'config.php';
 
 define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
 define('NOW', time());
+define('HOME', '/');
 
 $definedLanguages = array('en' => 'English', 'fr' => 'Français');
 
@@ -20,10 +21,23 @@ function isHttps()
 }
 
 /**
+ * Redirect the user to another page via HTTP header with a fallback in HTML/JS
  * @param string $url Where to redirect the user.
+ * @param integer $statusCode HTTP status code for the redirection (optionnal).
  */
-function redirectTo($url)
+function redirectTo($url, $statusCode = 200)
 {
+    $statusCodes = array(
+        400 => '400 Bad Request',
+        401 => '401 Unauthorized',
+        403 => '403 Forbidden',
+        404 => '404 Not Found',
+        500 => '500 Internal Server Error');
+
+    if (isset($statusCodes[$statusCode])) {
+        header('Status: ' . $statusCodes[$statusCode], false, $statusCode);
+    }
+
     echo '<!doctype html><script>window.location="' . $url . '";</script>',
          L('If nothing happen, '),
          '<a href="' . $url . '">' . L('click here to continue') . '</a>';
@@ -36,7 +50,7 @@ function redirectTo($url)
  */
 function displayError($message)
 {
-    redirectTo('error?' . urlencode($message));
+    redirectTo('error?' . urlencode($message), 500);
 }
 
 /**
@@ -337,7 +351,7 @@ function select($table, $cols = '*', $where = '', $limit = '', $order = '')
 
     // echo '<!-- ' . $query . ' -->';
 
-    if($sql === false) displayError($db->error . '<br>' . $query);
+    if ($sql === false) displayError($db->error . '<br>' . $query);
     else return $sql;
 }
 
@@ -351,7 +365,6 @@ function selectCount($table, $where = '')
 {
     return select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
 }
-
 
 /**
  * @return string Html code for language selection.
@@ -372,7 +385,6 @@ function languageSelector()
     return L('In other languages') . ' : ' . implode(', ', $langs);
 }
 
-
 /**
  * @param string $html
  * @return string
@@ -382,7 +394,6 @@ function h1($html)
     return '<h1>' . $html . '</h1>';
 }
 
-
 /**
  * @param string $html
  * @return string
@@ -391,7 +402,6 @@ function h2($html)
 {
     return '<h2>' . $html . '</h2>';
 }
-
 
 /**
  * @param string $html
@@ -444,7 +454,7 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 }
 
 // Include the current user language file.
-include_once 'lang.'. $lang . '.php';
+include_once 'lang.' . $lang . '.php';
 
 // If this is not an error page, we connect to the database.
 if (PHP_FILE != '/error.php') {

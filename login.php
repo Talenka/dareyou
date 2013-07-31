@@ -38,6 +38,7 @@ if (isFormKeyValid() &&
 
             include 'index.php';
             exit;
+
         } else $loginError = true;
     } else $loginError = true;
 }

@@ -4,13 +4,11 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$pageTitle = L('Oups, something wrong happen!');
+header('Status: 500 Internal Server Error', false, 500);
 
-$html = h1($pageTitle) .
+sendPageToClient(L('ERRMSG'), h1(L('ERRMSG')) .
         '<tt>' . urldecode($_SERVER['QUERY_STRING']) . '</tt>' .
         '<p>' . L('Try to go back to') .
         ' <a href=# onClick="history.go(-1)">' . L('the previous page') .
         '</a> ' . L('or return to') . ' <a href=.>' . L('the homepage') .
-        '</a>.</p>';
-
-sendPageToClient($pageTitle, $html);
+        '</a>.</p>');

@@ -107,15 +107,15 @@ if (isFormKeyValid() &&
 
         if (sizeof($signupError) == 0) {
 
-            if ($db->query("INSERT INTO users (name,mailHash,pass,session,karma) VALUES ('".$name."','".$mailHash."','".$pass."','',20)")) {
+            if ($db->query("INSERT INTO users (name,mailHash,pass,session,karma) VALUES ('" . $name . "','" . $mailHash . "','" . $pass . "','',20)")) {
 
                 $newId     = $db->insert_id;
                 $sessionId = generateSessionId($newId);
 
-                if ($db->query("UPDATE users SET session='".$sessionId."' WHERE id=".$newId." LIMIT 1")) {
+                if ($db->query("UPDATE users SET session='" . $sessionId . "' WHERE id=" . $newId . ' LIMIT 1')) {
 
                     sendSessionCookie($sessionId);
-                    redirectTo('.');
+                    redirectTo(HOME);
                 }
             }
         }

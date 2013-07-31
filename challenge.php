@@ -4,8 +4,10 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-if (empty($_SERVER['QUERY_STRING'])) redirectTo('/');
+// If no name is specified in the URL, this is a bad request.
+if (empty($_SERVER['QUERY_STRING'])) redirectTo(HOME, 400);
 
+// We look in the database for the challenge with the specified name
 $challenge = select('challenges c, users u', 'c.*,u.name,u.mailHash',
                     'c.title="' .
                     addslashes(
@@ -13,7 +15,10 @@ $challenge = select('challenges c, users u', 'c.*,u.name,u.mailHash',
                             urldecode($_SERVER['QUERY_STRING']))) .
                     '" AND c.author=u.id', 1);
 
-if ($challenge->num_rows != 1) redirectTo('/');
+// If there is no result, respond to user that the challenge is not found.
+if ($challenge->num_rows == 0) redirectTo(HOME, 404);
+// Else if there is more than one result, these is a bug (or an SQL injection).
+else if ($challenge->num_rows > 1) redirectTo(HOME, 500);
 
 $c = $challenge->fetch_object();
 
@@ -38,4 +43,4 @@ sendPageToClient(utf8_encode($c->title),
                  $c->lang . '<br>' .
                  $c->image);
 
-// lang image completed
+// TODO : lang image completed
