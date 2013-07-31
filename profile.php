@@ -23,7 +23,7 @@ if (!isset($user)) {
 $html = '<nav>' .
         karmaButton($user->name, $user->karma) .
         gravatarProfileLink($user->mailHash) .
-        (($user->name == $client->name) ? ' ' . a('edit-profile class=t', L('Edit my profile')) : '') .
+        ((isset($client) && $user->name == $client->name) ? ' ' . a('edit-profile class=t', L('Edit my profile')) : '') .
         '</nav>' .
         h2(ucfirst($user->name)) .
         h3('Stats & awards') .
@@ -36,9 +36,6 @@ $html = '<nav>' .
             li('<a href=#challenge-accepted>3 challenge accepted</a>') .
         '</ul>' .
         h3('Recent activity') .
-        '<a href="http://knowyourmeme.com/memes/true-story">' .
-        '<img src="img/true-story" width=128 height=128 align=right>' .
-        '</a>' .
         '<ul>' .
             li('Some awesome news') .
             li('Lorem Ispum blah blah') .
@@ -47,9 +44,6 @@ $html = '<nav>' .
             li('Lorem Ispum blah blah') .
         '</ul>' .
         '<h3 id=challenge-completed><b>5</b> Challenges completed</h3>' .
-        '<a href="http://knowyourmeme.com/memes/fck-yea" target=_blank>' .
-        '<img src="img/fyeah" width=128 height=122 align=right>' .
-        '</a>' .
         '<ul>' .
             li('<a href=victory?1242>Some awesome challenge</a> : <b>+17 ♣</b> <time>(2 days ago)</time>') .
             li('<a href=victory?1242>Another awesome challenge</a> : <b>+7 ♣</b> <time>(4 days ago)</time>') .
@@ -58,9 +52,6 @@ $html = '<nav>' .
             li('<a href=victory?1242>Another awesome challenge</a> : <b>+4 ♣</b> <time>(2 months ago)</time>') .
         '</ul>' .
         '<h3 id=challenge-accepted><b>5</b> Challenges accepted</h3>' .
-        '<a href="http://knowyourmeme.com/memes/challenge-accepted">' .
-        '<img src="img/challenge-accepted" width=128 height=128 align=right>' .
-        '</a>' .
         '<ul>' .
             li('<a href=challenge?1242>Some awesome challenge</a> <time>(2 days left)</time>') .
             li('<a href=challenge?1242>Another awesome challenge</a> <time>(2 days left)</time>') .
@@ -69,9 +60,6 @@ $html = '<nav>' .
             li('<a href=challenge?1242>Another awesome challenge</a> <time>(1 year left)</time>') .
         '</ul>' .
         '<h3 id=challenge-failed><b>5</b> Challenges failed</h3>' .
-        '<a href="http://knowyourmeme.com/memes/rage-guy-fffffuuuuuuuu">' .
-        '<img src="img/ffffuuuu" width=128 height=96 align=right>' .
-        '</a>' .
         '<ul>' .
             li('<a href=challenge?1242>Some awesome challenge</a></li>') .
             li('<a href=challenge?1242>Another awesome challenge</a> <time>(yesterday)</time>') .
