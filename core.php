@@ -427,32 +427,37 @@ function a($href, $title)
 
 /**
  * @param boolean $autofocus
+ * @param string $value
  * @return string
  */
-function usernameFormInput($autofocus = false)
+function usernameFormInput($autofocus = false, $value = '')
 {
+    if (empty($value) && !empty($_POST['name'])) $value = $_POST['name'];
     return '<input type=text name=name maxlength=20 pattern="\w{2,25}"' .
-            (empty($_POST['name']) ? '' : ' value="' . $_POST['name'] . '"') .
-            ' placeholder="' . L('User name') . '" required' .
             ($autofocus ? ' autofocus' : '') .
+            (empty($value) ? '' : ' value="' . $value . '"') .
+            ' placeholder="' . L('User name') . '" required' .
             ' title="' . L('Just lowercase letters for your username') . '">';
 }
 
 /**
  * @param boolean $autofocus
+ * @param string $value
  * @return string
  */
-function usermailFormInput($autofocus = false)
+function usermailFormInput($autofocus = false, $value = '')
 {
+    if (empty($value) && !empty($_POST['mail'])) $value = $_POST['mail'];
     return '<input type=email name=mail maxlength=255 pattern="[\w@\.]+"' .
            ($autofocus ? ' autofocus' : '') .
-           (empty($_POST['mail']) ? '' : ' value="' . $_POST['mail'] . '"') .
+           (empty($value) ? '' : ' value="' . $value . '"') .
            ' placeholder="' . L('Email') . '" required>';
 }
 
 function userpasswordFormInput()
 {
-    return '<input type=password name=password maxlength=255 placeholder="' . L('Password') . '" required>';
+    return '<input type=password name=password maxlength=255' .
+           ' placeholder="' . L('Password') . '" required>';
 }
 
 /**
