@@ -320,7 +320,7 @@ function sendPageToClient($title, $html)
              karmaButton($client->name, $client->karma) .
              ' <a href=logout class=b>' . L('Log out') . '</a>' :
              ((PHP_FILE == '/signup.php') ? '' :
-                ' <a href=signup class=g>' . L('Sign up') . '</a>') .
+                '<a href=signup class=g>' . L('Sign up') . '</a>') .
              ((PHP_FILE == '/login.php') ? '' :
                 ' <a href=login class=t>' . L('Log in') . '</a>')
          ),
@@ -387,7 +387,7 @@ function languageSelector()
 
 /**
  * @param string $html
- * @return string
+ * @return string HTML header [h1] tag
  */
 function h1($html)
 {
@@ -396,7 +396,7 @@ function h1($html)
 
 /**
  * @param string $html
- * @return string
+ * @return string HTML header [h2] tag
  */
 function h2($html)
 {
@@ -405,7 +405,7 @@ function h2($html)
 
 /**
  * @param string $html
- * @return string
+ * @return string HTML header [h3] tag
  */
 function h3($html)
 {
@@ -414,7 +414,7 @@ function h3($html)
 
 /**
  * @param string $html
- * @return string
+ * @return string HTML list item [li] tag
  */
 function li($html)
 {
@@ -424,7 +424,7 @@ function li($html)
 /**
  * @param string $href
  * @param string $title
- * @return string
+ * @return string HTML link [a] tag
  */
 function a($href, $title)
 {

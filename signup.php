@@ -70,7 +70,7 @@ $commonPasswords = array('123456','porsche','firebird','prince','rosebud',
     'cock','florida','mistress','bitch','house','beer','eric','phantom','hello',
     'miller','rocket','legend','billy','scooter','flower','theman','movie',
     '6666','0','please','jack','oliver','success','albert','azerty','azerazer',
-    'rezareza');
+    'rezareza','ninja','jesus','cheval');
 
 if (isFormKeyValid() &&
     !empty($_POST['name']) &&
@@ -105,14 +105,19 @@ if (isFormKeyValid() &&
             $signupError[] = L('This email is already used by another user');
         }
 
+        if (in_array($_POST['password'], $commonPasswords)) {
+            $signupError[] = L('This password is too common, please choose another');
+        }
+
         if (sizeof($signupError) == 0) {
 
-            if ($db->query("INSERT INTO users (name,mailHash,pass,session,karma) VALUES ('" . $name . "','" . $mailHash . "','" . $pass . "','',20)")) {
+            if ($db->query('INSERT INTO users (name,mailHash,pass,session,karma) ' .
+                           "VALUES ('" . $name . "','" . $mailHash . "','" . $pass . "','',20)")) {
 
                 $newId     = $db->insert_id;
                 $sessionId = generateSessionId($newId);
 
-                if ($db->query("UPDATE users SET session='" . $sessionId . "' WHERE id=" . $newId . ' LIMIT 1')) {
+                if ($db->query('UPDATE users SET session="' . $sessionId . '" WHERE id=' . $newId . ' LIMIT 1')) {
 
                     sendSessionCookie($sessionId);
                     redirectTo(HOME);

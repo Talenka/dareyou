@@ -4,7 +4,8 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$html = '<nav>' .
+sendPageToClient(L('What are you gonna do awesome today?'),
+        '<nav>' .
         (isset($client) ?
         '<a href=start-challenge class=b>' . L('Start a challenge') . '</a> ' : '') .
         '<a href=about class=b>' . L('About') . '</a> ' .
@@ -16,6 +17,4 @@ $html = '<nav>' .
         h2(a('new', L('New challenges'))) .
         challengesList() .
         h2(a('top', L('Greatest challenges'))) .
-        challengesList(false, '', 'c.totalSum DESC') . languageSelector();
-
-sendPageToClient(L('What are you gonna do awesome today?'), $html);
+        challengesList(false, '', 'c.totalSum DESC') . languageSelector());

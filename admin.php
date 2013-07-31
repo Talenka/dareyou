@@ -8,7 +8,7 @@ $pageTitle = L('Administration');
 
 $html = h1($pageTitle) .
         '<nav>' .
-        '<a href=admin-users>Users</a>' .
+        a('admin-users', 'Users') .
         '</nav>';
 
 sendPageToClient($pageTitle, $html);
