@@ -4,8 +4,4 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$pageTitle = L('Contact');
-
-$html = h1($pageTitle);
-
-sendPageToClient($pageTitle, $html);
+sendPageToClient(L('Contact'), h2(L('Contact')) . L('This service is under construction.'));
