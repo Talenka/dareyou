@@ -13,7 +13,7 @@ $definedLanguages = array('en' => 'English', 'fr' => 'Français');
 $lang = 'en'; // English is the default language
 
 /**
- * @return boolean true if the connection uses https protocal, false otherwise.
+ * @return boolean true if the connection uses https protocol, false otherwise.
  */
 function isHttps()
 {
@@ -248,10 +248,7 @@ function L($text)
  * @param integer $number Challenges number
  * @return string HTML challenges list.
  */
-function challengesList($reals = false,
-                         $where = '',
-                         $order = 'c.created DESC',
-                         $number = 5)
+function challengesList($reals = false, $where = '', $order = 'c.created DESC', $number = 5)
 {
     global $db;
 
@@ -430,7 +427,7 @@ function a($href, $title)
  * @param string $value
  * @return string
  */
-function usernameFormInput($autofocus = false, $value = '')
+function usernameField($autofocus = false, $value = '')
 {
     if (empty($value) && !empty($_POST['name'])) $value = $_POST['name'];
     return '<input type=text name=name maxlength=20 pattern="\w{2,25}"' .
@@ -445,19 +442,28 @@ function usernameFormInput($autofocus = false, $value = '')
  * @param string $value
  * @return string
  */
-function usermailFormInput($autofocus = false, $value = '')
+function usermailField($autofocus = false, $value = '')
 {
     if (empty($value) && !empty($_POST['mail'])) $value = $_POST['mail'];
-    return '<input type=email name=mail maxlength=255 pattern="[\w@\.]+"' .
+    return '<input type=email name=mail maxlength=255 pattern="[\w@\.]{6,255}"' .
            ($autofocus ? ' autofocus' : '') .
            (empty($value) ? '' : ' value="' . $value . '"') .
            ' placeholder="' . L('Email') . '" required>';
 }
 
-function userpasswordFormInput()
+function userpasswordField()
 {
     return '<input type=password name=password maxlength=255' .
            ' placeholder="' . L('Password') . '" required>';
+}
+
+/**
+ * @param string $title
+ * @param string $params [input] tag attributes (optionnal)
+ */
+function submitButton($title, $params = '')
+{
+    return '<input type=submit value="' . $title . '"' . (empty($params) ? '' : ' ' . $params) . '>';
 }
 
 /**
@@ -465,9 +471,41 @@ function userpasswordFormInput()
  * @param string $html inner html.
  * @return string HTML code.
  */
-function form($url, $html)
+function form($html, $url = '')
 {
+    // If no url is specified, we assume the target is the current script
+    // Example : PHP_FILE = '/lost-password.php', so $url = 'lost-password'
+    if (empty($url)) $url = substr(PHP_FILE, 1, -4);
     return '<form action=' . $url .' method=post>' . $html . generateFormKey() . '</form>';
+}
+
+/**
+ * Send a email
+ *
+ * @param string $to Email recipient
+ * @param string $title
+ * @param string $message
+ * @return boolean
+ */
+function sendEmail($to, $title = '', $message = '')
+{
+    if (empty($to)) return false;
+    else {
+        $title .= ' [' . SITE_TITLE . ']';
+        $mailHeaders = 'From: webmaster@' . $_SERVER["SERVER_NAME"] . "\r\n" . 'Content-type: text/html; charset=UTF-8';
+        $message = '<!doctype html><html><head><title>' . $title . '</title></head><body>' .
+                   '<p style="display:block;margin:0 auto;padding:10% 10px;max-width:600px;height:100%;min-height:600px' .
+                       'background:#eee;color:#000;text-align:justify">' . $message . '<br><hr>' .
+                       '<small>You are receiving this email because you have registered on our website. You can at ' .
+                       'any time delete your account by logging in and modify your profile.</small></p></body></html>';
+
+        if(mail($to, $title, $message, $mailHeaders)) return true;
+        else {
+            displayError(L('Sending email has failed'));
+
+            return false;
+        }
+    }
 }
 
 /**************************

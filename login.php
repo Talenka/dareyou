@@ -38,8 +38,7 @@ if (isFormKeyValid() &&
     } else $loginError = true;
 }
 
-$html = form('login', usermailFormInput(true) . userpasswordFormInput() .
-        '<input type=submit value="' . L('Log in') . '" class=t>') .
+$html = form(usermailField(true) . userpasswordField() . submitButton(L('Log in'), 'class=t')) .
         h2('&nbsp;') . a('lost-password', L('Have you lost your password ?'));
 
 if ($loginError) {

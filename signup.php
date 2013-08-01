@@ -127,13 +127,12 @@ if (isFormKeyValid() &&
     }
 }
 
-$html = ((sizeof($signupError) > 0) ?
-            '<p class=w>' . implode('. ', $signupError) . '</p>' : '') .
-        form('signup', usernameFormInput(true) . usermailFormInput() .
-        userpasswordFormInput() .
+$html = ((sizeof($signupError) > 0) ? '<p class=w>' . implode('. ', $signupError) . '</p>' : '') .
+        form(usernameField(true) . usermailField() .
+        userpasswordField() .
         '<input type=password name=password2 maxlength=255 ' .
             'placeholder="' . L('CONFIRMPASSWORD') . '" required>' .
-        '<input type=submit value="' . L('Dare to sign up') . '" class=g>') .
+        submitButton(L('Dare to sign up'), 'class=g')) .
         h3('&nbsp;') .
         '<ul>' .
         li(L('You will start with 20 karma points, you may bet with it')) .
