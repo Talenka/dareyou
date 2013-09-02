@@ -1,4 +1,7 @@
 <?php
+/**
+ * This script change the interface language and then returns to homepage.
+ */
 
 namespace Dareyou;
 

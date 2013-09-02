@@ -6,7 +6,9 @@ require_once 'core.php';
 
 $signupError = array();
 
-// Here is the list of common passwords, which are forbidden on this website
+/**
+ * @var array List of common passwords, which are forbidden on this website
+ */
 $commonPasswords = array('123456','porsche','firebird','prince','rosebud',
     'password','guitar','butter','beach','jaguar','12345678','chelsea','united',
     'amateur','great','1234','black','turtle','7777777','cool','pussy',
@@ -72,17 +74,24 @@ $commonPasswords = array('123456','porsche','firebird','prince','rosebud',
     '6666','0','please','jack','oliver','success','albert','azerty','azerazer',
     'rezareza','ninja','jesus','cheval');
 
+/**
+ * @var string List of forbidden user names (for security of confusion reason)
+ */
+$forbiddenNames = array('login', 'null', 'true', 'false', 'anonymous', 'exit',
+    'root', 'admin', 'administrator', 'moderator', 'mail', 'mysql', 'sql',
+    'undefined', 'dareyou', 'google', 'facebook', 'test', 'class', 'function',
+    'delete', 'insert', 'update', 'www', 'referee', 'yes', 'logout', 'signup',
+    'challenge', 'karma', 'index', 'home', 'config', 'winner');
+
 if (isFormKeyValid() &&
     !empty($_POST['name']) &&
     !empty($_POST['mail']) &&
-    strlen($_POST['mail']) < 256 &&
-    strlen($_POST['password']) < 256 &&
-    strlen($_POST['name']) < 256 &&
-    strlen($_POST['mail']) > 6 &&
-    strlen($_POST['password']) > 2 &&
-    strlen($_POST['name']) > 2 &&
     !empty($_POST['password']) &&
-    !empty($_POST['password2'])) {
+    !empty($_POST['password2']) &&
+    isBetween(strlen($_POST['name']), 3, 255) &&
+    isBetween(strlen($_POST['mail']), 7, 255) &&
+    isBetween(strlen($_POST['password']), 3, 255) &&
+    isBetween(strlen($_POST['password2']), 3, 255)) {
 
     if ($_POST['password'] != $_POST['password2']) {
         $signupError[] = L('Password and its confirmation does not match');
@@ -93,10 +102,17 @@ if (isFormKeyValid() &&
         $mailHash = md5($db->real_escape_string(cleanUserMail($_POST['mail'])));
         $pass = $db->real_escape_string(hashPassword($_POST['password']));
 
-        $user = select('users', '*', 'name="' . $name . '"');
 
-        if ($user->num_rows > 0) {
-            $signupError[] = L('This name is already used by another user');
+        if (in_array(strtolower($_POST['name']), $forbiddenNames)) {
+            $signupError[] = L('This name is forbidden, please choose another');
+
+        } else {
+
+            $user = select('users', '*', 'name="' . $name . '"');
+
+            if ($user->num_rows > 0) {
+                $signupError[] = L('This name is already used by another user');
+            }
         }
 
         $user = select('users', '*', 'mailHash="' . $mailHash . '"');
@@ -105,7 +121,7 @@ if (isFormKeyValid() &&
             $signupError[] = L('This email is already used by another user');
         }
 
-        if (in_array($_POST['password'], $commonPasswords)) {
+        if (in_array(strtolower($_POST['password']), $commonPasswords)) {
             $signupError[] = L('This password is too common, please choose another');
         }
 

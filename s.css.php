@@ -1,4 +1,7 @@
 <?php
+/**
+ * This script returns the CSS styles properly cached and minified.
+ */
 
 namespace Dareyou;
 

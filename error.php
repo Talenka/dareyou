@@ -1,4 +1,7 @@
 <?php
+/**
+ * This page displays an error message that comes with a link to homepage.
+ */
 
 namespace Dareyou;
 

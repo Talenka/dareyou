@@ -6,13 +6,12 @@ require_once 'core.php';
 
 $loginError = false;
 
+
 if (isFormKeyValid() &&
     !empty($_POST['mail']) &&
     !empty($_POST['password']) &&
-    strlen($_POST['mail']) < 256 &&
-    strlen($_POST['password']) < 256 &&
-    strlen($_POST['mail']) > 6 &&
-    strlen($_POST['password']) > 2) {
+    isBetween(strlen($_POST['mail']), 7, 255) &&
+    isBetween(strlen($_POST['password']), 3, 255)) {
 
     $mailHash = $db->real_escape_string(md5(cleanUserMail($_POST['mail'])));
     $password = $db->real_escape_string(hashPassword($_POST['password']));

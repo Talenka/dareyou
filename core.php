@@ -29,6 +29,17 @@ function isHttps()
 }
 
 /**
+ * @param number $n
+ * @param number $min
+ * @param number $max
+ * @return boolean true if $n is betwenn $min and $max included, false otherwise 
+ */
+function isBetween($n, $min, $max)
+{
+    return ($n >= $min && $n <= $max);
+}
+
+/**
  * Redirect the user to another page via HTTP header with a fallback in HTML/JS
  * @param string $url Where to redirect the user.
  * @param integer $statusCode HTTP status code for the redirection (optionnal).

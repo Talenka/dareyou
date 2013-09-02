@@ -11,7 +11,7 @@ $urls = array(array('loc' => '', 'priority' => 1),
               array('loc' => 'faq', 'priority' => .3),
               array('loc' => 'top', 'priority' => .8),
               array('loc' => 'victory', 'priority' => .8),
-              array('loc' => 'login', 'priority' => .3),
+              array('loc' => 'new', 'priority' => .8),
               array('loc' => 'prize', 'priority' => .5));
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' .

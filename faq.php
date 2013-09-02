@@ -1,4 +1,7 @@
 <?php
+/**
+ * This page give specific informations about this website.
+ */
 
 namespace Dareyou;
 
