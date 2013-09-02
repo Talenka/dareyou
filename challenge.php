@@ -34,9 +34,9 @@ sendPageToClient(utf8_encode($c->title),
                  L('on this challenge')) . li(L('Challenge').' '.L('issued') .
                  ' ' . L('by') . ' <time>(' .
                  date(L('dateFormat'), $c->created) . ')</time>.') .
-                 '</ul><h3><strong>' . $attemptsNumber . '</strong> ' .
+                 '</ul>' . h3('<strong>' . $attemptsNumber . '</strong> ' .
                  L( ($attemptsNumber > 1) ? 'buddies' : 'buddy' ) . ' ' .
-                 L('have tried the adventure') . '</h3>' .
+                 L('have tried the adventure')) .
                  $c->lang . '<br>' .
                  $c->image);
 

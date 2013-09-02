@@ -9,14 +9,15 @@ define('NOW', time());
 define('HOME', '/');
 
 /**
- * Available languages
- * Keys: 2-letters code (https://en.wikipedia.org/wiki/ISO_639-1)
- * Values: vernacular name
- * @var array $definedLanguages
+ * Available languages (keys: 2-letters code, values: vernacular name)
+ * @see https://en.wikipedia.org/wiki/ISO_639-1
+ * @var array
  */
 $definedLanguages = array('en' => 'English', 'fr' => 'Français');
 
-// English is the default language
+/**
+ * @var string English is the default language
+ */
 $lang = 'en';
 
 /**
