@@ -4,6 +4,8 @@ namespace Dareyou;
 
 require_once 'core.php';
 
+restrictAccessToLoggedInUser();
+
 deleteSessionCookie();
 
 $db->query('UPDATE users SET session="" WHERE session="' .

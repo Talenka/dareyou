@@ -4,6 +4,8 @@ namespace Dareyou;
 
 require_once 'core.php';
 
+restrictAccessToLoggedInUser();
+
 if (isFormKeyValid()) {
 
     $warnings = array();

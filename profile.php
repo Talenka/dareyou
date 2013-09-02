@@ -32,8 +32,8 @@ $html = '<nav>' .
             li('<a href="prize?awesomeness">Awesomeness prize</a>') .
             li('<a href="prize?barbarian">Barbarian prize</a>') .
             li('<a href="prize?dyonisos">Dyonisos prize</a>') .
-            li('<a href=#challenge-completed>1 challenge completed</a>') .
-            li('<a href=#challenge-accepted>3 challenge accepted</a>') .
+            li('<a href=#completed-challenges>1 challenge completed</a>') .
+            li('<a href=#accepted-challenges>3 challenge accepted</a>') .
         '</ul>' .
         h3('Recent activity') .
         '<ul>' .
@@ -42,8 +42,9 @@ $html = '<nav>' .
             li('Lorem Ispum blah blah') .
             li('Lorem Ispum blah blah') .
             li('Lorem Ispum blah blah') .
-        '</ul>' .
-        '<h3 id=challenge-completed><b>5</b> Challenges completed</h3>' .
+        '</ul>';
+
+$html .= '<h3 id=completed-challenges><b>5</b> Challenges completed</h3>' .
         '<ul>' .
             li('<a href=victory?1242>Some awesome challenge</a> : <b>+17 ♣</b> <time>(2 days ago)</time>') .
             li('<a href=victory?1242>Another awesome challenge</a> : <b>+7 ♣</b> <time>(4 days ago)</time>') .
@@ -51,7 +52,7 @@ $html = '<nav>' .
             li('<a href=victory?1242>Another awesome challenge</a> : <b>+8 ♣</b> <time>(2 months ago)</time>') .
             li('<a href=victory?1242>Another awesome challenge</a> : <b>+4 ♣</b> <time>(2 months ago)</time>') .
         '</ul>' .
-        '<h3 id=challenge-accepted><b>5</b> Challenges accepted</h3>' .
+        '<h3 id=accepted-challenges><b>5</b> Challenges accepted</h3>' .
         '<ul>' .
             li('<a href=challenge?1242>Some awesome challenge</a> <time>(2 days left)</time>') .
             li('<a href=challenge?1242>Another awesome challenge</a> <time>(2 days left)</time>') .
@@ -59,7 +60,7 @@ $html = '<nav>' .
             li('<a href=challenge?1242>Another awesome challenge</a> <time>(1 week left)</time>') .
             li('<a href=challenge?1242>Another awesome challenge</a> <time>(1 year left)</time>') .
         '</ul>' .
-        '<h3 id=challenge-failed><b>5</b> Challenges failed</h3>' .
+        '<h3 id=failed-challenges><b>5</b> Challenges failed</h3>' .
         '<ul>' .
             li('<a href=challenge?1242>Some awesome challenge</a></li>') .
             li('<a href=challenge?1242>Another awesome challenge</a> <time>(yesterday)</time>') .

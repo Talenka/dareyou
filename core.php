@@ -65,6 +65,26 @@ function redirectTo($url, $statusCode = 200)
 }
 
 /**
+ * If user is not logged, then we redirect him to homepage.
+ */
+function restrictAccessToLoggedInUser()
+{
+    global $client;
+
+    if (empty($client)) redirectTo(HOME, 403);
+}
+
+/**
+ * If user is not logged in or if he is not administrator, then we redirect him to homepage.
+ */
+function restrictAccessToAdministrator()
+{
+    global $client;
+
+    if (!isAdmin($client)) redirectTo(HOME, 403);
+}
+
+/**
  * @param string $message Explanation message (optionnal).
  */
 function displayError($message)
@@ -164,7 +184,7 @@ function isFormKeyValid()
  */
 function isAdmin($user)
 {
-    return (ADMIN_HASH == $user->mailHash);
+    return (!empty($user) && ADMIN_HASH == $user->mailHash);
 }
 
 /**

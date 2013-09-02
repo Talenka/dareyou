@@ -4,6 +4,8 @@ namespace Dareyou;
 
 require_once 'core.php';
 
+restrictAccessToAdministrator();
+
 $pageTitle = L('Users administration');
 
 $usersList = select('users');

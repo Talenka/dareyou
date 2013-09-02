@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: /language.php
-Disallow: /language

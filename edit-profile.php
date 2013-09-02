@@ -4,6 +4,8 @@ namespace Dareyou;
 
 require_once 'core.php';
 
+restrictAccessToLoggedInUser();
+
 sendPageToClient(L('Edit my profile'),
     h1(L('Edit my profile')) .
     form(usernameField(false, $client->name) .

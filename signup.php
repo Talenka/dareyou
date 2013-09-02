@@ -81,7 +81,7 @@ $forbiddenNames = array('login', 'null', 'true', 'false', 'anonymous', 'exit',
     'root', 'admin', 'administrator', 'moderator', 'mail', 'mysql', 'sql',
     'undefined', 'dareyou', 'google', 'facebook', 'test', 'class', 'function',
     'delete', 'insert', 'update', 'www', 'referee', 'yes', 'logout', 'signup',
-    'challenge', 'karma', 'index', 'home', 'config', 'winner');
+    'challenge', 'karma', 'index', 'home', 'config', 'winner', 'yes');
 
 if (isFormKeyValid() &&
     !empty($_POST['name']) &&
