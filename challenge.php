@@ -26,18 +26,19 @@ sendPageToClient(utf8_encode($c->title),
                  utf8_encode($c->title) . '</a> <strong class=g>' .
                  $c->totalSum . ' ♣</strong> <strong class=b>' .
                  $c->forSum . ' ▲ – ' . $c->againstSum . ' ▼</strong>') .
+                 a('"' . $c->image . '" target=_blank', '<img src="' . $c->image . '" class=i>') .
                  '<p>' . utf8_encode($c->description) . '</p><ul>' .
                  li(L('Time to complete the challenge:') .
                  ' <strong>' . $c->timeToDo . '</strong> ' . L('days')) .
                  li(L('Bettors have wagered a total of ') .
                  ' <strong>' . $c->totalSum . ' ♣</strong> ' .
                  L('on this challenge')) . li(L('Challenge').' '.L('issued') .
-                 ' ' . L('by') . ' <time>(' .
+                 ' ' . L('by') . ' ' . userLinkWithAvatar($c->name, $c->mailHash) . ' <time>(' .
                  date(L('dateFormat'), $c->created) . ')</time>.') .
                  '</ul>' . h3('<strong>' . $attemptsNumber . '</strong> ' .
                  L( ($attemptsNumber > 1) ? 'buddies' : 'buddy' ) . ' ' .
                  L('have tried the adventure')) .
-                 $c->lang . '<br>' .
-                 $c->image);
+                 L('Language:') . ' ' . L($definedLanguages[$c->lang])
+                 );
 
 // TODO : lang image completed
