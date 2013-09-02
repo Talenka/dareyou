@@ -24,7 +24,7 @@ $html = h2(L('About')) .
         '</ul>' .
         h3(L('Under the hood')) .
         SITE_TITLE . L(' is a project of ') . a('"//boudah.pl"', 'Boudah Talenka') . ', ' .
-        a('"//www.gnu.org/licenses/gpl.html"', L('published under the GPL3+ licence')) . L('and') .
+        a('"//www.gnu.org/licenses/gpl.html"', L('published under the GPL3+ licence')) . ' ' . L('and') .
         ' ' . a('"//github.com/talenka/dareyou"', L('freely available on Github')) . '.';
 
 sendPageToClient(L('About'), $html);
