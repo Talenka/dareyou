@@ -6,11 +6,9 @@ require_once 'core.php';
 
 restrictAccessToAdministrator();
 
-$pageTitle = L('Users administration');
-
 $usersList = select('users');
 
-$html = h2($pageTitle) . h3('Users list') . '<ul>';
+$html = '<ul>';
 
 while ($u = $usersList->fetch_object()) {
 
@@ -20,4 +18,7 @@ while ($u = $usersList->fetch_object()) {
 
 $html .= '</ul>';
 
-sendPageToClient($pageTitle, $html);
+sendPageToClient(L('Administration'),
+                 h1(a('admin', L('Administration'))) .
+                 h2(a('admin-users', L('Users'))) .
+                 $html);

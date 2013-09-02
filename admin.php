@@ -6,11 +6,8 @@ require_once 'core.php';
 
 restrictAccessToAdministrator();
 
-$pageTitle = L('Administration');
-
-$html = h1($pageTitle) .
-        '<nav>' .
-        a('admin-users', 'Users') .
-        '</nav>';
-
-sendPageToClient($pageTitle, $html);
+sendPageToClient(L('Administration'),
+                 h1(a('admin', L('Administration'))) .
+                 h2(a('admin-users', L('Users'))) .
+                 h2(a('admin-challenges', L('Challenges'))) .
+                 h2(a('cron', L('Recurrent tasks'))));
