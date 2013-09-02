@@ -8,9 +8,16 @@ define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
 define('NOW', time());
 define('HOME', '/');
 
+/**
+ * Available languages
+ * Keys: 2-letters code (https://en.wikipedia.org/wiki/ISO_639-1)
+ * Values: vernacular name
+ * @var array $definedLanguages
+ */
 $definedLanguages = array('en' => 'English', 'fr' => 'Français');
 
-$lang = 'en'; // English is the default language
+// English is the default language
+$lang = 'en';
 
 /**
  * @return boolean true if the connection uses https protocol, false otherwise.
@@ -91,8 +98,7 @@ function hashPassword($password)
  */
 function hashText($text)
 {
-    return base_convert(md5($text . $_SERVER['REMOTE_ADDR'] .
-                        $_SERVER['HTTP_USER_AGENT'] . CRYPT_SALT), 16, 36);
+    return base_convert(md5($text . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . CRYPT_SALT), 16, 36);
 }
 
 /**
@@ -120,6 +126,252 @@ function cleanUserMail($userMail)
 function cleanUserName($userName)
 {
     return substr(preg_replace('/[^a-zA-Z0-9]/', '', $userName), 0, 20);
+}
+
+/**
+ * Check whether the form key sent by user is valid and not expired.
+ * @see generateFormKey()
+ * @return boolean
+ */
+function isFormKeyValid()
+{
+    if (empty($_POST['formKey'])) return false;
+    else {
+
+        list($expire, $hash) = explode('O', $_POST['formKey']);
+
+        $expire = base_convert($expire, 36, 10);
+
+        return ($expire > NOW && hashText($expire) == $hash);
+    }
+}
+
+/**
+ * @param Object $user
+ * @return boolean True if $user is the admin, false otherwise.
+ */
+function isAdmin($user)
+{
+    return (ADMIN_HASH == $user->mailHash);
+}
+
+/**
+ * Translate the text in the user language, or returns the text if it fails.
+ * @param string $text
+ * @return string
+ */
+function L($text)
+{
+    global $sentences;
+
+    return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
+}
+
+/**
+ * @param string $sessionId
+ */
+function identifyClient($sessionId = '')
+{
+    global $client, $db;
+
+    if (empty($sessionId)) $sessionId = getSessionCookie();
+
+    $sessId = generateSessionId($db->real_escape_string($sessionId));
+
+    $user = select('users', '*', "session='" . $sessId . "'", 1);
+
+    if ($user->num_rows == 1) $client = $user->fetch_object();
+}
+
+/**
+ * @param string $table SQL table name.
+ * @param string $cols List of columns to return (all by default).
+ * @param string $where Conditionnal filter.
+ * @param string $limit Maximum number of result returned (or a range).
+ * @param string $order "ASC"ending or "DESC"ending order
+ * @return Object SQL ressource
+ */
+function select($table, $cols = '*', $where = '', $limit = '', $order = '')
+{
+    global $db;
+
+    $query = 'SELECT ' . $cols . ' FROM ' . $table .
+             (empty($where) ? '' : ' WHERE ' . $where) .
+             (empty($order) ? '' : ' ORDER BY ' . $order) .
+             (empty($limit) ? '' : ' LIMIT ' . $limit);
+
+    $sql = $db->query($query);
+
+    // For debug purpose you could uncomment this line:
+    // echo '<!-- ' . $query . ' -->';
+
+    if ($sql === false) displayError($db->error . '<br>' . $query);
+    else return $sql;
+}
+
+/**
+ * Count items from an SQL table with optionnal filter
+ * @param string $table SQL Table name.
+ * @param string $where Optionnal conditionnal filter.
+ * @return int Number of row in the table satisfying the WHERE condition.
+ */
+function selectCount($table, $where = '')
+{
+    return select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
+}
+
+/**
+ * Send an email
+ * @param string $to Email recipient
+ * @param string $title
+ * @param string $message
+ * @return boolean
+ */
+function sendEmail($to, $title = '', $message = '')
+{
+    if (empty($to)) return false;
+    else {
+        $title .= ' [' . SITE_TITLE . ']';
+        $mailHeaders = 'From: webmaster@' . $_SERVER["SERVER_NAME"] . "\r\n" . 'Content-type: text/html; charset=UTF-8';
+        $message = '<!doctype html><html><head><title>' . $title . '</title></head><body>' .
+                   '<p style="display:block;margin:0 auto;padding:10% 10px;max-width:600px;height:100%;min-height:600px' .
+                       'background:#eee;color:#000;text-align:justify">' . $message . '<br><hr>' .
+                       '<small>You are receiving this email because you have registered on our website. You can at ' .
+                       'any time delete your account by logging in and modify your profile.</small></p></body></html>';
+
+        if(mail($to, $title, $message, $mailHeaders)) return true;
+        else {
+            displayError(L('Sending email has failed'));
+
+            return false;
+        }
+    }
+}
+
+/*******************************************************************************
+*                                                                              *
+*                             HTML CODE GENERATION                             *
+*                                                                              *
+*******************************************************************************/
+
+/**
+ * @param string $html
+ * @return string HTML header [h1] tag
+ */
+function h1($html)
+{
+    return '<h1>' . $html . '</h1>';
+}
+
+/**
+ * @param string $html
+ * @return string HTML header [h2] tag
+ */
+function h2($html)
+{
+    return '<h2>' . $html . '</h2>';
+}
+
+/**
+ * @param string $html
+ * @return string HTML header [h3] tag
+ */
+function h3($html)
+{
+    return '<h3>' . $html . '</h3>';
+}
+
+/**
+ * @param string $html
+ * @return string HTML list item [li] tag
+ */
+function li($html)
+{
+    return '<li>' . $html . '</li>';
+}
+
+/**
+ * @param string $href
+ * @param string $title
+ * @return string HTML link [a] tag
+ */
+function a($href, $title)
+{
+    return '<a href=' . $href . '>' . $title . '</a>';
+}
+
+/**
+ * @param boolean $autofocus
+ * @param string $value
+ * @return string Html code for the user's name field
+ */
+function usernameField($autofocus = false, $value = '')
+{
+    if (empty($value) && !empty($_POST['name'])) $value = $_POST['name'];
+    return '<input type=text name=name maxlength=20 pattern="\w{2,25}"' .
+            ($autofocus ? ' autofocus' : '') .
+            (empty($value) ? '' : ' value="' . $value . '"') .
+            ' placeholder="' . L('User name') . '" required' .
+            ' title="' . L('Just lowercase letters for your username') . '">';
+}
+
+/**
+ * @param boolean $autofocus
+ * @param string $value
+ * @return string Html code for the user's email address field
+ */
+function usermailField($autofocus = false, $value = '')
+{
+    if (empty($value) && !empty($_POST['mail'])) $value = $_POST['mail'];
+    return '<input type=email name=mail maxlength=255 pattern="[\w@\.]{6,255}"' .
+           ($autofocus ? ' autofocus' : '') .
+           (empty($value) ? '' : ' value="' . $value . '"') .
+           ' placeholder="' . L('Email') . '" required>';
+}
+
+/**
+ * @return Html code for the user's password field
+ */
+function userpasswordField()
+{
+    return '<input type=password name=password maxlength=255 placeholder="' . L('Password') . '" required>';
+}
+
+/**
+ * @param string $title
+ * @param string $params [input] tag attributes (optionnal)
+ * @return string Html code for a submit button
+ */
+function submitButton($title, $params = '')
+{
+    return '<input type=submit value="' . $title . '"' . (empty($params) ? '' : ' ' . $params) . '>';
+}
+
+/**
+ * Wraps the html code into a form
+ * @param string $url Form destination URL.
+ * @param string $html inner html.
+ * @return string HTML [form] code.
+ */
+function form($html, $url = '')
+{
+    // If no url is specified, we assume the target is the current script
+    // Example : PHP_FILE = '/lost-password.php', so $url = 'lost-password'
+    if (empty($url)) $url = substr(PHP_FILE, 1, -4);
+
+    return '<form action=' . $url .' method=post>' . $html . generateFormKey() . '</form>';
+}
+
+/**
+ * Basic form protection against CSRF attack.
+ * @param integer $term Form expiration (in seconds from now, optionnal).
+ * @return string Html code for the hidden input containing the key.
+ */
+function generateFormKey($term = 600)
+{
+    return '<input type=hidden name=formKey value=' .
+           base_convert(NOW + $term, 10, 36) . 'O' .
+           hashText(NOW + $term) . '>';
 }
 
 /**
@@ -192,52 +444,19 @@ function userLinkWithAvatar($name, $hash)
 }
 
 /**
- * @param integer $term Form expiration (in seconds from now, optionnal).
- * @return string Html code for the hidden input containing the key.
+ * @return string Html code for language selection.
  */
-function generateFormKey($term = 600)
+function languageSelector()
 {
-    return '<input type=hidden name=formKey value=' .
-           base_convert($term + NOW, 10, 36) . 'O' .
-           hashText($term + NOW) . '>';
-}
+    global $definedLanguages, $lang;
 
-/**
- * Check whether the form key sent by user is valid and not expired.
- * @return boolean
- */
-function isFormKeyValid()
-{
-    if (empty($_POST['formKey'])) return false;
-    else {
+    $langs = array();
 
-        list($expire, $hash) = explode('O', $_POST['formKey']);
-
-        $expire = base_convert($expire, 36, 10);
-
-        return ($expire > NOW && hashText($expire) == $hash);
+    foreach ($definedLanguages as $lg => $language) {
+        if ($lg != $lang) $langs[] = a('language?' . $lg . ' title=' . L($language), $language);
     }
-}
 
-/**
- * @param Object $user
- * @return boolean True if $user is the admin, false otherwise.
- */
-function isAdmin($user)
-{
-    return (ADMIN_HASH == $user->mailHash);
-}
-
-/**
- * Translate the text in the user language, or returns the text if it fails.
- * @param string $text
- * @return string
- */
-function L($text)
-{
-    global $sentences;
-
-    return array_key_exists($text, $sentences) ? $sentences[$text] : $text;
+    return L('In other languages') . ' : ' . implode(', ', $langs);
 }
 
 /**
@@ -275,23 +494,6 @@ function challengesList($reals = false, $where = '', $order = 'c.created DESC', 
     }
 
     return $code . '</ul>';
-
-}
-
-/**
- * @param string $sessionId
- */
-function identifyClient($sessionId = '')
-{
-    global $client, $db;
-
-    if (empty($sessionId)) $sessionId = getSessionCookie();
-
-    $sessId = generateSessionId($db->real_escape_string($sessionId));
-
-    $user = select('users', '*', "session='" . $sessId . "'", 1);
-
-    if ($user->num_rows == 1) $client = $user->fetch_object();
 }
 
 /**
@@ -324,199 +526,15 @@ function sendPageToClient($title, $html)
     exit;
 }
 
-/**
- * @param string $table SQL table name.
- * @param string $cols List of columns to return (all by default).
- * @param string $where Conditionnal filter.
- * @param string $limit Maximum number of result returned (or a range).
- * @param string $order "ASC"ending or "DESC"ending order
- * @return Object SQL ressource
- */
-function select($table, $cols = '*', $where = '', $limit = '', $order = '')
-{
-    global $db;
-
-    $query = 'SELECT ' . $cols . ' FROM ' . $table .
-             (empty($where) ? '' : ' WHERE ' . $where) .
-             (empty($order) ? '' : ' ORDER BY ' . $order) .
-             (empty($limit) ? '' : ' LIMIT ' . $limit);
-
-    $sql = $db->query($query);
-
-    // echo '<!-- ' . $query . ' -->';
-
-    if ($sql === false) displayError($db->error . '<br>' . $query);
-    else return $sql;
-}
-
-/**
- * Count items from an SQL table with optionnal filter
- * @param string $table SQL Table name.
- * @param string $where Optionnal conditionnal filter.
- * @return int Number of row in the table satisfying the WHERE condition.
- */
-function selectCount($table, $where = '')
-{
-    return select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
-}
-
-/**
- * @return string Html code for language selection.
- */
-function languageSelector()
-{
-    global $definedLanguages, $lang;
-
-    $langs = array();
-
-    foreach ($definedLanguages as $lg => $language) {
-        if ($lg != $lang) $langs[] = a('language?' . $lg . ' title=' . L($language), $language);
-    }
-
-    return L('In other languages') . ' : ' . implode(', ', $langs);
-}
-
-/**
- * @param string $html
- * @return string HTML header [h1] tag
- */
-function h1($html)
-{
-    return '<h1>' . $html . '</h1>';
-}
-
-/**
- * @param string $html
- * @return string HTML header [h2] tag
- */
-function h2($html)
-{
-    return '<h2>' . $html . '</h2>';
-}
-
-/**
- * @param string $html
- * @return string HTML header [h3] tag
- */
-function h3($html)
-{
-    return '<h3>' . $html . '</h3>';
-}
-
-/**
- * @param string $html
- * @return string HTML list item [li] tag
- */
-function li($html)
-{
-    return '<li>' . $html . '</li>';
-}
-
-/**
- * @param string $href
- * @param string $title
- * @return string HTML link [a] tag
- */
-function a($href, $title)
-{
-    return '<a href=' . $href . '>' . $title . '</a>';
-}
-
-/**
- * @param boolean $autofocus
- * @param string $value
- * @return string
- */
-function usernameField($autofocus = false, $value = '')
-{
-    if (empty($value) && !empty($_POST['name'])) $value = $_POST['name'];
-    return '<input type=text name=name maxlength=20 pattern="\w{2,25}"' .
-            ($autofocus ? ' autofocus' : '') .
-            (empty($value) ? '' : ' value="' . $value . '"') .
-            ' placeholder="' . L('User name') . '" required' .
-            ' title="' . L('Just lowercase letters for your username') . '">';
-}
-
-/**
- * @param boolean $autofocus
- * @param string $value
- * @return string
- */
-function usermailField($autofocus = false, $value = '')
-{
-    if (empty($value) && !empty($_POST['mail'])) $value = $_POST['mail'];
-    return '<input type=email name=mail maxlength=255 pattern="[\w@\.]{6,255}"' .
-           ($autofocus ? ' autofocus' : '') .
-           (empty($value) ? '' : ' value="' . $value . '"') .
-           ' placeholder="' . L('Email') . '" required>';
-}
-
-function userpasswordField()
-{
-    return '<input type=password name=password maxlength=255' .
-           ' placeholder="' . L('Password') . '" required>';
-}
-
-/**
- * @param string $title
- * @param string $params [input] tag attributes (optionnal)
- */
-function submitButton($title, $params = '')
-{
-    return '<input type=submit value="' . $title . '"' . (empty($params) ? '' : ' ' . $params) . '>';
-}
-
-/**
- * @param string $url Form destination URL.
- * @param string $html inner html.
- * @return string HTML code.
- */
-function form($html, $url = '')
-{
-    // If no url is specified, we assume the target is the current script
-    // Example : PHP_FILE = '/lost-password.php', so $url = 'lost-password'
-    if (empty($url)) $url = substr(PHP_FILE, 1, -4);
-    return '<form action=' . $url .' method=post>' . $html . generateFormKey() . '</form>';
-}
-
-/**
- * Send a email
- *
- * @param string $to Email recipient
- * @param string $title
- * @param string $message
- * @return boolean
- */
-function sendEmail($to, $title = '', $message = '')
-{
-    if (empty($to)) return false;
-    else {
-        $title .= ' [' . SITE_TITLE . ']';
-        $mailHeaders = 'From: webmaster@' . $_SERVER["SERVER_NAME"] . "\r\n" . 'Content-type: text/html; charset=UTF-8';
-        $message = '<!doctype html><html><head><title>' . $title . '</title></head><body>' .
-                   '<p style="display:block;margin:0 auto;padding:10% 10px;max-width:600px;height:100%;min-height:600px' .
-                       'background:#eee;color:#000;text-align:justify">' . $message . '<br><hr>' .
-                       '<small>You are receiving this email because you have registered on our website. You can at ' .
-                       'any time delete your account by logging in and modify your profile.</small></p></body></html>';
-
-        if(mail($to, $title, $message, $mailHeaders)) return true;
-        else {
-            displayError(L('Sending email has failed'));
-
-            return false;
-        }
-    }
-}
-
-/**************************
-* Main script begins here *
-**************************/
+/*******************************************************************************
+*                                                                              *
+*                            MAIN SCRIPT BEGINS HERE                           *
+*                                                                              *
+*******************************************************************************/
 
 if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 
-    $langs = (empty($_COOKIE['lang'])) ?
-                 explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) :
-                 array($_COOKIE['lang']);
+    $langs = (empty($_COOKIE['lang'])) ? explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) : array($_COOKIE['lang']);
 
     for ($i = 0, $j = sizeof($langs); $i < $j; $i++) {
 
