@@ -25,3 +25,6 @@ define('SQL_DB', 'humblesite');
 
 // The MD5 digest of admin email (yours maybe)
 define('ADMIN_HASH', '00000000000000000000000000000000');
+
+// The canonical domain name
+define('SERVER_NAME', 'dareyou2.be');

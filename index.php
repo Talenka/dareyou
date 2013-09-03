@@ -7,10 +7,10 @@ require_once 'core.php';
 sendPageToClient(L('What are you gonna do awesome today?'),
         '<nav>' .
         (isset($client) ?
-        a('start-challenge class=b', L('Start a challenge')) . ' ' : '') .
+        a('start-challenge class=b', L('Start a challenge')) . ' ' .
+        (isAdmin($client) ? a('admin class=b', L('Administration')) . ' ' : ''): '') .
         a('about class=b', L('About')) . ' ' .
         a('faq class=b title="' . L('Frequently Asked Questions') . '"', 'FAQ') .
-        (isAdmin($client) ? ' ' . a('admin class=b', L('Administration')) : '') .
         '</nav>' .
         h1(L('What are you gonna do awesome today?')) .
         (isset($notice) ? '<div class=n>' . $notice . '</div>' : '') .
