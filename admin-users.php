@@ -39,11 +39,7 @@ if (empty($_SERVER['QUERY_STRING'])) {
                       submitButton(L('Modify user'), ' class="b w"'),
                       'admin-users?' . $userToAdmin->id) .
                  h3(L('User informations')) .
-                 'Karma: ' . $userToAdmin->karma . ' ♣<br>' .
-                 'Mail MD5 hash: <code>' . $userToAdmin->mailHash . '</code>' .
-                 ' <img src="' . gravatarUrl($userToAdmin->mailHash) . '" width=20 height=20><br>' .
-                 'Password SHA512 hash: <code>' . $userToAdmin->pass . '</code><br>' .
-                 'Session MD5 hash: <code>' . $userToAdmin->session . '</code><br>';
+                 'Karma: ' . $userToAdmin->karma . ' ♣<br>';
 
     } else redirectTo('admin-users', 404);
 

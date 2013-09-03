@@ -6,9 +6,19 @@ require_once 'core.php';
 
 restrictAccessToAdministrator();
 
+$sql = select('challenges c, users u',
+              'c.cid,c.title,c.created,c.description,u.name',
+              'u.id = c.author', 30, 'c.created DESC');
+
+$lastChallenges = array();
+
+$result = '';
+
+while ($c = $sql->fetch_object()) array_push($lastChallenges, $c);
+
 /*******************************************************************************
 *                                                                              *
-*                   (RE)CREATING SITEMAP.XML AND ROBOTS.TXT                    *
+*                            (RE)CREATING SITEMAP.XML                          *
 *                                                                              *
 *******************************************************************************/
 
@@ -20,18 +30,11 @@ $publicUrls = array(array('loc' => '', 'priority' => 1),
                     array('loc' => 'new', 'priority' => .8),
                     array('loc' => 'prize', 'priority' => .5));
 
-$sql = select('challenges c', 'c.title,c.created', '', 30, 'c.created DESC');
+foreach ($lastChallenges as $c) 
 
-while ($c = $sql->fetch_object()) {
     array_push($publicUrls, array('loc' => 'challenge?' . urlencode($c->title),
                                   'priority' => 0.3,
                                   'lastmod' => date('Y-m-d', $c->created)));
-}
-
-$privateUrls = array('/language',
-                     '/signup',
-                     '/login',
-                     '/lost-password');
 
 $sitemap = '<?xml version="1.0" encoding="UTF-8"?>' .
            '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
@@ -41,15 +44,69 @@ $sitemap = '<?xml version="1.0" encoding="UTF-8"?>' .
 
 foreach ($publicUrls as $url)
 
-    $sitemap .= '<url><loc>http://' . $_SERVER['SERVER_NAME'] . '/' . $url['loc'] . '</loc>' .
+    $sitemap .= '<url><loc>http://' . SERVER_NAME . '/' . $url['loc'] . '</loc>' .
                 (isset($url['lastmod']) ? '<lastmod>' . $url['lastmod'] . '</lastmod>' : '') .
                 '<priority>' . $url['priority'] . '</priority></url>';
 
 $sitemap .= '</urlset>';
 
+if (file_put_contents('sitemap.xml', $sitemap))
+    $result .= li(a('sitemap.xml', 'sitemap.xml') . ' created');
+
+/*******************************************************************************
+*                                                                              *
+*                           (RE)CREATING ROBOTS.TXT                            *
+*                                                                              *
+*******************************************************************************/
+
+$privateUrls = array('/language',
+                     '/signup',
+                     '/login',
+                     '/lost-password');
+
 $robots = 'User-agent: *';
 
 foreach ($privateUrls as $url) $robots .= "\nDisallow: " . $url;
 
-file_put_contents('sitemap.xml', $sitemap);
-file_put_contents('robots.txt', $robots);
+if (file_put_contents('robots.txt', $robots))
+    $result .= li(a('robots.txt', 'robots.txt') . ' created');
+
+/*******************************************************************************
+*                                                                              *
+*                          (RE)CREATING CHALLENGES.ATOM                        *
+*                                                                              *
+*******************************************************************************/
+
+$feedFile = 'challenges.atom';
+
+$feedId = md5(SERVER_NAME);
+$feedId = substr($feedId, 0, 8) . '-' . substr($feedId, 8, 4) . '-' . substr($feedId, 12, 4) . '-';
+
+$atom = '<?xml version="1.0" encoding="utf-8"?>' . "\n" .
+        '<feed xmlns="http://www.w3.org/2005/Atom">' . "\n" .
+        '<title>' . SITE_TITLE . '</title>' . "\n" .
+        '<subtitle type="html"><![CDATA[' . L('How it works ...') . ']]></subtitle>' . "\n" .
+        '<link href="http://' . SERVER_NAME .'/" />' . "\n" .
+        '<link href="http://' . SERVER_NAME .'/' . $feedFile . '" rel="self" type="application/atom+xml" />' . "\n" .
+        '<id>tag:' . SERVER_NAME .',2008:challenges</id>' . "\n" .
+        '<updated>' . date('c', NOW) . '</updated>';
+
+foreach ($lastChallenges as $c) 
+    $atom .= '<entry>' . "\n" .
+             '<title>' . utf8_encode($c->title) . '</title>' . "\n" .
+             '<link href="http://' . SERVER_NAME .'/challenge?' . urlencode($c->title) . '" />' . "\n" .
+             '<id>tag:' . SERVER_NAME .',2008:challenge/' . $c->cid . '</id>' . "\n" .
+             '<updated>' . date('c', $c->created) . '</updated>' . "\n" .
+             '<summary type="html"><![CDATA[' . utf8_encode($c->description) . ']]></summary>' . "\n" .
+             '<author><name>' . $c->name . '</name></author>' . "\n" .
+             '</entry>';
+
+$atom .= '</feed>';
+
+if (file_put_contents($feedFile, $atom)) $result .= li(a($feedFile, $feedFile) . ' created');
+
+sendPageToClient(L('Administration'),
+                 h1(a('admin', L('Administration'))) .
+                 h2(a('admin-operations', L('Operations'))) .
+                 '<ul>' . $result . '</h2>');
+

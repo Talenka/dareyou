@@ -88,6 +88,8 @@ $sentences = array(
     'Vous devez vous inscrire pour profiter pleinement du site, mais ça se fait en un clin d’oeil.',
 
 'Have you lost your password ?' => 'Mot de passe perdu ?',
+'Hey it seems you are already logged in' => 'Il semble que vous êtes déjà connecté',
+'Don’t you seek rather to log out?' => 'Ne cherchez-vous pas plutôt à vous déconnecter ?',
 
 // about.php
 
@@ -164,5 +166,11 @@ $sentences = array(
 
 // edit-profile.php
 
-'Edit my profile' => 'Modifier mon profil'
+'Edit my profile' => 'Modifier mon profil',
+
+// admin*.php
+
+'Logs' => 'Registres',
+'Users' => 'Utilisateurs',
+'Operations' => 'Opérations'
 );

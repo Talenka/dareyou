@@ -38,11 +38,13 @@ if (isFormKeyValid() &&
     } else $loginError = true;
 }
 
-$html = form(usermailField(true) . userpasswordField() . submitButton(L('Log in'), 'class=t')) .
+if (!empty($client))
+    $html = '<p>' . L('Hey it seems you are already logged in') . ', ' . userLink($client->name) . '.</p>' .
+            '<p>' . L('Don’t you seek rather to log out?') . ' &rarr; ' . a('logout class=b', L('Log out')) . '</p>';
+
+else $html = form(usermailField(true) . userpasswordField() . submitButton(L('Log in'), 'class=t')) .
         h2('&nbsp;') . a('lost-password', L('Have you lost your password ?'));
 
-if ($loginError) {
-    $html = '<div class=w>' . L('Email or password is incorrect, please retry') . '</div>' . $html;
-}
+if ($loginError) $html = '<div class=w>' . L('Email or password is incorrect, please retry') . '</div>' . $html;
 
 sendPageToClient(L('Login'), h1(L('Login')) . $html);

@@ -68,7 +68,11 @@ if (isFormKeyValid() &&
     }
 }
 
-$html = ((sizeof($signupError) > 0) ? '<p class=w>' . implode('. ', $signupError) . '</p>' : '') .
+if (!empty($client))
+    $html = '<p>' . L('Hey it seems you are already logged in') . ', ' . userLink($client->name) . '.</p>' .
+            '<p>' . L('Don’t you seek rather to log out?') . ' &rarr; ' . a('logout class=b', L('Log out')) . '</p>';
+
+else $html = ((sizeof($signupError) > 0) ? '<p class=w>' . implode('. ', $signupError) . '</p>' : '') .
         form(usernameField(true) . usermailField() .
         userpasswordField() .
         '<input type=password name=password2 maxlength=255 ' .
