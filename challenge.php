@@ -35,9 +35,10 @@ sendPageToClient(utf8_encode($c->title),
                  L('on this challenge')) . li(L('Challenge').' '.L('issued') .
                  ' ' . L('by') . ' ' . userLinkWithAvatar($c->name, $c->mailHash) . ' <time>(' .
                  date(L('dateFormat'), $c->created) . ')</time>.') .
-                 '</ul>' . h3('<strong>' . $attemptsNumber . '</strong> ' .
-                 L( ($attemptsNumber > 1) ? 'buddies' : 'buddy' ) . ' ' .
-                 L('have tried the adventure')) .
+                 '</ul>' . h3((($attemptsNumber > 1) ? '<strong>' . $attemptsNumber . '</strong>' : '') . ' ' .
+                 L(($attemptsNumber > 1) ? 'people have tried' :
+                     (($attemptsNumber == 0) ? 'No one has tried' : 'One people has tried')) . ' ' .
+                 L('the adventure')) .
                  L('Language:') . ' ' . L($definedLanguages[$c->lang])
                  );
 

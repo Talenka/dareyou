@@ -172,5 +172,18 @@ $sentences = array(
 
 'Logs' => 'Registres',
 'Users' => 'Utilisateurs',
-'Operations' => 'Opérations'
+'Operations' => 'Opérations',
+
+// search.php
+
+'There is nothing like this here, sorry' => 'Il n’y a rien de tel ici, désolé',
+
+// challenge.php
+
+'Language:' => 'Langue :',
+'the adventure' => 'l’aventure',
+'One people has tried' => 'Une personne a tenté',
+'No one has tried' => 'Personne n’a encore tenté',
+'people have tried' => 'personnes ont tenté'
+
 );
