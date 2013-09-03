@@ -6,19 +6,34 @@ require_once 'core.php';
 
 restrictAccessToAdministrator();
 
-$usersList = select('users');
+if (empty($_SERVER['QUERY_STRING'])) {
 
-$html = '<ul>';
+    $usersList = select('users');
 
-while ($u = $usersList->fetch_object()) {
+    $html = h2(a('admin-users', L('Users'))) . '<ul>';
 
-    $html .= li(userLinkWithAvatar($u->name, $u->mailHash) . ' ' .
-             karmaButton($u->name, $u->karma));
+    while ($u = $usersList->fetch_object()) {
+
+        $html .= li(a('admin-users?' . $u->id, $u->name) . ' (' . $u->karma . '♣)');
+    }
+
+    $html .= '</ul>';
+
+} else {
+
+    $args = explode('/', $_SERVER['QUERY_STRING']);
+
+    $sql = select('users', '*', 'id = ' . $db->real_escape_string((int) $args[0]), 1);
+
+    if ($sql->num_rows == 1) {
+
+        $userToAdmin = $sql->fetch_object();
+
+        $html = h2(a('admin-users', L('Users') . ' #' . $userToAdmin->id . ' (' . $userToAdmin->name . ')'));
+
+    } else redirectTo('admin-users', 404);
+
 }
 
-$html .= '</ul>';
-
 sendPageToClient(L('Administration'),
-                 h1(a('admin', L('Administration'))) .
-                 h2(a('admin-users', L('Users'))) .
-                 $html);
+                 h1(a('admin', L('Administration'))) . $html);

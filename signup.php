@@ -102,7 +102,6 @@ if (isFormKeyValid() &&
         $mailHash = md5($db->real_escape_string(cleanUserMail($_POST['mail'])));
         $pass = $db->real_escape_string(hashPassword($_POST['password']));
 
-
         if (in_array(strtolower($_POST['name']), $forbiddenNames)) {
             $signupError[] = L('This name is forbidden, please choose another');
 

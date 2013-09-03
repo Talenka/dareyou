@@ -32,7 +32,7 @@ function isHttps()
  * @param number $n
  * @param number $min
  * @param number $max
- * @return boolean true if $n is betwenn $min and $max included, false otherwise 
+ * @return boolean true if $n is betwenn $min and $max included, false otherwise
  */
 function isBetween($n, $min, $max)
 {
@@ -390,7 +390,6 @@ function form($html, $url = '')
     // If no url is specified, we assume the target is the current script
     // Example : PHP_FILE = '/lost-password.php', so $url = 'lost-password'
     if (empty($url)) $url = substr(PHP_FILE, 1, -4);
-
     return '<form action=' . $url .' method=post>' . $html . generateFormKey() . '</form>';
 }
 
@@ -411,7 +410,7 @@ function generateFormKey($term = 600)
  * @param integer $size Avatar width & height (in pixels).
  * @return string Gravatar URL.
  */
-function gravatarUrl($hash, $size)
+function gravatarUrl($hash, $size = 20)
 {
     return '//gravatar.com/avatar/' . $hash . '?s=' . $size . '&amp;d=wavatar';
 }

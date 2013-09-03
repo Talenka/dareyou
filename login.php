@@ -6,7 +6,6 @@ require_once 'core.php';
 
 $loginError = false;
 
-
 if (isFormKeyValid() &&
     !empty($_POST['mail']) &&
     !empty($_POST['password']) &&
