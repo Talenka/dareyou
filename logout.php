@@ -12,6 +12,8 @@ $db->query('UPDATE users SET session="" WHERE session="' .
            generateSessionId($db->real_escape_string(getSessionCookie())) .
            '" LIMIT 1');
 
+logActivity('Logout');
+
 unset($client);
 
 $notice = L('You have been logged out. Goodbye !');

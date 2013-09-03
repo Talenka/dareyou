@@ -135,6 +135,9 @@ if (isFormKeyValid() &&
                 if ($db->query('UPDATE users SET session="' . $sessionId . '" WHERE id=' . $newId . ' LIMIT 1')) {
 
                     sendSessionCookie($sessionId);
+
+                    logActivity(ucfirst($name) . ' have dared to sign up', '', true);
+
                     redirectTo(HOME);
                 }
             }

@@ -280,6 +280,25 @@ function sendEmail($to, $title = '', $message = '')
     }
 }
 
+/**
+ * Write a user activity in the log
+ * @param string $text
+ * @param string $url
+ * @param boolean $public
+ */
+function logActivity($text, $url = '', $public = false)
+{
+    global $db, $client;
+
+    if (empty($url)) $url = PHP_FILE;
+
+    $db->query('INSERT INTO `logs` (`date`,`user`,`text`,`public`,`url`) VALUES(' . NOW . ',' .
+               (empty($client) ? 0 : $client->id) . ',' .
+               '"' . $db->real_escape_string($text) . '",' .
+               (($public === true) ? 1 : 0) . ',' .
+               '"' . $db->real_escape_string($url) . '")');
+}
+
 /*******************************************************************************
 *                                                                              *
 *                             HTML CODE GENERATION                             *

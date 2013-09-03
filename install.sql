@@ -51,3 +51,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`mailHash`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `logs` (
+  `date` int(20) unsigned NOT NULL,
+  `user` smallint(5) unsigned NOT NULL,
+  `text` varchar(255) NOT NULL,
+  `public` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `url` varchar(255) DEFAULT NULL,
+  KEY `date` (`date`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -14,7 +14,9 @@ if (empty($_SERVER['QUERY_STRING'])) {
 
     while ($u = $usersList->fetch_object()) {
 
-        $html .= li(a('admin-users?' . $u->id, $u->name) . ' (' . $u->karma . '♣)');
+        $html .= li(a('admin-users?' . $u->id .
+                    ' class=u style="background-image:url(' . gravatarUrl($u->mailHash, 20) . ')"',
+                    ucfirst($u->name)) . ' [' . $u->karma . ' ♣]');
     }
 
     $html .= '</ul>';
@@ -29,7 +31,19 @@ if (empty($_SERVER['QUERY_STRING'])) {
 
         $userToAdmin = $sql->fetch_object();
 
-        $html = h2(a('admin-users', L('Users') . ' #' . $userToAdmin->id . ' (' . $userToAdmin->name . ')'));
+        $html = h2(a('admin-users', L('Users')) . ' #' . $userToAdmin->id . ' (' . $userToAdmin->name . ')');
+
+        $html .= form(usernameField(false, $userToAdmin->name) .
+                      usermailField(false, '') .
+                      '<small>(Leave blank the field above to keep the current mail)</small><br>' .
+                      submitButton(L('Modify user'), ' class="b w"'),
+                      'admin-users?' . $userToAdmin->id) .
+                 h3(L('User informations')) .
+                 'Karma: ' . $userToAdmin->karma . ' ♣<br>' .
+                 'Mail MD5 hash: <code>' . $userToAdmin->mailHash . '</code>' .
+                 ' <img src="' . gravatarUrl($userToAdmin->mailHash) . '" width=20 height=20><br>' .
+                 'Password SHA512 hash: <code>' . $userToAdmin->pass . '</code><br>' .
+                 'Session MD5 hash: <code>' . $userToAdmin->session . '</code><br>';
 
     } else redirectTo('admin-users', 404);
 

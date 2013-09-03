@@ -54,6 +54,8 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 
             $notice = L('The reinitialization link have been sent to you, please check your inbox');
 
+            logActivity('Password reinitialization link sent', 'mailto:' . $_POST['mail']);
+
             include 'index.php';
             exit;
 

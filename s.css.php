@@ -12,6 +12,7 @@ namespace Dareyou;
 // .n = notice
 // .w = warning
 // .u = user
+// .i = image
 
 $fc = 's.dev.css';
 

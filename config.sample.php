@@ -2,23 +2,26 @@
 
 namespace Dareyou;
 
+// Uncomment the line below for debugging purpose:
+// error_reporting(E_ALL);
+
 // The <title> of the site
 define('SITE_TITLE', 'DareYou!');
 
-// The password hashing salt
+// The password hashing salt (please choose a long and unique one)
 define('CRYPT_SALT', 'KM4WcTe+tiPzmkc{');
 
-// The MySql database host
+// The MySql database host ("localhost" in 99% of cases)
 define('SQL_HOST', 'localhost');
 
 // The MySql database username
 define('SQL_USER', 'myhumblesite');
 
-// The MySql database password
+// The MySql database password (please choose a long and unique one)
 define('SQL_PASSWORD', 'b62kH043b6wt4T6Q');
 
 // Your MySql database name
 define('SQL_DB', 'humblesite');
 
-// The MD5 digest of admin email
-define('ADMIN_HASH', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+// The MD5 digest of admin email (yours maybe)
+define('ADMIN_HASH', '00000000000000000000000000000000');

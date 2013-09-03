@@ -27,6 +27,8 @@ if (isFormKeyValid() &&
 
             sendSessionCookie($sessionId);
 
+            logActivity('Login');
+
             $notice = L('Hello again') . ', ' . userLinkWithAvatar($client->name, $client->mailHash);
 
             include 'index.php';
