@@ -53,6 +53,9 @@ $sitemap .= '</urlset>';
 if (file_put_contents('sitemap.xml', $sitemap))
     $result .= li(a('sitemap.xml', 'sitemap.xml') . ' created');
 
+if (file_put_contents('sitemap.xml.gz', gzencode($sitemap, 9)))
+    $result .= li(a('sitemap.xml.gz', 'sitemap.xml.gz') . ' created');
+
 /*******************************************************************************
 *                                                                              *
 *                           (RE)CREATING ROBOTS.TXT                            *
