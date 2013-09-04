@@ -184,6 +184,7 @@ $sentences = array(
 'the adventure' => 'l’aventure',
 'One people has tried' => 'Une personne a tenté',
 'No one has tried' => 'Personne n’a encore tenté',
-'people have tried' => 'personnes ont tenté'
+'people have tried' => 'personnes ont tenté',
+'One comment' => 'Un commentaire',
 
 );

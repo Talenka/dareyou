@@ -23,21 +23,26 @@ $attemptsNumber = selectCount('realizations', 'cid=' . (int) $c->cid);
 
 // duration : P[n]D
 
-$html = h1('<a href="challenge?' . urlencode($c->title) . '">' .
+$html = '<article itemscope itemtype="http://schema.org/CreativeWork">' .
+        h1('<a href="challenge?' . urlencode($c->title) . '" itemprop=name>' .
            utf8_encode($c->title) . '</a> <strong class=g>' . $c->totalSum . ' ♣</strong>' .
            ' <strong class=b>' . $c->forSum . ' ▲ – ' . $c->againstSum . ' ▼</strong>') .
-           a('"' . $c->image . '" target=_blank', '<img src="' . $c->image . '" class=i>') .
-           '<p>' . utf8_encode($c->description) . '</p><ul>' .
-           li(L('Time to complete the challenge:') . ' <strong>' . $c->timeToDo . '</strong> ' . L('days')) .
+           a('"' . $c->image . '" target=_blank', '<img src="' . $c->image . '" class=i' .
+           ' itemprop=image alt="' . utf8_encode($c->title) . '">') .
+           '<p itemprop=description>' . utf8_encode($c->description) . '</p><ul>' .
+           li(L('Time to complete the challenge:') . ' <strong itemprop=duration content="P' . $c->timeToDo . 'D">' .
+              $c->timeToDo . '</strong> ' . L('days')) .
            li(L('Bettors have wagered a total of ') . ' <strong>' . $c->totalSum . ' ♣</strong> ' .
            L('on this challenge')) . li(L('Challenge') . ' ' . L('issued') . ' ' .
-           L('by') . ' ' . userLinkWithAvatar($c->name, $c->mailHash) .
-           ' <time>(' . date(L('dateFormat'), $c->created) . ')</time>.') .
+           L('by') . ' <span itemprop=author>' . userLinkWithAvatar($c->name, $c->mailHash) . '</span>' .
+           ' <time itemprop=dateCreated datetime="' . date('c', $c->created) . '">(' .
+               date(L('dateFormat'), $c->created) . ')</time>.') .
            '</ul>' .
            h3((($attemptsNumber > 1) ? '<strong>' . $attemptsNumber . '</strong>' : '') . ' ' .
            L(($attemptsNumber > 1) ? 'people have tried' :
              (($attemptsNumber == 0) ? 'No one has tried' : 'One people has tried')) . ' ' . L('the adventure')) .
-           L('Language:') . ' ' . L($definedLanguages[$c->lang]);
+           L('Language:') .
+           ' <span itemprop=inLanguage content="' . $c->lang . '">' . L($definedLanguages[$c->lang]) . '</span>';
 
 // TODO : completed
 
@@ -47,17 +52,21 @@ if ($comments->num_rows == 0) $html .= '<em>' . L('No comment on this challenge 
 
 else {
 
-    $html .= h2(($comments->num_rows == 1) ? L('One comment') : $comments->num_rows . ' ' . L('comments'));
+    $html .= h2(($comments->num_rows == 1) ? L('One comment') : $comments->num_rows . ' ' . L('Comments')) .
+             '<ul itemprop=comment>';
 
-    while ($comment = $comments->fetch_object()) {
+    while ($comment = $comments->fetch_object())
 
-    $html .= '<li itemscope itemtype="http://schema.org/UserComments">' .
-             '<time itemprop="commentTime"  datetime="' .date('c', $comment->comdate) . '">' . date(L('dateFormat', $comment->comdate)) . '</time>' .
-             'By <span itemprop="creator">' . userLinkWithAvatar($comment->name, $comment->mailHash) . '</span>' .
-             '<p itemprop="commentText">' . $comment->comtext . '</p>' .
-             '</li>';
+        $html .= '<li itemscope itemtype="http://schema.org/Comment">' .
+                 '<p itemprop=text>' . utf8_encode($comment->comtext) . '</p>' .
+                 'By <span itemprop=author>' . userLinkWithAvatar($comment->name, $comment->mailHash) . '</span>' .
+                 ' <time itemprop=datePublished datetime="' .date('c', $comment->comdate) . '">(' .
+                     date(L('dateFormat', $comment->comdate)) . ')</time>' .
+                 '</li>';
 
-    }
+    $html .= '</ul>';
 }
+
+$html .= '</article>';
 
 sendPageToClient(utf8_encode($c->title), $html);
