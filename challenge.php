@@ -30,7 +30,7 @@ $html = '<article itemscope itemtype="http://schema.org/CreativeWork">' .
            a('"' . $c->image . '" target=_blank', '<img src="' . $c->image . '" class=i' .
            ' itemprop=image alt="' . utf8_encode($c->title) . '">') .
            '<p itemprop=description>' . utf8_encode($c->description) . '</p><ul>' .
-           li(L('Time to complete the challenge:') . ' <strong itemprop=duration content="P' . $c->timeToDo . 'D">' .
+           li(L('Time to complete the challenge:') . ' <strong itemprop=timeRequired content="P' . $c->timeToDo . 'D">' .
               $c->timeToDo . '</strong> ' . L('days')) .
            li(L('Bettors have wagered a total of ') . ' <strong>' . $c->totalSum . ' ♣</strong> ' .
            L('on this challenge')) . li(L('Challenge') . ' ' . L('issued') . ' ' .
