@@ -30,7 +30,7 @@ $publicUrls = array(array('loc' => '', 'priority' => 1),
                     array('loc' => 'new', 'priority' => .8),
                     array('loc' => 'prize', 'priority' => .5));
 
-foreach ($lastChallenges as $c) 
+foreach ($lastChallenges as $c)
 
     array_push($publicUrls, array('loc' => 'challenge?' . urlencode($c->title),
                                   'priority' => 0.3,
@@ -94,7 +94,7 @@ $atom = '<?xml version="1.0" encoding="utf-8"?>' . "\n" .
         '<id>tag:' . SERVER_NAME .',2008:challenges</id>' . "\n" .
         '<updated>' . date('c', NOW) . '</updated>';
 
-foreach ($lastChallenges as $c) 
+foreach ($lastChallenges as $c)
     $atom .= '<entry>' . "\n" .
              '<title>' . utf8_encode($c->title) . '</title>' . "\n" .
              '<link href="http://' . SERVER_NAME .'/challenge?' . urlencode($c->title) . '" />' . "\n" .
@@ -112,4 +112,3 @@ sendPageToClient(L('Administration'),
                  h1(a('admin', L('Administration'))) .
                  h2(a('admin-operations', L('Operations'))) .
                  '<ul>' . $result . '</h2>');
-

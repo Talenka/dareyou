@@ -60,3 +60,13 @@ CREATE TABLE IF NOT EXISTS `logs` (
   `url` varchar(255) DEFAULT NULL,
   KEY `date` (`date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `comments` (
+  `comid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `comauthor` smallint(5) unsigned NOT NULL,
+  `comtext` mediumtext NOT NULL,
+  `comdate` int(15) unsigned NOT NULL,
+  `comcid` int(7) unsigned NOT NULL,
+  `comrid` int(7) unsigned DEFAULT NULL,
+  PRIMARY KEY (`comid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

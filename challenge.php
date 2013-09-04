@@ -21,25 +21,43 @@ $c = $challenge->fetch_object();
 
 $attemptsNumber = selectCount('realizations', 'cid=' . (int) $c->cid);
 
-sendPageToClient(utf8_encode($c->title),
-                 h1('<a href="challenge?' . urlencode($c->title) . '">' .
-                 utf8_encode($c->title) . '</a> <strong class=g>' .
-                 $c->totalSum . ' ♣</strong> <strong class=b>' .
-                 $c->forSum . ' ▲ – ' . $c->againstSum . ' ▼</strong>') .
-                 a('"' . $c->image . '" target=_blank', '<img src="' . $c->image . '" class=i>') .
-                 '<p>' . utf8_encode($c->description) . '</p><ul>' .
-                 li(L('Time to complete the challenge:') .
-                 ' <strong>' . $c->timeToDo . '</strong> ' . L('days')) .
-                 li(L('Bettors have wagered a total of ') .
-                 ' <strong>' . $c->totalSum . ' ♣</strong> ' .
-                 L('on this challenge')) . li(L('Challenge').' '.L('issued') .
-                 ' ' . L('by') . ' ' . userLinkWithAvatar($c->name, $c->mailHash) . ' <time>(' .
-                 date(L('dateFormat'), $c->created) . ')</time>.') .
-                 '</ul>' . h3((($attemptsNumber > 1) ? '<strong>' . $attemptsNumber . '</strong>' : '') . ' ' .
-                 L(($attemptsNumber > 1) ? 'people have tried' :
-                     (($attemptsNumber == 0) ? 'No one has tried' : 'One people has tried')) . ' ' .
-                 L('the adventure')) .
-                 L('Language:') . ' ' . L($definedLanguages[$c->lang])
-                 );
+// duration : P[n]D
 
-// TODO : lang image completed
+$html = h1('<a href="challenge?' . urlencode($c->title) . '">' .
+           utf8_encode($c->title) . '</a> <strong class=g>' . $c->totalSum . ' ♣</strong>' .
+           ' <strong class=b>' . $c->forSum . ' ▲ – ' . $c->againstSum . ' ▼</strong>') .
+           a('"' . $c->image . '" target=_blank', '<img src="' . $c->image . '" class=i>') .
+           '<p>' . utf8_encode($c->description) . '</p><ul>' .
+           li(L('Time to complete the challenge:') . ' <strong>' . $c->timeToDo . '</strong> ' . L('days')) .
+           li(L('Bettors have wagered a total of ') . ' <strong>' . $c->totalSum . ' ♣</strong> ' .
+           L('on this challenge')) . li(L('Challenge') . ' ' . L('issued') . ' ' .
+           L('by') . ' ' . userLinkWithAvatar($c->name, $c->mailHash) .
+           ' <time>(' . date(L('dateFormat'), $c->created) . ')</time>.') .
+           '</ul>' .
+           h3((($attemptsNumber > 1) ? '<strong>' . $attemptsNumber . '</strong>' : '') . ' ' .
+           L(($attemptsNumber > 1) ? 'people have tried' :
+             (($attemptsNumber == 0) ? 'No one has tried' : 'One people has tried')) . ' ' . L('the adventure')) .
+           L('Language:') . ' ' . L($definedLanguages[$c->lang]);
+
+// TODO : completed
+
+$comments = select('comments c, users u', 'u.name,u.mailHash,c.comtext,comdate', 'u.id=c.comauthor', 30, 'c.comdate ASC');
+
+if ($comments->num_rows == 0) $html .= '<em>' . L('No comment on this challenge yet') . '</em>';
+
+else {
+
+    $html .= h2(($comments->num_rows == 1) ? L('One comment') : $comments->num_rows . ' ' . L('comments'));
+
+    while ($comment = $comments->fetch_object()) {
+
+    $html .= '<li itemscope itemtype="http://schema.org/UserComments">' .
+             '<time itemprop="commentTime"  datetime="' .date('c', $comment->comdate) . '">' . date(L('dateFormat', $comment->comdate)) . '</time>' .
+             'By <span itemprop="creator">' . userLinkWithAvatar($comment->name, $comment->mailHash) . '</span>' .
+             '<p itemprop="commentText">' . $comment->comtext . '</p>' .
+             '</li>';
+
+    }
+}
+
+sendPageToClient(utf8_encode($c->title), $html);
