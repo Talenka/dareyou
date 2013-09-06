@@ -653,8 +653,11 @@ function sendPageToClient($title, $html)
     header('Cache-Control: no-cache', true);
     header('Expires: ' . date('r'));
 
-    echo '<!doctype html><title>' . $title . ' - ' . SITE_TITLE . '</title>',
-         '<link rel=stylesheet href=s.css><header><nav>',
+    echo '<!doctype html>' .
+         '<html lang=' . $lang . '>'
+         '<title>' . $title . ' - ' . SITE_TITLE . '</title>',
+         '<link rel=stylesheet href=s.css>' .
+         '<header><nav>',
          (isset($client) ?
              userLinkWithAvatar($client->name, $client->mailHash) .
              karmaButton($client->name, $client->karma) .
@@ -663,7 +666,8 @@ function sendPageToClient($title, $html)
              ((PHP_FILE == '/login.php') ? '' : ' ' . a('login class=t', L('Log in')))
          ),
          '</nav>' . h1(a('.', SITE_TITLE)) . '</header>',
-         '<section>' . $html . '</section>';
+         '<section>' . $html . '</section>' .
+         '</html>';
 
     exit;
 }
