@@ -128,27 +128,22 @@ $sentences = array(
 // faq.php
 
 'My data will remain confidential?' => 'Mes données resteront-elles confidentielles ?',
-'YOURDATASTAYCONFIDENTIAL' => 'La seule donnée personnelle dont nous avons connaissance ' .
-    'est votre pseudo. Votre email n’est sauvegardé dans notre base de données ' .
-    'que sous une forme (md5) qui rend très difficile sont décodage. De ' .
-    'la même manière, votre mot de passe est en sureté grâce à un hachage ' .
-    'SHA512 bien salé.',
+'YOURDATASTAYCONFIDENTIAL' => 'La seule donnée personnelle dont nous avons connaissance est votre pseudo. Votre email' .
+    ' n’est sauvegardé dans notre base de données que sous une forme (md5) qui rend très difficile sont décodage. De ' .
+    'la même manière, votre mot de passe est en sureté grâce à un hachage SHA512 bien salé.',
 
 'Can I buy karma points?' => 'Peut-on acheter des points de karma ?',
-'NOYOUCANTBUYKARMA' => 'Non, pas pour le moment. Le karma est relativement sacré. ' .
-    'Si le site devient suffisament populaire et que la guilde des druides de ' .
-    'Cournouailles nous donne son accord, nous ouvrirons un compte Paypal, probablement...',
+'NOYOUCANTBUYKARMA' => 'Non, pas pour le moment. Le karma est relativement sacré. Si le site devient suffisament ' .
+    'populaire et que la guilde des druides de Cournouailles nous donne son accord, nous ouvrirons un compte Paypal, ' .
+    'probablement...',
 
 'How to earn karma points?' => 'Comment gagner des points de karma ?',
-'EARNKARMABYPLAYING' => 'Vous pouvez gagner des points de karma (♣) soit en réalisant des défis, ' .
-    'soit en pariant sur le fait qu’un joueur va ou non réaliser un défi. ' .
-    'Vous pouvez parier sur vous-même, bien entendu. Si vous réalisez un ' .
-    'défi, vous gagnez la moitié des sommes misées pour ou contre vous, ' .
-    'plus 10% du total des sommes misées sur ce défi. Si un joueur gagne' .
-    ' un défi, tous les parieurs qui avait misé contre lui perdent leur ' .
-    ' mise. Le montant ainsi récolté est divisé entre les parieurs qui ' .
-    'avait misé sur le joueur. Si le joueur perd le défi, c’est le ' .
-    'contraire qui se produit.',
+'EARNKARMABYPLAYING' => 'Vous pouvez gagner des points de karma (♣) soit en réalisant des défis, soit en pariant sur ' .
+    'le fait qu’un joueur va ou non réaliser un défi. Vous pouvez parier sur vous-même, bien entendu. Si vous ' .
+    'réalisez un défi, vous gagnez la moitié des sommes misées pour ou contre vous, plus 10% du total des sommes ' .
+    'misées sur ce défi. Si un joueur gagne un défi, tous les parieurs qui avait misé contre lui perdent leur  mise. ' .
+    'Le montant ainsi récolté est divisé entre les parieurs qui avait misé sur le joueur. Si le joueur perd le défi, ' .
+    'c’est le contraire qui se produit.',
 
 'Who decides that a player has won a challenge?' => 'Qui décide qu’un joueur a gagné un défi ?',
 'REFEREESDECIDE' => 'Des arbitres sont tirés au hasard parmis les meilleurs joueurs (plus vous avez un karma élevé, ' .
@@ -160,9 +155,8 @@ $sentences = array(
 'I cannot use Internet Explorer here, why?' =>
     'Pourquoi ne puis-je utiliser Internet Explorer ici ?',
 'IE is a mess' =>
-    'Internet Explorer est un navigateur mal conçu, peu respectueux des ' .
-    'standards de l’Internet et de votre vie privée. Rendez-vous service, ' .
-    '<b><a href=//www.mozilla.org>utilisez Firefox</a></b> à la place',
+    'Internet Explorer est un navigateur mal conçu, peu respectueux des standards de l’Internet et de votre vie ' .
+    'privée. Rendez-vous service, <b><a href=//www.mozilla.org>utilisez Firefox</a></b> à la place',
 
 // edit-profile.php
 
