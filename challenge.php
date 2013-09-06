@@ -34,7 +34,7 @@ $html = '<article itemscope itemtype="http://schema.org/CreativeWork">' .
               $c->timeToDo . '</strong> ' . L('days')) .
            li(L('Bettors have wagered a total of ') . ' <strong>' . $c->totalSum . ' ♣</strong> ' .
            L('on this challenge')) . li(L('Challenge') . ' ' . L('issued') . ' ' .
-           L('by') . ' <span itemprop=author>' . userLinkWithAvatar($c->name, $c->mailHash) . '</span>' .
+           L('by') . userLinkWithAvatar($c->name, $c->mailHash, ' itemprop=author') .
            ' <time itemprop=dateCreated datetime="' . date('c', $c->created) . '">(' .
                date(L('dateFormat'), $c->created) . ')</time>.') .
            '</ul>' .
@@ -42,7 +42,7 @@ $html = '<article itemscope itemtype="http://schema.org/CreativeWork">' .
            L(($attemptsNumber > 1) ? 'people have tried' :
              (($attemptsNumber == 0) ? 'No one has tried' : 'One people has tried')) . ' ' . L('the adventure')) .
            L('Language:') .
-           ' <span itemprop=inLanguage content="' . $c->lang . '">' . L($definedLanguages[$c->lang]) . '</span>';
+           ' <b itemprop=inLanguage content="' . $c->lang . '">' . L($definedLanguages[$c->lang]) . '</b>';
 
 // TODO : completed
 
@@ -59,7 +59,7 @@ else {
 
         $html .= '<li itemscope itemtype="http://schema.org/Comment">' .
                  '<p itemprop=text>' . utf8_encode($comment->comtext) . '</p>' .
-                 'By <span itemprop=author>' . userLinkWithAvatar($comment->name, $comment->mailHash) . '</span>' .
+                 L('by') . ' ' . userLinkWithAvatar($comment->name, $comment->mailHash, ' itemprop=author') .
                  ' <time itemprop=datePublished datetime="' .date('c', $comment->comdate) . '">(' .
                      date(L('dateFormat', $comment->comdate)) . ')</time>' .
                  '</li>';

@@ -577,12 +577,14 @@ function userLink($name)
 /**
  * @param string $name User canonical name.
  * @param string $hash MD5 hash of mail address.
+ * @param string $params Optionnal attributes for the [a] tag.
  * @return string Html avatar of user linked to user profile.
  */
-function userLinkWithAvatar($name, $hash)
+function userLinkWithAvatar($name, $hash, $params = '')
 {
-    return a('profile?' . $name . ' class=u ' .
-           'style="background-image:url(' . gravatarUrl($hash, 20) . ')"', ucfirst($name));
+    return a('profile?' . $name . ' class=u' . $params .
+             ' style="background-image:url(' . gravatarUrl($hash, 20) . ')"',
+             ucfirst($name));
 }
 
 /**
@@ -654,7 +656,6 @@ function sendPageToClient($title, $html)
     header('Expires: ' . date('r'));
 
     echo '<!doctype html>' .
-         '<html lang=' . $lang . '>'
          '<title>' . $title . ' - ' . SITE_TITLE . '</title>',
          '<link rel=stylesheet href=s.css>' .
          '<header><nav>',
@@ -666,8 +667,7 @@ function sendPageToClient($title, $html)
              ((PHP_FILE == '/login.php') ? '' : ' ' . a('login class=t', L('Log in')))
          ),
          '</nav>' . h1(a('.', SITE_TITLE)) . '</header>',
-         '<section>' . $html . '</section>' .
-         '</html>';
+         '<section>' . $html . '</section>';
 
     exit;
 }
