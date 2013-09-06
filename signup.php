@@ -85,6 +85,8 @@ else $html = ((sizeof($signupError) > 0) ? '<p class=w>' . implode('. ', $signup
         li(L('Your email will stay confidential, no jokes')) .
         li(L('Choose a long and unique password')) .
         li(L('We use Gravatar as your icon')) .
+        (isHttps() ? '' : li(a('https://' . SERVER_NAME . PHP_FILE,
+                               L('To protect your privacy, you should use the encrypted version of this website'))));
         '</ul>';
 
 sendPageToClient(L('Signup'), h1(L('Signup')) . $html);

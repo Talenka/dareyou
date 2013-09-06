@@ -90,6 +90,8 @@ $sentences = array(
 'Have you lost your password ?' => 'Mot de passe perdu ?',
 'Hey it seems you are already logged in' => 'Il semble que vous êtes déjà connecté',
 'Don’t you seek rather to log out?' => 'Ne cherchez-vous pas plutôt à vous déconnecter ?',
+'To protect your privacy, you should use the encrypted version of this website' =>
+    'Afin de protéger votre vie privée, vous devriez utiliser la version cryptée de ce site',
 
 // about.php
 
