@@ -1,4 +1,7 @@
 <?php
+/**
+ * Home page
+ */
 
 namespace Dareyou;
 

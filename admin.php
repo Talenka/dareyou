@@ -1,4 +1,7 @@
 <?php
+/**
+ * This page is the main menu of the administration section
+ */
 
 namespace Dareyou;
 

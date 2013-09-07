@@ -1,4 +1,7 @@
 <?php
+/**
+ * This script is the fac-simile configuration file
+ */
 
 namespace Dareyou;
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * This page shows normal and admin logs
+ */
 
 namespace Dareyou;
 

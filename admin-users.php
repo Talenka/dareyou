@@ -1,4 +1,7 @@
 <?php
+/**
+ * This page allows admins to modify users entrees in database.
+ */
 
 namespace Dareyou;
 

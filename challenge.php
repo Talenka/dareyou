@@ -1,4 +1,7 @@
 <?php
+/**
+ * This page shows details for a challenge
+ */
 
 namespace Dareyou;
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Greatest challenge
+ */
 
 namespace Dareyou;
 

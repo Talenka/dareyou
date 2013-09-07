@@ -1,4 +1,7 @@
 <?php
+/**
+ * Language file for french
+ */
 
 namespace Dareyou;
 

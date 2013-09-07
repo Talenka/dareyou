@@ -1,4 +1,7 @@
 <?php
+/**
+ * Users profile page
+ */
 
 namespace Dareyou;
 

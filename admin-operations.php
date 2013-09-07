@@ -1,4 +1,7 @@
 <?php
+/**
+ * This script (re)create useful static files
+ */
 
 namespace Dareyou;
 

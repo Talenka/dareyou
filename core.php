@@ -1,4 +1,8 @@
 <?php
+/**
+ * This script is the core of this website, and therefore must be included in
+ * all other scripts.
+ */
 
 namespace Dareyou;
 

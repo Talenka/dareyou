@@ -1,4 +1,7 @@
 <?php
+/**
+ * Danger zone : delete account
+ */
 
 namespace Dareyou;
 

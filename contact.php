@@ -1,4 +1,7 @@
 <?php
+/**
+ * This page will allow to send mail to webmaster.
+ */
 
 namespace Dareyou;
 
