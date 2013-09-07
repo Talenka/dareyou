@@ -44,6 +44,8 @@ if (!empty($search)) {
         $result .= h3(a($value['url'], utf8_encode($value['title']))) .
                    '<p>' . utf8_encode($value['summary']) . '</p>';
     }
+
+    $challengesResult->free();
 }
 
 sendPageToClient(L('Search'),

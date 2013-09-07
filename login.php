@@ -36,6 +36,8 @@ if (isFormKeyValid() &&
 
         } else $loginError = true;
     } else $loginError = true;
+
+    $user->free();
 }
 
 if (!empty($client))

@@ -13,11 +13,13 @@ $challenge = select('challenges c, users u', 'c.*,u.name,u.mailHash',
                     '" AND c.author=u.id', 1);
 
 // If there is no result, respond to user that the challenge is not found.
-if ($challenge->num_rows == 0) redirectTo(HOME, 404);
+if ($challenge->num_rows === 0) redirectTo(HOME, 404);
 // Else if there is more than one result, these is a bug (or an SQL injection).
 else if ($challenge->num_rows > 1) redirectTo(HOME, 500);
 
 $c = $challenge->fetch_object();
+
+$challenge->free();
 
 $attemptsNumber = selectCount('realizations', 'cid=' . (int) $c->cid);
 
@@ -66,6 +68,8 @@ else {
 
     $html .= '</ul>';
 }
+
+$comments->free();
 
 $html .= '</article>';
 

@@ -213,6 +213,10 @@ function deleteSessionCookie()
  */
 function hashPassword($password)
 {
+    // TODO : use blowfish to improve drastically hash robustness
+    // if (CRYPT_BLOWFISH == 1)
+    // 
+    // crypt('rasmuslerdorf', '$2y$31$wB4M88d5UcOD71FhnY3Yxs$');
     return substr(crypt($password . CRYPT_SALT, '$6$' . CRYPT_SALT . '$'), 20);
 }
 
@@ -266,7 +270,7 @@ function isFormKeyValid()
 
         $expire = base_convert($expire, 36, 10);
 
-        return ($expire > NOW && hashText($expire) == $hash);
+        return ($expire > NOW && hashText($expire) === $hash);
     }
 }
 
@@ -305,6 +309,8 @@ function identifyClient($sessionId = '')
     $user = select('users', '*', "session='" . $sessId . "'", 1);
 
     if ($user->num_rows == 1) $client = $user->fetch_object();
+
+    $user->free();
 }
 
 /**
@@ -637,6 +643,8 @@ function challengesList($reals = false, $where = '', $order = 'c.created DESC', 
                  '(' . date(L('dateFormat'), $c->$timeColumn) . ')</time>');
     }
 
+    $sql->free();
+
     return $code . '</ul>';
 }
 
@@ -689,7 +697,11 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 
     $langs = (empty($_COOKIE['lang'])) ? explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) : array($_COOKIE['lang']);
 
-    for ($i = 0, $j = sizeof($langs); $i < $j; $i++) {
+    $i = 0;
+
+    $j = sizeof($langs);
+
+    while ($i < $j) {
 
         $language = substr($langs[$i], 0, 2);
 
@@ -698,6 +710,8 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $lang = $language;
             break;
         }
+
+        ++$i;
     }
 }
 

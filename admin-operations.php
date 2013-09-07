@@ -6,15 +6,17 @@ require_once 'core.php';
 
 restrictAccessToAdministrator();
 
-$sql = select('challenges c, users u',
-              'c.cid,c.title,c.created,c.description,u.name',
-              'u.id = c.author', 30, 'c.created DESC');
-
 $lastChallenges = array();
 
 $result = '';
 
+$sql = select('challenges c, users u',
+              'c.cid,c.title,c.created,c.description,u.name',
+              'u.id = c.author', 30, 'c.created DESC');
+
 while ($c = $sql->fetch_object()) array_push($lastChallenges, $c);
+
+$sql->free();
 
 /*******************************************************************************
 *                                                                              *

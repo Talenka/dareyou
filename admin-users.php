@@ -8,9 +8,9 @@ restrictAccessToAdministrator();
 
 if (empty($_SERVER['QUERY_STRING'])) {
 
-    $usersList = select('users');
-
     $html = h2(a('admin-users', L('Users'))) . '<ul>';
+
+    $usersList = select('users');
 
     while ($u = $usersList->fetch_object()) {
 
@@ -18,6 +18,8 @@ if (empty($_SERVER['QUERY_STRING'])) {
                     ' class=u style="background-image:url(' . gravatarUrl($u->mailHash, 20) . ')"',
                     ucfirst($u->name)) . ' [' . $u->karma . ' ♣]');
     }
+
+    $usersList->free();
 
     $html .= '</ul>';
 
@@ -27,7 +29,7 @@ if (empty($_SERVER['QUERY_STRING'])) {
 
     $sql = select('users', '*', 'id = ' . $db->real_escape_string((int) $args[0]), 1);
 
-    if ($sql->num_rows == 1) {
+    if ($sql->num_rows === 1) {
 
         $userToAdmin = $sql->fetch_object();
 
