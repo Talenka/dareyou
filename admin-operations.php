@@ -137,7 +137,6 @@ if (file_put_contents($styleOutputFile,
                                   file_get_contents($styleInputFile))))
     $result .= li(a($styleOutputFile, $styleOutputFile) . ' created');;
 
-
 sendPageToClient(L('Administration'),
                  h1(a('admin', L('Administration'))) .
                  h2(a('admin-operations', L('Operations'))) .

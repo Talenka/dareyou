@@ -151,8 +151,7 @@ function redirectTo($url, $statusCode = 200)
 
     if ($statusCode == 301) {
         header('Location: ' . $url, false);
-    }
-    else echo '<!doctype html><script>window.location="' . $url . '";</script>',
+    } else echo '<!doctype html><script>window.location="' . $url . '";</script>',
               L('If nothing happen, '),
               '<a href="' . $url . '">' . L('click here to continue') . '</a>';
 
@@ -218,7 +217,7 @@ function hashPassword($password)
 {
     // TODO : use blowfish to improve drastically hash robustness
     // if (CRYPT_BLOWFISH == 1)
-    // 
+    //
     // crypt('rasmuslerdorf', '$2y$31$wB4M88d5UcOD71FhnY3Yxs$');
     return substr(crypt($password . CRYPT_SALT, '$6$' . CRYPT_SALT . '$'), 20);
 }
