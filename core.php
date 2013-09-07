@@ -149,9 +149,12 @@ function redirectTo($url, $statusCode = 200)
         header('Status: ' . $statusCodes[$statusCode], false, $statusCode);
     }
 
-    echo '<!doctype html><script>window.location="' . $url . '";</script>',
-         L('If nothing happen, '),
-         '<a href="' . $url . '">' . L('click here to continue') . '</a>';
+    if ($statusCode == 301) {
+        header('Location: ' . $url, false);
+    }
+    else echo '<!doctype html><script>window.location="' . $url . '";</script>',
+              L('If nothing happen, '),
+              '<a href="' . $url . '">' . L('click here to continue') . '</a>';
 
     exit;
 }
