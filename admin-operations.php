@@ -110,6 +110,34 @@ $atom .= '</feed>';
 
 if (file_put_contents($feedFile, $atom)) $result .= li(a($feedFile, $feedFile) . ' created');
 
+/*******************************************************************************
+*                                                                              *
+*                                (RE)CREATING S.CSS                            *
+*                                                                              *
+*******************************************************************************/
+
+/**
+ * This script returns the CSS styles properly cached and minified.
+ * CSS class name meanings :
+ * .b = button
+ * .g = green
+ * .t = turquoise
+ * .n = notice
+ * .w = warning
+ * .u = user
+ * .i = image
+ */
+
+$styleInputFile = 's.dev.css';
+$styleOutputFile = 's.css';
+
+if (file_put_contents($styleOutputFile,
+                      str_replace(array("\n", ';}', ' {', "\t", '    ', ': ', '; ', ', '),
+                                  array('',   '}',  '{',  '',   '',     ':',  ';',  ','),
+                                  file_get_contents($styleInputFile))))
+    $result .= li(a($styleOutputFile, $styleOutputFile) . ' created');;
+
+
 sendPageToClient(L('Administration'),
                  h1(a('admin', L('Administration'))) .
                  h2(a('admin-operations', L('Operations'))) .
