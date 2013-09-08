@@ -640,14 +640,13 @@ function challengesList($reals = false, $where = '', $order = 'c.created DESC', 
 
     $code = '<ul>';
 
-    while ($c = $sql->fetch_object()) {
+    while ($c = $sql->fetch_object())
 
         $code .= li('<a href="challenge?' . urlencode($c->title) . '">' .
                  utf8_encode($c->title) . '</a> ' . $verb . ' ' . L('by') .
                  ' ' . userLinkWithAvatar($c->name, $c->mailHash) .
                  ' : <b>+' . $c->$karmaColumn . ' ♣</b> <time>' .
                  '(' . date(L('dateFormat'), $c->$timeColumn) . ')</time>');
-    }
 
     $sql->free();
 
