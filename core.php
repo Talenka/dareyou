@@ -114,7 +114,8 @@ $forbiddenNames = array('login', 'null', 'true', 'false', 'anonymous', 'exit',
 *******************************************************************************/
 
 /**
- * @return boolean true if the connection uses https protocol, false otherwise.
+ * Is the connection using https protocol ?
+ * @return boolean true if https, false otherwise.
  */
 function isHttps()
 {
@@ -122,6 +123,7 @@ function isHttps()
 }
 
 /**
+ * Is a number in an interval ?
  * @param number $n
  * @param number $min
  * @param number $max
@@ -183,6 +185,7 @@ function restrictAccessToAdministrator()
 }
 
 /**
+ * Redirect to an error page
  * @param string $message Explanation message (optionnal).
  */
 function displayError($message = '')
@@ -191,7 +194,8 @@ function displayError($message = '')
 }
 
 /**
- * @return string The identification cookie.
+ * Get identification cookie
+ * @return string The ID cookie.
  */
 function getSessionCookie()
 {
@@ -199,6 +203,7 @@ function getSessionCookie()
 }
 
 /**
+ * Set identification cookie
  * @param string $sessionId Session identificator (optionnal).
  * @param int $term Cookie expiration (in seconds from now, optionnal).
  */
@@ -208,25 +213,28 @@ function sendSessionCookie($sessionId = '', $term = 3600)
               isHttps(), true);
 }
 
+/**
+ * Delete user identification cookie
+ */
 function deleteSessionCookie()
 {
     sendSessionCookie('', -3600);
 }
 
 /**
+ * Hash user's password properly before it's stored in the database
  * @param string $password
  * @return string
+ * @todo use blowfish to improve drastically hash robustness
  */
 function hashPassword($password)
 {
-    // TODO : use blowfish to improve drastically hash robustness
-    // if (CRYPT_BLOWFISH == 1)
-    //
-    // crypt('rasmuslerdorf', '$2y$31$wB4M88d5UcOD71FhnY3Yxs$');
+    // if (CRYPT_BLOWFISH == 1) crypt('rasmuslerdorf', '$2y$31$wB4M88d5UcOD71FhnY3Yxs$');
     return substr(crypt($password . CRYPT_SALT, '$6$' . CRYPT_SALT . '$'), 20);
 }
 
 /**
+ * Return md5 hash of an not-so-private text (not for passwords)
  * @param string $text
  * @return string
  */
@@ -236,6 +244,7 @@ function hashText($text)
 }
 
 /**
+ * Generates user's session identifier
  * @param int $userId
  * @return string
  */
@@ -245,6 +254,7 @@ function generateSessionId($userId)
 }
 
 /**
+ * Sanitize a little bit a user mail input
  * @param string $userMail
  * @return string
  */
@@ -254,6 +264,7 @@ function cleanUserMail($userMail)
 }
 
 /**
+ * Sanitize a little bit a user name input
  * @param string $userName
  * @return string
  */
@@ -281,6 +292,7 @@ function isFormKeyValid()
 }
 
 /**
+ * Is the current user the website admin ?
  * @param Object $user
  * @return boolean True if $user is the admin, false otherwise.
  */
@@ -302,6 +314,7 @@ function L($text)
 }
 
 /**
+ * Try to associates the session ID to an logged user.
  * @param string $sessionId
  */
 function identifyClient($sessionId = '')
@@ -320,6 +333,7 @@ function identifyClient($sessionId = '')
 }
 
 /**
+ * Execute a SQL selection query
  * @param string $table SQL table name.
  * @param string $cols List of columns to return (all by default).
  * @param string $where Conditionnal filter.
@@ -346,6 +360,7 @@ function select($table, $cols = '*', $where = '', $limit = '', $order = '')
 }
 
 /**
+ * Execute a SQL count query
  * Count items from an SQL table with optionnal filter
  * @param string $table SQL Table name.
  * @param string $where Optionnal conditionnal filter.
@@ -410,8 +425,9 @@ function logActivity($text, $url = '', $public = false)
 *******************************************************************************/
 
 /**
+ * Return a HTML header [h1] tag
  * @param string $html
- * @return string HTML header [h1] tag
+ * @return string
  */
 function h1($html)
 {
@@ -419,8 +435,9 @@ function h1($html)
 }
 
 /**
+ * Return a HTML header [h2] tag
  * @param string $html
- * @return string HTML header [h2] tag
+ * @return string
  */
 function h2($html)
 {
@@ -428,8 +445,9 @@ function h2($html)
 }
 
 /**
+ * Return a HTML header [h3] tag
  * @param string $html
- * @return string HTML header [h3] tag
+ * @return string
  */
 function h3($html)
 {
@@ -437,8 +455,9 @@ function h3($html)
 }
 
 /**
+ * Return a HTML list [li] tag
  * @param string $html
- * @return string HTML list item [li] tag
+ * @return string
  */
 function li($html)
 {
@@ -446,9 +465,10 @@ function li($html)
 }
 
 /**
+ * Return a HTML link [a] tag
  * @param string $href
  * @param string $title
- * @return string HTML link [a] tag
+ * @return string
  */
 function a($href, $title)
 {
@@ -456,6 +476,7 @@ function a($href, $title)
 }
 
 /**
+ * Return a HTML [input] field for a user name
  * @param boolean $autofocus
  * @param string $value
  * @return string Html code for the user's name field
@@ -471,6 +492,7 @@ function usernameField($autofocus = false, $value = '')
 }
 
 /**
+ * Return a HTML [input] field for a user mail
  * @param boolean $autofocus
  * @param string $value
  * @return string Html code for the user's email address field
@@ -485,6 +507,7 @@ function usermailField($autofocus = false, $value = '')
 }
 
 /**
+ * Return a HTML [input] field for a user password
  * @return Html code for the user's password field
  */
 function userpasswordField()
@@ -493,6 +516,7 @@ function userpasswordField()
 }
 
 /**
+ * Return a HTML [input] button to submit a form
  * @param string $title
  * @param string $params [input] tag attributes (optionnal)
  * @return string Html code for a submit button
@@ -529,6 +553,7 @@ function generateFormKey($term = 600)
 }
 
 /**
+ * Gravatar url
  * @param string $hash md5 hash of a mail adress (32 chars long).
  * @param integer $size Avatar width & height (in pixels).
  * @return string Gravatar URL.
@@ -539,6 +564,7 @@ function gravatarUrl($hash, $size = 20)
 }
 
 /**
+ * User gravatar linked to his profile
  * @param string $name User canonical name.
  * @param string $hash MD5 hash of mail address.
  * @return string HTML image of a user avatar linked to user profile.
@@ -550,6 +576,7 @@ function getAvatar($name, $hash)
 }
 
 /**
+ * Gravatar public profile url
  * @param string $hash MD5 hash of mail address.
  * @return Gravatar profile URL.
  */
@@ -559,6 +586,7 @@ function gravatarProfile($hash)
 }
 
 /**
+ * Link to the gravatar public profile.
  * @param string $hash MD5 hash of mail address.
  * @return Gravatar profile link.
  */
@@ -568,6 +596,7 @@ function gravatarProfileLink($hash)
 }
 
 /**
+ * HTML code for the karma counter of a user
  * @param string $name User canonical name.
  * @param integer $karma User karma quantity.
  * @return string Html link to user profile with user karma as title.
@@ -578,6 +607,7 @@ function karmaButton($name, $karma)
 }
 
 /**
+ * Link to a user profile
  * @param string $name User canonical name.
  * @return string Html link to user profile.
  */
@@ -587,6 +617,7 @@ function userLink($name)
 }
 
 /**
+ * Link to a user profile with a small gravatar
  * @param string $name User canonical name.
  * @param string $hash MD5 hash of mail address.
  * @param string $params Optionnal attributes for the [a] tag.
@@ -600,6 +631,7 @@ function userLinkWithAvatar($name, $hash, $params = '')
 }
 
 /**
+ * HTML code for language selection (for example in the homepage)
  * @return string Html code for language selection.
  */
 function languageSelector()
@@ -608,10 +640,8 @@ function languageSelector()
 
     $langs = array();
 
-    foreach ($definedLanguages as $lg => $language) {
+    foreach ($definedLanguages as $lg => $language)
         if ($lg != $lang) $langs[] = a('language?' . $lg . ' title=' . L($language), $language);
-    }
-
     return L('In other languages') . ' : ' . implode(', ', $langs);
 }
 
@@ -696,7 +726,6 @@ if ($_SERVER['SERVER_NAME'] != SERVER_NAME)
     redirectTo('http://' . SERVER_NAME .
                ((PHP_FILE == '/index.php') ? '/' : PHP_FILE) .
                (empty($_SERVER['QUERY_STRING']) ? '' : '?' . $_SERVER['QUERY_STRING']), 301);
-
 
 if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 
