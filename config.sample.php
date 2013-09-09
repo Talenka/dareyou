@@ -1,6 +1,8 @@
 <?php
 /**
  * This script is the fac-simile configuration file
+ *
+ * @todo if php_version > 5.3, use const instead of define() for performance.
  */
 
 namespace Dareyou;

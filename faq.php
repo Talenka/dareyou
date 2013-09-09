@@ -1,6 +1,8 @@
 <?php
 /**
  * This page give specific informations about this website.
+ *
+ * @todo add link to contact page
  */
 
 namespace Dareyou;

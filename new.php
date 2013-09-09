@@ -1,4 +1,7 @@
 <?php
+/**
+ * List of newest challenges
+ */
 
 namespace Dareyou;
 

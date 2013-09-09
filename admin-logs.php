@@ -1,6 +1,8 @@
 <?php
 /**
  * This page shows normal and admin logs
+ *
+ * @todo add logs purge
  */
 
 namespace Dareyou;

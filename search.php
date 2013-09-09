@@ -1,4 +1,9 @@
 <?php
+/**
+ * Search tool
+ *
+ * @todo search also for users, realizations, comments, and basic pages
+ */
 
 namespace Dareyou;
 

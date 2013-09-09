@@ -1,4 +1,7 @@
 <?php
+/**
+ * Lastest validated challenge completions
+ */
 
 namespace Dareyou;
 

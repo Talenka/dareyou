@@ -1,4 +1,7 @@
 <?php
+/**
+ * Sign up form
+ */
 
 namespace Dareyou;
 

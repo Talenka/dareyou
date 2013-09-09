@@ -1,4 +1,9 @@
 <?php
+/**
+ * Display last prizes won by users, with prize details
+ *
+ * @todo implement it
+ */
 
 namespace Dareyou;
 

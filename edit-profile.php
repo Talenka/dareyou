@@ -1,4 +1,9 @@
 <?php
+/**
+ * User profile editor
+ *
+ * @todo Check for too common password or forbidden user name
+ */
 
 namespace Dareyou;
 
@@ -6,9 +11,9 @@ require_once 'core.php';
 
 restrictAccessToLoggedInUser();
 
-        // if (in_array(strtolower($_POST['password']), $commonPasswords)) {
-        //     $signupError[] = L('This password is too common, please choose another');
-        // }
+// if (in_array(strtolower($_POST['password']), $commonPasswords)) {
+//     $signupError[] = L('This password is too common, please choose another');
+// }
 
 sendPageToClient(L('Edit my profile'),
     h1(L('Edit my profile')) .

@@ -1,6 +1,8 @@
 <?php
 /**
  * This script change the interface language and then returns to homepage.
+ *
+ * @todo store value in database for logged user ?
  */
 
 namespace Dareyou;

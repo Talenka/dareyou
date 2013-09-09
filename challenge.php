@@ -1,6 +1,12 @@
 <?php
 /**
  * This page shows details for a challenge
+ *
+ * @todo add comments
+ * @todo add completion form (with proof sending)
+ * @todo add refering status
+ * @todo optimize layout
+ * @todo add bets
  */
 
 namespace Dareyou;
@@ -48,8 +54,6 @@ $html = '<article itemscope itemtype="http://schema.org/CreativeWork">' .
              (($attemptsNumber == 0) ? 'No one has tried' : 'One people has tried')) . ' ' . L('the adventure')) .
            L('Language:') .
            ' <b itemprop=inLanguage content="' . $c->lang . '">' . L($definedLanguages[$c->lang]) . '</b>';
-
-// TODO : completed
 
 $comments = select('comments c, users u', 'u.name,u.mailHash,c.comtext,comdate', 'u.id=c.comauthor', 30, 'c.comdate ASC');
 

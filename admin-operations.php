@@ -76,6 +76,8 @@ $robots = 'User-agent: *';
 
 foreach ($privateUrls as $url) $robots .= "\nDisallow: " . $url;
 
+$robots .= "\nSitemap: /sitemap.xml";
+
 if (file_put_contents('robots.txt', $robots))
     $result .= li(a('robots.txt', 'robots.txt') . ' created');
 

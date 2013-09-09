@@ -1,6 +1,8 @@
 <?php
 /**
  * This page is the main menu of the administration section
+ *
+ * @todo make admin-challenges.php
  */
 
 namespace Dareyou;

@@ -1,6 +1,8 @@
 <?php
 /**
  * This page displays an error message that comes with a link to homepage.
+ *
+ * @todo add link to contact page
  */
 
 namespace Dareyou;

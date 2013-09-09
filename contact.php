@@ -1,6 +1,9 @@
 <?php
 /**
  * This page will allow to send mail to webmaster.
+ *
+ * @todo add contact
+ * @todo add link to github project issues ?
  */
 
 namespace Dareyou;

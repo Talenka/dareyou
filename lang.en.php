@@ -1,4 +1,10 @@
 <?php
+/**
+ * Language file for english
+ *
+ * As this is the default language, only special phrases are listed here,
+ * because others phrases do not need to be translated.
+ */
 
 namespace Dareyou;
 

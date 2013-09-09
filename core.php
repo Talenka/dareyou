@@ -2,6 +2,11 @@
 /**
  * This script is the core of this website, and therefore must be included in
  * all other scripts.
+ *
+ * See README.md for overall presentation of the project.
+ *
+ * @author Boudah Talenka <boudah.talenka@gmail.com>
+ * @license GNU General Public License
  */
 
 namespace Dareyou;
@@ -175,7 +180,8 @@ function restrictAccessToLoggedInUser()
 }
 
 /**
- * If user is not logged in or if he is not administrator, then we redirect him to homepage.
+ * If user is not logged in or if he is not administrator,
+ * then we redirect him to homepage.
  */
 function restrictAccessToAdministrator()
 {
@@ -234,13 +240,18 @@ function hashPassword($password)
 }
 
 /**
- * Return md5 hash of an not-so-private text (not for passwords)
+ * Return ephemeral md5 hash of a text.
+ *
+ * Ephemeral means here that the hash expires when the current user IP or
+ * browser changes.
+ *
  * @param string $text
  * @return string
  */
 function hashText($text)
 {
-    return base_convert(md5($text . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . CRYPT_SALT), 16, 36);
+    return base_convert(md5($text . $_SERVER['REMOTE_ADDR'] .
+                            $_SERVER['HTTP_USER_AGENT'] . CRYPT_SALT), 16, 36);
 }
 
 /**
@@ -382,13 +393,24 @@ function sendEmail($to, $title = '', $message = '')
 {
     if (empty($to)) return false;
     else {
+
         $title .= ' [' . SITE_TITLE . ']';
-        $mailHeaders = 'From: webmaster@' . $_SERVER["SERVER_NAME"] . "\r\n" . 'Content-type: text/html; charset=UTF-8';
-        $message = '<!doctype html><html><head><title>' . $title . '</title></head><body>' .
-                   '<p style="display:block;margin:0 auto;padding:10% 10px;max-width:600px;height:100%;min-height:600px' .
-                       'background:#eee;color:#000;text-align:justify">' . $message . '<br><hr>' .
-                       '<small>You are receiving this email because you have registered on our website. You can at ' .
-                       'any time delete your account by logging in and modify your profile.</small></p></body></html>';
+
+        $mailHeaders = 'From: webmaster@' . $_SERVER["SERVER_NAME"] . "\r\n" .
+                       'Content-type: text/html; charset=UTF-8';
+
+        $message = '<!doctype html><html>' .
+                   '<head><title>' . $title . '</title></head>' .
+                   '<body>' .
+                   '<p style="display:block;margin:0 auto;padding:10% 10px;' .
+                       'max-width:600px;height:100%;min-height:600px;' .
+                       'background:#eee;color:#000;text-align:justify">' .
+                       $message . '<br><hr>' .
+                       '<small>You are receiving this email because you have ' .
+                       'registered on our website. You can at any time delete ' .
+                       'your account by logging in and modify your profile.' .
+                       '</small></p>' .
+                   '</body></html>';
 
         if(mail($to, $title, $message, $mailHeaders)) return true;
         else {
@@ -528,16 +550,20 @@ function submitButton($title, $params = '')
 
 /**
  * Wraps the html code into a form
+ *
+ * If no url is specified, we assume the target is the current script
+ * Example : PHP_FILE = '/lost-password.php', so $url = 'lost-password'
+ *
  * @param string $url Form destination URL.
  * @param string $html inner html.
  * @return string HTML [form] code.
  */
 function form($html, $url = '')
 {
-    // If no url is specified, we assume the target is the current script
-    // Example : PHP_FILE = '/lost-password.php', so $url = 'lost-password'
     if (empty($url)) $url = substr(PHP_FILE, 1, -4);
-    return '<form action=' . $url .' method=post>' . $html . generateFormKey() . '</form>';
+    return '<form action=' . $url .' method=post>' .
+               $html . generateFormKey() .
+           '</form>';
 }
 
 /**
@@ -653,7 +679,10 @@ function languageSelector()
  * @param integer $number Challenges number
  * @return string HTML challenges list.
  */
-function challengesList($reals = false, $where = '', $order = 'c.created DESC', $number = 5)
+function challengesList($reals = false,
+                        $where = '',
+                        $order = 'c.created DESC',
+                        $number = 5)
 {
     global $db;
 
@@ -729,7 +758,8 @@ if ($_SERVER['SERVER_NAME'] != SERVER_NAME)
 
 if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 
-    $langs = (empty($_COOKIE['lang'])) ? explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) : array($_COOKIE['lang']);
+    $langs = (empty($_COOKIE['lang'])) ? explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) :
+                                         array($_COOKIE['lang']);
 
     $i = 0;
 

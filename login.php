@@ -1,4 +1,7 @@
 <?php
+/**
+ * User logging in
+ */
 
 namespace Dareyou;
 

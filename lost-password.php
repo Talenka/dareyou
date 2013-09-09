@@ -1,4 +1,7 @@
 <?php
+/**
+ * Tool for reinitialize user password
+ */
 
 namespace Dareyou;
 

@@ -1,6 +1,8 @@
 <?php
 /**
  * This page allows admins to modify users entrees in database.
+ *
+ * @todo implement edition
  */
 
 namespace Dareyou;
@@ -36,11 +38,14 @@ if (empty($_SERVER['QUERY_STRING'])) {
 
         $userToAdmin = $sql->fetch_object();
 
-        $html = h2(a('admin-users', L('Users')) . ' #' . $userToAdmin->id . ' (' . $userToAdmin->name . ')');
+        $html = h2(a('admin-users', L('Users')) .
+                   ' #' . $userToAdmin->id . ' (' . $userToAdmin->name . ')');
 
         $html .= form(usernameField(false, $userToAdmin->name) .
                       usermailField(false, '') .
-                      '<small>(Leave blank the field above to keep the current mail)</small><br>' .
+                      '<small>(' .
+                      L('Leave blank the field above to keep the current mail') .
+                      '</small><br>' .
                       submitButton(L('Modify user'), ' class="b w"'),
                       'admin-users?' . $userToAdmin->id) .
                  h3(L('User informations')) .
