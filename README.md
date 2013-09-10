@@ -20,6 +20,7 @@ challenge.
 1. Open [`config.sample.php`](https://github.com/Talenka/dareyou/blob/master/config.sample.php)
 2. Modify it according to your MySql server, then rename it as `config.php`.
 3. Load [`install.sql`](https://github.com/Talenka/dareyou/blob/master/install.sql) in your database.
+4. Make sure you have write access to cache directory.
 
 ### Under the hood
 

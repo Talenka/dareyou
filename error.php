@@ -2,7 +2,7 @@
 /**
  * This page displays an error message that comes with a link to homepage.
  *
- * @todo add link to contact page
+ * @todo log activity ?
  */
 
 namespace Dareyou;
@@ -11,9 +11,11 @@ require_once 'core.php';
 
 header('Status: 500 Internal Server Error', false, 500);
 
-sendPageToClient(L('ERRMSG'), h1(L('ERRMSG')) .
+sendPageToClient(L('ERRMSG'), a(HOME, h1(L('ERRMSG'))) .
         '<tt>' . urldecode($_SERVER['QUERY_STRING']) . '</tt>' .
         '<p>' . L('Try to go back to') .
         ' <a href=# onClick="history.go(-1)">' . L('the previous page') .
-        '</a> ' . L('or return to') . ' <a href=.>' . L('the homepage') .
-        '</a>.</p>');
+        '</a> ' . L('or return to') . ' ' .
+        a(HOME . ' class="b g"', L('the homepage')) . '</p>' .
+        '<p>' . L('If the problem persists, do not hesitate') . ' ' .
+        a('contact', L('to contact us')) . '.');

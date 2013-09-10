@@ -2,7 +2,7 @@
 /**
  * Display last prizes won by users, with prize details
  *
- * @todo implement it
+ * @todo implement it then cache results for an hour
  */
 
 namespace Dareyou;

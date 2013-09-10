@@ -7,6 +7,11 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-sendPageToClient(L('Last completed challenges'),
-    h1(a('victory', L('Last completed challenges'))) .
-    challengesList(true, 'r.status="accepted"', 'r.end DESC', 30));
+$body = getFromCache('data', ONE_HOUR);
+
+if ($body === false)
+    $body = cache('body',
+            h1(a('victory', L('Last completed challenges'))) .
+            challengesList(true, 'r.status="accepted"', 'r.end DESC', 30));
+
+sendPageToClient(L('Last completed challenges'), $body);

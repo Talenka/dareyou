@@ -7,6 +7,17 @@ namespace Dareyou;
 
 require_once 'core.php';
 
+$news = getFromCache('news', 30);
+
+if ($news === false)
+    $news = cache('news',
+                  h2(a('victory', L('Last completed challenges'))) .
+                  challengesList(true, 'r.status="accepted"', 'r.end DESC') .
+                  h2(a('new', L('New challenges'))) .
+                  challengesList() .
+                  h2(a('top', L('Greatest challenges'))) .
+                  challengesList(false, '', 'c.totalSum DESC'));
+
 sendPageToClient(L('What are you gonna do awesome today?'),
         '<nav>' .
         (isset($client) ?
@@ -17,10 +28,5 @@ sendPageToClient(L('What are you gonna do awesome today?'),
         '</nav>' .
         h1(L('What are you gonna do awesome today?')) .
         (isset($notice) ? '<div class=n>' . $notice . '</div>' : '') .
-        h2(a('victory', L('Last completed challenges'))) .
-        challengesList(true, 'r.status="accepted"', 'r.end DESC') .
-        h2(a('new', L('New challenges'))) .
-        challengesList() .
-        h2(a('top', L('Greatest challenges'))) .
-        challengesList(false, '', 'c.totalSum DESC') .
+        $news .
         languageSelector());

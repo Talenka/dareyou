@@ -7,10 +7,11 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$html = (microtime(true) - $t)/$de;
+$body = getFromCache('data', ONE_HOUR);
 
-phpinfo();
+if ($body === false)
+    $body = cache('body',
+            h1(a('top', L('Greatest challenges'))) .
+            challengesList(false, '', 'c.totalSum DESC', 30));
 
-sendPageToClient(L('Greatest challenges'),
-    h1(a('top', L('Greatest challenges'))) .
-    challengesList(false, '', 'c.totalSum DESC', 30));
+sendPageToClient(L('Greatest challenges'), $body);

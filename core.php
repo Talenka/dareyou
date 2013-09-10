@@ -19,7 +19,10 @@ require_once 'config.php';
 
 define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
 define('NOW', time());
-define('HOME', '/');
+
+const HOME     = '/';
+const ONE_HOUR =  3600;
+const ONE_DAY  = 86400;
 
 /**
  * Available languages (keys: 2-letters code, values: vernacular name)
@@ -211,7 +214,7 @@ function getSessionCookie()
  * @param string $sessionId Session identificator (optionnal).
  * @param int $term Cookie expiration (in seconds from now, optionnal).
  */
-function sendSessionCookie($sessionId = '', $term = 3600)
+function sendSessionCookie($sessionId = '', $term = ONE_HOUR)
 {
     setcookie('u', $sessionId, NOW + $term, '/', $_SERVER['SERVER_NAME'],
               isHttps(), true);
@@ -222,7 +225,7 @@ function sendSessionCookie($sessionId = '', $term = 3600)
  */
 function deleteSessionCookie()
 {
-    sendSessionCookie('', -3600);
+    sendSessionCookie('', -1 * ONE_DAY);
 }
 
 /**
@@ -499,6 +502,7 @@ function a($href, $title)
  * Return a HTML [input] field for a user name
  * @param boolean $autofocus
  * @param string $value
+ * @todo UTF8 validation ?
  * @return string Html code for the user's name field
  */
 function usernameField($autofocus = false, $value = '')
@@ -515,6 +519,7 @@ function usernameField($autofocus = false, $value = '')
  * Return a HTML [input] field for a user mail
  * @param boolean $autofocus
  * @param string $value
+ * @todo UTF8 validation ?
  * @return string Html code for the user's email address field
  */
 function usermailField($autofocus = false, $value = '')
@@ -711,7 +716,7 @@ function challengesList($reals = false,
 }
 
 /**
- * Responds to the user request with an HTML page.
+ * Responds to the user request with a HTML page.
  * @param string $title Page title (in the header [title] tag).
  * @param string $html Html code of the page [body] tag.
  */
@@ -740,6 +745,50 @@ function sendPageToClient($title, $html)
          '<section>' . $html . '</section>';
 
     exit;
+}
+
+/*******************************************************************************
+*                                                                              *
+*                               HTML CODE CACHING                              *
+*                                                                              *
+*******************************************************************************/
+
+/**
+ * Returns the cache file path
+ * @param string $id Content identifier
+ * @return string
+ */
+function cacheFilePath($id)
+{
+    global $lang;
+
+    return 'cache' . PHP_FILE . '_' . $lang . '_' . $id . '.htm';
+}
+
+/**
+ * Caches content in a static file (in the /cache/ directory)
+ * @param string $id Content identifier
+ * @param string $content Something to cache
+ * @return string The content
+ */
+function cache($id, $content = '')
+{
+    file_put_contents(cacheFilePath($id), $content);
+
+    return $content; 
+}
+
+/**
+ * Retrieves content from
+ * @param string $id Content identifier
+ * @param integer $term content expiration (in seconds)
+ * @return string|false The cached content (or false if there is no cache)
+ */
+function getFromCache($id, $term = 300)
+{
+    $cFile = cacheFilePath($id);
+
+    return (!file_exists($cFile) || filemtime($cFile) < NOW - $term) ? false : file_get_contents($cFile);
 }
 
 /*******************************************************************************

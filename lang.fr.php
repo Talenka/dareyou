@@ -63,6 +63,8 @@ $sentences = array(
 'the previous page' => 'la page précédente',
 'or return to' => 'ou retournez à',
 'the homepage' => 'la page d’accueil',
+'If the problem persists, do not hesitate' => 'Si le problème persiste, n’hésitez pas à',
+'to contact us' => 'nous contacter',
 
 // signup.php
 
@@ -132,6 +134,7 @@ $sentences = array(
 
 // faq.php
 
+'Contact us' => 'Contactez-nous',
 'My data will remain confidential?' => 'Mes données resteront-elles confidentielles ?',
 'YOURDATASTAYCONFIDENTIAL' => 'La seule donnée personnelle dont nous avons connaissance est votre pseudo. Votre email' .
     ' n’est sauvegardé dans notre base de données que sous une forme (md5) qui rend très difficile sont décodage. De ' .

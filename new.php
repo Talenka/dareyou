@@ -7,5 +7,11 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-sendPageToClient(L('New challenges'), h1(a('new', L('New challenges'))) .
-    challengesList(false, '', 'c.created DESC', 30));
+$body = getFromCache('data', ONE_HOUR);
+
+if ($body === false)
+    $body = cache('body',
+            h1(a('new', L('New challenges'))) .
+            challengesList(false, '', 'c.created DESC', 30));
+
+sendPageToClient(L('New challenges'), $body);
