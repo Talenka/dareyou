@@ -17,13 +17,18 @@ challenge.
 ### Installation
 
 0. Works with PHP 5.3 and MySql 5.1
-1. Open `[config.sample.php](https://github.com/Talenka/dareyou/blob/master/config.sample.php)`
+1. Open [`config.sample.php`](https://github.com/Talenka/dareyou/blob/master/config.sample.php)
 2. Modify it according to your MySql server, then rename it as `config.php`.
-3. Load `[install.sql](https://github.com/Talenka/dareyou/blob/master/install.sql)` in your database.
+3. Load [`install.sql`](https://github.com/Talenka/dareyou/blob/master/install.sql) in your database.
 
 ### Under the hood
 
 The code is [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself),
 [PSR](https://github.com/php-fig/fig-standards/) compliant,
-concisely [phpDoc](http://www.phpdoc.org/)umented, but uses no class at all.
+concisely [documented](http://dareyou.be/doc/), but uses no class at all.
 HTML and CSS are lovingly minified down to the last bit. No javascript needed!
+
+Unlike most PHP projects, there is no one entry point. Instead, each file 
+include the `core.php`. Each website page have its own file. All files are in 
+the root folder. Why this ? Just for fun, and to see if it is a choice as bad 
+as as people say ;-)
