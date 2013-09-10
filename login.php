@@ -52,8 +52,9 @@ else $html = form(usermailField(true) .
                   submitButton(L('Log in'), 'class=t')) .
              h2('&nbsp;') .
              a('lost-password', L('Have you lost your password ?')) .
-             (isHttps() ? '' : '<br>' . a('https://' . SERVER_NAME . PHP_FILE,
-                                    L('To protect your privacy, you should use the encrypted version of this website')));
+             (isHttps() ? '' :
+              '<br>' . a('https://' . SERVER_NAME . PHP_FILE,
+                         L('To protect your privacy, you should use the encrypted version of this website')));
 
 if ($loginError) $html = '<div class=w>' . L('Email or password is incorrect, please retry') . '</div>' . $html;
 
