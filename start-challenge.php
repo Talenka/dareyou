@@ -1,4 +1,7 @@
 <?php
+/**
+ * Creates a new challenge
+ */
 
 namespace Dareyou;
 

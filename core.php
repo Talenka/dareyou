@@ -2,11 +2,6 @@
 /**
  * This script is the core of this website, and therefore must be included in
  * all other scripts.
- *
- * See README.md for overall presentation of the project.
- *
- * @author Boudah Talenka <boudah.talenka@gmail.com>
- * @license GNU General Public License
  */
 
 namespace Dareyou;
