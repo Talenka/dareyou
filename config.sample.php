@@ -2,6 +2,9 @@
 /**
  * This script is the fac-simile configuration file
  *
+ * To start, you have to edit this file according to your configuration, then
+ * rename it as config.php, and it's done.
+ *
  * @todo if php_version > 5.3, use const instead of define() for performance.
  */
 

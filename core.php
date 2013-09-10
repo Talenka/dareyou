@@ -6,6 +6,9 @@
 
 namespace Dareyou;
 
+if (!file_exists('config.php'))
+    die('Error: there is no config.php file, try to edit config.sample.php');
+
 require_once 'config.php';
 
 /*******************************************************************************
