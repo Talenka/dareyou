@@ -13,6 +13,9 @@ const SITEMAP_FILE = 'sitemap.xml';
 /** @var string path of sitemap */
 const ROBOT_FILE = 'robot.txt';
 
+/** @var string path of atom feed of new challenges */
+const FEED_FILE = 'challenges.atom';
+
 restrictAccessToAdministrator();
 
 $lastChallenges = array();
@@ -33,7 +36,7 @@ $sql->free();
 *                                                                              *
 *******************************************************************************/
 
-if (!file_exists(SITEMAP_FILE) || filemtime(SITEMAP_FILE) > NOW - ONE_DAY) {
+if (!file_exists(SITEMAP_FILE) || filemtime(SITEMAP_FILE) < NOW - ONE_DAY) {
 
     $publicUrls = array(array('loc' => '', 'priority' => 1),
                         array('loc' => 'about', 'priority' => .3),
@@ -77,7 +80,7 @@ if (!file_exists(SITEMAP_FILE) || filemtime(SITEMAP_FILE) > NOW - ONE_DAY) {
 *                                                                              *
 *******************************************************************************/
 
-if (!file_exists(ROBOT_FILE) || filemtime(ROBOT_FILE) > NOW - ONE_WEEK) {
+if (!file_exists(ROBOT_FILE) || filemtime(ROBOT_FILE) < NOW - ONE_WEEK) {
     $privateUrls = array('/language',
                          '/signup',
                          '/login',
@@ -100,33 +103,38 @@ if (!file_exists(ROBOT_FILE) || filemtime(ROBOT_FILE) > NOW - ONE_WEEK) {
 *                                                                              *
 *******************************************************************************/
 
-$feedFile = 'challenges.atom';
+if (!file_exists(FEED_FILE) || filemtime(FEED_FILE) < NOW - ONE_DAY) {
 
-$feedId = md5(SERVER_NAME);
-$feedId = substr($feedId, 0, 8) . '-' . substr($feedId, 8, 4) . '-' . substr($feedId, 12, 4) . '-';
+    $feedId = md5(SERVER_NAME);
+    $feedId = substr($feedId, 0, 8) . '-' .
+              substr($feedId, 8, 4) . '-' .
+              substr($feedId, 12, 4) . '-';
 
-$atom = '<?xml version="1.0" encoding="utf-8"?>' . "\n" .
-        '<feed xmlns="http://www.w3.org/2005/Atom">' . "\n" .
-        '<title>' . SITE_TITLE . '</title>' . "\n" .
-        '<subtitle type="html"><![CDATA[' . L('How it works ...') . ']]></subtitle>' . "\n" .
-        '<link href="http://' . SERVER_NAME .'/" />' . "\n" .
-        '<link href="http://' . SERVER_NAME .'/' . $feedFile . '" rel="self" type="application/atom+xml" />' . "\n" .
-        '<id>tag:' . SERVER_NAME .',2008:challenges</id>' . "\n" .
-        '<updated>' . date('c', NOW) . '</updated>';
+    $atom = '<?xml version="1.0" encoding="utf-8"?>' . "\n" .
+            '<feed xmlns="http://www.w3.org/2005/Atom">' . "\n" .
+            '<title>' . SITE_TITLE . '</title>' . "\n" .
+            '<subtitle type="html"><![CDATA[' . L('How it works ...') . ']]></subtitle>' . "\n" .
+            '<link href="http://' . SERVER_NAME .'/" />' . "\n" .
+            '<link href="http://' . SERVER_NAME .'/' . FEED_FILE . '" rel="self" type="application/atom+xml" />' . "\n" .
+            '<id>tag:' . SERVER_NAME .',2008:challenges</id>' . "\n" .
+            '<updated>' . date('c', NOW) . '</updated>';
 
-foreach ($lastChallenges as $c)
-    $atom .= '<entry>' . "\n" .
-             '<title>' . utf8_encode($c->title) . '</title>' . "\n" .
-             '<link href="http://' . SERVER_NAME .'/challenge?' . urlencode($c->title) . '" />' . "\n" .
-             '<id>tag:' . SERVER_NAME .',2008:challenge/' . $c->cid . '</id>' . "\n" .
-             '<updated>' . date('c', $c->created) . '</updated>' . "\n" .
-             '<summary type="html"><![CDATA[' . utf8_encode($c->description) . ']]></summary>' . "\n" .
-             '<author><name>' . $c->name . '</name></author>' . "\n" .
-             '</entry>';
+    foreach ($lastChallenges as $c)
+        $atom .= '<entry>' . "\n" .
+                 '<title>' . utf8_encode($c->title) . '</title>' . "\n" .
+                 '<link href="http://' . SERVER_NAME .'/challenge?' . urlencode($c->title) . '" />' . "\n" .
+                 '<id>tag:' . SERVER_NAME .',2008:challenge/' . $c->cid . '</id>' . "\n" .
+                 '<updated>' . date('c', $c->created) . '</updated>' . "\n" .
+                 '<summary type="html"><![CDATA[' . utf8_encode($c->description) . ']]></summary>' . "\n" .
+                 '<author><name>' . $c->name . '</name></author>' . "\n" .
+                 '</entry>';
 
-$atom .= '</feed>';
+    $atom .= '</feed>';
 
-if (file_put_contents($feedFile, $atom)) $result .= li(a($feedFile, $feedFile) . ' created');
+    $result .= li(a(FEED_FILE, FEED_FILE) .
+                  (file_put_contents(FEED_FILE, $atom) ? '' : ' not') . ' created');
+
+} else $result .= li(a(FEED_FILE, FEED_FILE) . ' was already up to date');
 
 /*******************************************************************************
 *                                                                              *
@@ -146,14 +154,20 @@ if (file_put_contents($feedFile, $atom)) $result .= li(a($feedFile, $feedFile) .
  * .i = image
  */
 
-$styleInputFile = 's.dev.css';
+$styleInputFile  = 's.dev.css';
 $styleOutputFile = 's.css';
 
-if (file_put_contents($styleOutputFile,
-                      str_replace(array("\n", ';}', ' {', "\t", '    ', ': ', '; ', ', '),
-                                  array('',   '}',  '{',  '',   '',     ':',  ';',  ','),
-                                  file_get_contents($styleInputFile))))
-    $result .= li(a($styleOutputFile, $styleOutputFile) . ' created');;
+if (!file_exists($styleOutputFile) ||
+    filemtime($styleOutputFile) < filemtime($styleInputFile)) {
+
+    if (file_put_contents($styleOutputFile,
+                          str_replace(array("\n", ';}', ' {', "\t", '    ', ': ', '; ', ', '),
+                                      array('',   '}',  '{',  '',   '',     ':',  ';',  ','),
+                                      file_get_contents($styleInputFile))))
+
+        $result .= li(a($styleOutputFile, $styleOutputFile) . ' created');
+
+} else $result .= li(a($styleOutputFile, $styleOutputFile) . ' was already up to date');
 
 sendPageToClient(L('Administration'),
                  h1(a('admin', L('Administration'))) .

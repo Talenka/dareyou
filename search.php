@@ -9,7 +9,7 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$search = isset($_POST['q']) ? $_POST['q'] : urldecode($_SERVER['QUERY_STRING']);
+$search = isset($_POST['q']) ? $_POST['q'] : urldecode(URL_PARAMS);
 $search = preg_replace('/[^\w\(\)\: \-\.]/', '', $search);
 $search = trim(preg_replace('/\s+/', ' ', $search));
 

@@ -14,11 +14,11 @@ namespace Dareyou;
 require_once 'core.php';
 
 // If no name is specified in the URL, this is a bad request.
-if (empty($_SERVER['QUERY_STRING'])) redirectTo(HOME, 400);
+if (URL_PARAMS == '') redirectTo(HOME, 400);
 
 // We look in the database for the challenge with the specified name
 $challenge = select('challenges c, users u', 'c.*,u.name,u.mailHash',
-                    'c.title="' . addslashes($db->real_escape_string(urldecode($_SERVER['QUERY_STRING']))) .
+                    'c.title="' . addslashes($db->real_escape_string(urldecode(URL_PARAMS))) .
                     '" AND c.author=u.id', 1);
 
 // If there is no result, respond to user that the challenge is not found.

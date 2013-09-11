@@ -11,7 +11,7 @@ require_once 'core.php';
 
 restrictAccessToAdministrator();
 
-if (empty($_SERVER['QUERY_STRING'])) {
+if (URL_PARAMS == '') {
 
     $html = h2(a('admin-users', L('Users'))) . '<ul>';
 
@@ -30,7 +30,7 @@ if (empty($_SERVER['QUERY_STRING'])) {
 
 } else {
 
-    $args = explode('/', $_SERVER['QUERY_STRING']);
+    $args = explode('/', URL_PARAMS);
 
     $sql = select('users', '*', 'id = ' . $db->real_escape_string((int) $args[0]), 1);
 

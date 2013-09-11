@@ -9,9 +9,9 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-if (!empty($_SERVER['QUERY_STRING'])) {
+if (URL_PARAMS != '') {
 
-    $name = $db->real_escape_string(strtolower(substr($_SERVER['QUERY_STRING'], 0, 20)));
+    $name = $db->real_escape_string(strtolower(substr(URL_PARAMS, 0, 20)));
     $sql  = select('users', '*', "name='" . $name . "'", 1);
 
     if ($sql->num_rows == 1) $user = $sql->fetch_object();

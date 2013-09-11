@@ -7,9 +7,9 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-if (!empty($_SERVER['QUERY_STRING'])) {
+if (URL_PARAMS != '') {
 
-    $reinitializationLink = explode('-', $_SERVER['QUERY_STRING']);
+    $reinitializationLink = explode('-', URL_PARAMS);
 
     if (sizeof($reinitializationLink) != 3) {
         $error = 'This reinitialization link is probably corrupted';

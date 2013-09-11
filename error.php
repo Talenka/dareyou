@@ -12,7 +12,7 @@ require_once 'core.php';
 header('Status: 500 Internal Server Error', false, 500);
 
 sendPageToClient(L('ERRMSG'), a(HOME, h1(L('ERRMSG'))) .
-        '<tt>' . urldecode($_SERVER['QUERY_STRING']) . '</tt>' .
+        '<tt>' . urldecode(URL_PARAMS) . '</tt>' .
         '<p>' . L('Try to go back to') .
         ' <a href=# onClick="history.go(-1)">' . L('the previous page') .
         '</a> ' . L('or return to') . ' ' .

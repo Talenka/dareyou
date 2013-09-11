@@ -10,14 +10,50 @@ require_once 'core.php';
 
 restrictAccessToAdministrator();
 
-$cacheFileList = scandir(CACHE_DIR);
+$ignoredFiles = array('.', '..', 'index.php');
+
+if (substr(URL_PARAMS, 0, 6) == 'purge/') {
+    $fileToPurge = substr(URL_PARAMS, 6);
+
+    if (file_exists(CACHE_DIR . '/' . $fileToPurge) &&
+        is_file(CACHE_DIR . '/' . $fileToPurge) &&
+        !in_array($fileToPurge, $ignoredFiles)) {
+        
+        unlink(CACHE_DIR . '/' . $fileToPurge);
+    }
+}
+
+$cacheFileList = array_diff(scandir(CACHE_DIR), $ignoredFiles);
 
 $html = '';
+$totalSize = 0;
 
 foreach ($cacheFileList as $cFile) {
-    if (is_file(CACHE_DIR . '/' . $cFile)) $html .= '<li>' . $cFile . '</li>';
+
+    $cPath = CACHE_DIR . '/' . $cFile;
+    $cSize = filesize($cPath);
+    $totalSize += $cSize;
+
+    $since = NOW - filemtime($cPath);
+    $lastUpdate = ($since > ONE_DAY) ?
+                      round($since / ONE_DAY) . ' days' :
+                      date('H:i:s', $since);
+
+    $html .= '<tr><td>' . a($cPath, $cFile) . '</td>' .
+             '<td>' . $lastUpdate . ' ago</td>' .
+             '<td style=text-align:right>' . round($cSize / 1000) . ' Ko</td>' .
+             '<td style=text-align:right>' . a(L('admin-caches?purge/' . $cFile), 'Purge') . '</td>' .
+             '</tr>';
 }
+
+$html = '<tr><td>' . sizeof($cacheFileList) . ' files</td>' .
+        '<td>Last update</td>' .
+        '<td style=text-align:right>Total: ' . round($totalSize / 1000) . ' Ko</td>' .
+        '<td></td>' .
+        '</tr>' .
+        $html;
 
 sendPageToClient(L('Administration'),
                  h1(a('admin', L('Administration'))) .
-                 h2(a('admin-caches', L('Caches'))) . '<ul>' . $html . '</ul>');
+                 h2(a('admin-caches', L('Caches'))) .
+                 '<table style="width:100%">' . $html . '</table>');

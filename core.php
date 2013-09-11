@@ -20,6 +20,9 @@ require_once 'config.php';
 /** @var string Current running script (e.g. /index.php) */
 define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
 
+/** @var string url query part (after the "?") */
+define('URL_PARAMS', $_SERVER['QUERY_STRING']);
+
 /**
  * @var integer current time in UNIX format (seconds since 1970-01-01 00:00:00)
  *
@@ -216,6 +219,7 @@ function restrictAccessToAdministrator()
     global $client;
 
     if (!isAdmin($client)) redirectTo(HOME, 403);
+    elseif (!isHttps()) displayError('Administration requires you use https');
 }
 
 /**
@@ -459,7 +463,7 @@ function logActivity($text, $url = '', $public = false)
 {
     global $db, $client;
 
-    if (empty($url)) $url = PHP_FILE;
+    if (empty($url)) $url = substr(PHP_FILE, 1);
 
     $db->query('INSERT INTO `logs` (`date`,`user`,`text`,`public`,`url`) VALUES(' . NOW . ',' .
                (empty($client) ? 0 : $client->id) . ',' .
@@ -774,23 +778,15 @@ function challengesList($reals = false,
 /**
  * Responds to the user request with a HTML page.
  * @param string $title Page title (in the header [title] tag).
- * @param string $html Html code of the page [body] tag.
+ * @param string $body Html code of the page [body] tag.
  */
-function sendPageToClient($title, $html)
+function sendPageToClient($title, $body)
 {
     global $client, $db, $pageMaxAge;
 
     if (isset($db)) $db->close();
 
     header('Content-Type: text/html; charset=UTF-8');
-
-    // if ($pageMaxAge === false) {
-    //     header('Cache-Control: no-cache', true);
-    //     header('Expires: ' . date('r'), true);
-    // } else {
-    //     header('Cache-Control: public,maxage=' . $pageMaxAge, true);
-    //     header('Expires: ' . date('r', NOW + $pageMaxAge), true);
-    // }
 
     header('Cache-Control: ' .
            (($pageMaxAge === false) ? 'no-cache' : 'public,maxage=' . $pageMaxAge), true);
@@ -810,7 +806,7 @@ function sendPageToClient($title, $html)
              ((PHP_FILE == '/login.php') ? '' : ' ' . a('login class=t', L('Log in')))
          ),
          '</nav>' . h1(a('.', SITE_TITLE)) . '</header>',
-         '<section>' . $html . '</section>';
+         '<section>' . $body . '</section>';
 
     // exit;
 }
@@ -866,10 +862,13 @@ function getFromCache($id, $term = 300)
 *******************************************************************************/
 
 // If we are not on the canonical server, we redirect user to him:
-if ($_SERVER['SERVER_NAME'] != SERVER_NAME)
-    redirectTo('http://' . SERVER_NAME .
-               ((PHP_FILE == '/index.php') ? '/' : PHP_FILE) .
-               (empty($_SERVER['QUERY_STRING']) ? '' : '?' . $_SERVER['QUERY_STRING']), 301);
+// if ($_SERVER['SERVER_NAME'] != SERVER_NAME)
+//     redirectTo('http://' . SERVER_NAME .
+//                ((PHP_FILE == '/index.php') ? '/' : PHP_FILE) .
+//                ((URL_PARAMS == '') ?
+//                 '' :
+//                 '?' . URL_PARAMS),
+//                301);
 
 if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 

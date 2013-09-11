@@ -9,14 +9,14 @@ require_once 'core.php';
 
 $pageMaxAge = ONE_DAY;
 
-$html = getFromCache('body', ONE_DAY);
+$body = getFromCache('body', ONE_DAY);
 
-if ($html === false) {
+if ($body === false) {
 
     $attemptsNumber = selectCount('realizations');
     $successfulAttempts = round(100 * selectCount('realizations', "status='accepted'") / $attemptsNumber);
 
-    $html = cache('body',
+    $body = cache('body',
                   h1(a('about', L('About'))) .
                   h2(L('How it works')) .
                   '<p align=justify>' . L('How it works ...') . '</p>' .
@@ -35,4 +35,4 @@ if ($html === false) {
                   ' ' . a('"//github.com/talenka/dareyou"', L('freely available on Github')) . '.');
 }
 
-sendPageToClient(L('About'), $html);
+sendPageToClient(L('About'), $body);
