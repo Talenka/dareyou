@@ -160,6 +160,7 @@ function isHttps()
 
 /**
  * Is a number in an interval ?
+ *
  * @param number $n
  * @param number $min
  * @param number $max
@@ -172,8 +173,12 @@ function isBetween($n, $min, $max)
 
 /**
  * Redirect the user to another page via HTTP header with a fallback in HTML/JS
+ *
  * @param string $url Where to redirect the user.
  * @param integer $statusCode HTTP status code for the redirection (optionnal).
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function redirectTo($url, $statusCode = 200)
 {
@@ -242,6 +247,7 @@ function getSessionCookie()
 
 /**
  * Set identification cookie
+ *
  * @param string $sessionId Session identificator (optionnal).
  * @param integer $term Cookie expiration (in seconds from now, optionnal).
  */
@@ -261,6 +267,7 @@ function deleteSessionCookie()
 
 /**
  * Hash user's password properly before it's stored in the database
+ *
  * @param string $password
  * @return string
  * @todo use blowfish to improve drastically hash robustness
@@ -377,12 +384,15 @@ function identifyClient($sessionId = '')
 
 /**
  * Execute a SQL selection query
+ *
  * @param string $table SQL table name.
  * @param string $cols List of columns to return (all by default).
  * @param string $where Conditionnal filter.
  * @param string $limit Maximum number of result returned (or a range).
  * @param string $order "ASC"ending or "DESC"ending order
  * @return Object SQL ressource
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 function select($table, $cols = '*', $where = '', $limit = '', $order = '')
 {
@@ -405,6 +415,7 @@ function select($table, $cols = '*', $where = '', $limit = '', $order = '')
 /**
  * Execute a SQL count query
  * Count items from an SQL table with optionnal filter
+ *
  * @param string $table SQL Table name.
  * @param string $where Optionnal conditionnal filter.
  * @return int Number of row in the table satisfying the WHERE condition.
@@ -416,6 +427,7 @@ function selectCount($table, $where = '')
 
 /**
  * Send an email
+ *
  * @param string $to Email recipient
  * @param string $title
  * @param string $message
@@ -455,6 +467,7 @@ function sendEmail($to, $title = '', $message = '')
 
 /**
  * Write a user activity in the log
+ *
  * @param string $text
  * @param string $url
  * @param boolean $public
@@ -480,6 +493,7 @@ function logActivity($text, $url = '', $public = false)
 
 /**
  * Return a HTML header [h1] tag
+ *
  * @param string $html
  * @return string
  */
@@ -490,6 +504,7 @@ function h1($html)
 
 /**
  * Return a HTML header [h2] tag
+ *
  * @param string $html
  * @return string
  */
@@ -500,6 +515,7 @@ function h2($html)
 
 /**
  * Return a HTML header [h3] tag
+ *
  * @param string $html
  * @return string
  */
@@ -510,6 +526,7 @@ function h3($html)
 
 /**
  * Return a HTML list [li] tag
+ *
  * @param string $html
  * @return string
  */
@@ -520,6 +537,7 @@ function li($html)
 
 /**
  * Return a HTML link [a] tag
+ *
  * @param string $href
  * @param string $title
  * @return string
@@ -531,6 +549,7 @@ function a($href, $title)
 
 /**
  * Return a HTML [input] field for a user name
+ *
  * @param boolean $autofocus
  * @param string $value
  * @todo UTF8 validation ?
@@ -548,6 +567,7 @@ function usernameField($autofocus = false, $value = '')
 
 /**
  * Return a HTML [input] field for a user mail
+ *
  * @param boolean $autofocus
  * @param string $value
  * @todo UTF8 validation ?
@@ -573,6 +593,7 @@ function userpasswordField()
 
 /**
  * Return a HTML [input] button to submit a form
+ *
  * @param string $title
  * @param string $params [input] tag attributes (optionnal)
  * @return string Html code for a submit button
@@ -602,6 +623,7 @@ function form($html, $url = '')
 
 /**
  * Basic form protection against CSRF attack.
+ *
  * @param integer $term Form expiration (in seconds from now, optionnal).
  * @return string Html code for the hidden input containing the key.
  */
@@ -614,6 +636,7 @@ function generateFormKey($term = 600)
 
 /**
  * Gravatar url
+ *
  * @param string $hash md5 hash of a mail adress (32 chars long).
  * @param integer $size Avatar width & height (in pixels).
  * @return string Gravatar URL.
@@ -624,7 +647,8 @@ function gravatarUrl($hash, $size = 20)
 }
 
 /**
- * Avatar url 
+ * Avatar url
+ *
  * @param string $hash md5 hash of a mail adress (32 chars long).
  * @param integer $size Avatar width & height (in pixels).
  * @return string Cached file if it exists, gravatar url otherwise.
@@ -639,6 +663,7 @@ function avatarUrl($hash, $size = 20)
 
 /**
  * Caches gravatar
+ *
  * @param string $hash md5 hash of a mail adress (32 chars long).
  * @param integer $size Avatar width & height (in pixels).
  * @return boolean true if gravatar is cached, false otherwise.
@@ -654,6 +679,7 @@ function cacheGravatar($hash, $size = 20)
 
 /**
  * User gravatar linked to his profile
+ *
  * @param string $name User canonical name.
  * @param string $hash MD5 hash of mail address.
  * @return string HTML image of a user avatar linked to user profile.
@@ -666,6 +692,7 @@ function getAvatar($name, $hash)
 
 /**
  * Gravatar public profile url
+ *
  * @param string $hash MD5 hash of mail address.
  * @return Gravatar profile URL.
  */
@@ -676,6 +703,7 @@ function gravatarProfile($hash)
 
 /**
  * Link to the gravatar public profile.
+ *
  * @param string $hash MD5 hash of mail address.
  * @return Gravatar profile link.
  */
@@ -686,6 +714,7 @@ function gravatarProfileLink($hash)
 
 /**
  * HTML code for the karma counter of a user
+ *
  * @param string $name User canonical name.
  * @param integer $karma User karma quantity.
  * @return string Html link to user profile with user karma as title.
@@ -697,6 +726,7 @@ function karmaButton($name, $karma)
 
 /**
  * Link to a user profile
+ *
  * @param string $name User canonical name.
  * @return string Html link to user profile.
  */
@@ -707,6 +737,7 @@ function userLink($name)
 
 /**
  * Link to a user profile with a small gravatar
+ *
  * @param string $name User canonical name.
  * @param string $hash MD5 hash of mail address.
  * @param string $params Optionnal attributes for the [a] tag.
@@ -736,19 +767,20 @@ function languageSelector()
 
 /**
  * Display a challenges list
+ *
  * @param boolean $reals Realizations
  * @param string $where
  * @param string $order
  * @param integer $number Challenges number
  * @return string HTML challenges list.
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 function challengesList($reals = false,
                         $where = '',
                         $order = 'c.created DESC',
                         $number = 5)
 {
-    global $db;
-
     $timeColumn  = $reals ? 'end' : 'created';
     $karmaColumn = $reals ? 'value' : 'totalSum';
     $verb = L($reals ? 'won' : 'issued');
@@ -779,6 +811,8 @@ function challengesList($reals = false,
  * Responds to the user request with a HTML page.
  * @param string $title Page title (in the header [title] tag).
  * @param string $body Html code of the page [body] tag.
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 function sendPageToClient($title, $body)
 {
@@ -801,7 +835,8 @@ function sendPageToClient($title, $body)
          (isset($client) ?
              userLinkWithAvatar($client->name, $client->mailHash) .
              karmaButton($client->name, $client->karma) .
-             ' ' . a('logout class=b', L('Log out')) :
+             ' ' . a('logout class=b', L('Log out')) .
+             (isAdmin($client) ? a('admin class=b', L('Administration')) : '') :
              ((PHP_FILE == '/signup.php') ? '' : a('signup class=g', L('Sign up'))) .
              ((PHP_FILE == '/login.php') ? '' : ' ' . a('login class=t', L('Log in')))
          ),
@@ -839,7 +874,7 @@ function cache($id, $content = '')
 {
     file_put_contents(cacheFilePath($id), $content);
 
-    return $content; 
+    return $content;
 }
 
 /**

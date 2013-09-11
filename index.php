@@ -23,8 +23,7 @@ if ($news === false)
 sendPageToClient(L('What are you gonna do awesome today?'),
         '<nav>' .
         (isset($client) ?
-        a('start-challenge class=b', L('Start a challenge')) . ' ' .
-        (isAdmin($client) ? a('admin class=b', L('Administration')) . ' ' : ''): '') .
+        a('start-challenge class=b', L('Start a challenge')) . ' ' : '') .
         a('about class=b', L('About')) . ' ' .
         a('faq class=b title="' . L('Frequently Asked Questions') . '"', 'FAQ') .
         '</nav>' .

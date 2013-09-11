@@ -66,7 +66,7 @@ if (!file_exists(SITEMAP_FILE) || filemtime(SITEMAP_FILE) < NOW - ONE_DAY) {
                     '<priority>' . $url['priority'] . '</priority></url>';
 
     $sitemap .= '</urlset>';
-    
+
     $result .= li(a(SITEMAP_FILE, SITEMAP_FILE) .
                   (file_put_contents(SITEMAP_FILE, $sitemap) ? '' : ' not') . ' created') .
                li(a(SITEMAP_FILE . '.gz', SITEMAP_FILE . '.gz') .

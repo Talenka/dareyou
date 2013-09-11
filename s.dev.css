@@ -115,7 +115,7 @@ time
     font-size: smaller;
 }
 
-.b, .g, .t
+.b, .g, .t, nav .u
 {
     border: 1px #ddd solid;
     border-bottom-color: #bbb;
@@ -168,9 +168,9 @@ time
     margin: 3px auto;
 }
 
-.u
+.u, nav .u
 {
-    background-position: 2px 0;
+    background-position: 2px 40%;
     background-repeat: no-repeat;
     padding-left: 26px;
 }

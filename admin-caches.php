@@ -18,7 +18,7 @@ if (substr(URL_PARAMS, 0, 6) == 'purge/') {
     if (file_exists(CACHE_DIR . '/' . $fileToPurge) &&
         is_file(CACHE_DIR . '/' . $fileToPurge) &&
         !in_array($fileToPurge, $ignoredFiles)) {
-        
+
         unlink(CACHE_DIR . '/' . $fileToPurge);
     }
 }
@@ -35,9 +35,9 @@ foreach ($cacheFileList as $cFile) {
     $totalSize += $cSize;
 
     $since = NOW - filemtime($cPath);
-    $lastUpdate = ($since > ONE_DAY) ?
-                      round($since / ONE_DAY) . ' days' :
-                      date('H:i:s', $since);
+    $lastUpdate = ($since > ONE_DAY) ? round($since / ONE_DAY) . ' days' :
+                   (($since > ONE_HOUR) ? round($since / ONE_HOUR) . ' hours' :
+                    (($since > 60) ? round($since / 60) . ' minutes' : $since . ' seconds'));
 
     $html .= '<tr><td>' . a($cPath, $cFile) . '</td>' .
              '<td>' . $lastUpdate . ' ago</td>' .
