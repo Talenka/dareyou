@@ -1,6 +1,19 @@
+# SublimeText is a great editor, but you may not care about these files 
 *.sublime-*
+
+# Actually just OS- or framework-generated files, nothing interesting
 .*
+
+# My personnal configuration file (see config.sample.php)
 config.php
+
+# Documentation is available online at:
+# http://dareyou.be/doc/
 doc/
+
+# Cache directory, only ephemeral php-generated files
 c/
+
+# This is finally a benchmark file, for obsessive nerd
+# If you want it, just ask ;-)
 admin-test.php
