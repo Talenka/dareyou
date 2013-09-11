@@ -9,6 +9,8 @@ namespace Dareyou;
 
 require_once 'core.php';
 
+$pageMaxAge = ONE_DAY;
+
 $body = getFromCache('body', ONE_DAY);
 
 if ($body === false)

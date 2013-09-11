@@ -19,10 +19,9 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 
 if (!isset($user)) {
 
-    // If the specified user is not found, we display the current logged in
-    // client profile.
+    // If the specified user is not found, we display the current logged in client profile.
     if (isset($client)) $user = $client;
-    else redirectTo(HOME, 404);
+    else redirectTo(HOME, NOT_FOUND);
 }
 
 $html = '<nav>' .

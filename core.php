@@ -17,12 +17,39 @@ require_once 'config.php';
 *                                                                              *
 *******************************************************************************/
 
+/** @var string Current running script (e.g. /index.php) */
 define('PHP_FILE', $_SERVER['SCRIPT_NAME']);
+
+/**
+ * @var integer current time in UNIX format (seconds since 1970-01-01 00:00:00)
+ *
+ * This constant definition not only improve code readability, but also increase
+ * performance since the time() is not without cost.
+ * Finally, this ensures that time is the same everywhere in the running script.
+ */
 define('NOW', time());
 
-const HOME     = '/';
-const ONE_HOUR =  3600;
-const ONE_DAY  = 86400;
+/** @var string Home page location */
+const HOME = '/';
+
+const CACHE_DIR = 'c';
+
+/** @var integer Seconds per hour */
+const ONE_HOUR = 3600;
+
+/** @var integer Seconds per day */
+const ONE_DAY = 86400;
+
+/** @var integer Seconds per week */
+const ONE_WEEK = 604800;
+
+/** @var integer Http status code for an unknown content */
+const NOT_FOUND = 404;
+
+/**
+ * @var integer|false indicates if current page is public
+ */
+$pageMaxAge = false;
 
 /**
  * Available languages (keys: 2-letters code, values: vernacular name)
@@ -212,7 +239,7 @@ function getSessionCookie()
 /**
  * Set identification cookie
  * @param string $sessionId Session identificator (optionnal).
- * @param int $term Cookie expiration (in seconds from now, optionnal).
+ * @param integer $term Cookie expiration (in seconds from now, optionnal).
  */
 function sendSessionCookie($sessionId = '', $term = ONE_HOUR)
 {
@@ -589,7 +616,36 @@ function generateFormKey($term = 600)
  */
 function gravatarUrl($hash, $size = 20)
 {
-    return '//gravatar.com/avatar/' . $hash . '?s=' . $size . '&amp;d=wavatar';
+    return '//gravatar.com/avatar/' . $hash . '?s=' . $size . '&d=wavatar';
+}
+
+/**
+ * Avatar url 
+ * @param string $hash md5 hash of a mail adress (32 chars long).
+ * @param integer $size Avatar width & height (in pixels).
+ * @return string Cached file if it exists, gravatar url otherwise.
+ */
+function avatarUrl($hash, $size = 20)
+{
+    $cacheFile = CACHE_DIR . '/' . substr($hash, 0, 6) . ($size % 7) . '.jpg';
+
+    if (file_exists($cacheFile)) return $cacheFile;
+    else return cacheGravatar($hash, $size) ? $cacheFile : gravatarUrl($hash, $size);
+}
+
+/**
+ * Caches gravatar
+ * @param string $hash md5 hash of a mail adress (32 chars long).
+ * @param integer $size Avatar width & height (in pixels).
+ * @return boolean true if gravatar is cached, false otherwise.
+ */
+function cacheGravatar($hash, $size = 20)
+{
+    $cacheFile = CACHE_DIR . '/' . substr($hash, 0, 6) . ($size % 7) . '.jpg';
+
+    $gravatar = file_get_contents('http:' . gravatarUrl($hash, $size));
+
+    return ($gravatar !== false && file_put_contents($cacheFile, $gravatar));
 }
 
 /**
@@ -601,7 +657,7 @@ function gravatarUrl($hash, $size = 20)
 function getAvatar($name, $hash)
 {
     return a('profile?' . $name, '<img src="' .
-           gravatarUrl($hash, 128) . '" width=128 height=128 align=right>');
+           avatarUrl($hash, 128) . '" width=128 height=128 align=right>');
 }
 
 /**
@@ -655,7 +711,7 @@ function userLink($name)
 function userLinkWithAvatar($name, $hash, $params = '')
 {
     return a('profile?' . $name . ' class=u' . $params .
-             ' style="background-image:url(' . gravatarUrl($hash, 20) . ')"',
+             ' style="background-image:url(' . avatarUrl($hash, 20) . ')"',
              ucfirst($name));
 }
 
@@ -722,13 +778,25 @@ function challengesList($reals = false,
  */
 function sendPageToClient($title, $html)
 {
-    global $client, $db;
+    global $client, $db, $pageMaxAge;
 
     if (isset($db)) $db->close();
 
     header('Content-Type: text/html; charset=UTF-8');
-    header('Cache-Control: no-cache', true);
-    header('Expires: ' . date('r'));
+
+    // if ($pageMaxAge === false) {
+    //     header('Cache-Control: no-cache', true);
+    //     header('Expires: ' . date('r'), true);
+    // } else {
+    //     header('Cache-Control: public,maxage=' . $pageMaxAge, true);
+    //     header('Expires: ' . date('r', NOW + $pageMaxAge), true);
+    // }
+
+    header('Cache-Control: ' .
+           (($pageMaxAge === false) ? 'no-cache' : 'public,maxage=' . $pageMaxAge), true);
+
+    header('Expires: ' .
+           date('r', NOW + (($pageMaxAge === false) ? 0 : $pageMaxAge)), true);
 
     echo '<!doctype html>' .
          '<title>' . $title . ' - ' . SITE_TITLE . '</title>',
@@ -744,7 +812,7 @@ function sendPageToClient($title, $html)
          '</nav>' . h1(a('.', SITE_TITLE)) . '</header>',
          '<section>' . $html . '</section>';
 
-    exit;
+    // exit;
 }
 
 /*******************************************************************************
@@ -762,7 +830,7 @@ function cacheFilePath($id)
 {
     global $lang;
 
-    return 'cache' . PHP_FILE . '_' . $lang . '_' . $id . '.htm';
+    return CACHE_DIR . PHP_FILE . '_' . $id . '_' . $lang . '.htm';
 }
 
 /**

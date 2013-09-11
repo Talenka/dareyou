@@ -20,7 +20,7 @@ if (empty($_SERVER['QUERY_STRING'])) {
     while ($u = $usersList->fetch_object()) {
 
         $html .= li(a('admin-users?' . $u->id .
-                    ' class=u style="background-image:url(' . gravatarUrl($u->mailHash, 20) . ')"',
+                    ' class=u style="background-image:url(' . avatarUrl($u->mailHash, 20) . ')"',
                     ucfirst($u->name)) . ' [' . $u->karma . ' ♣]');
     }
 
@@ -51,8 +51,7 @@ if (empty($_SERVER['QUERY_STRING'])) {
                  h3(L('User informations')) .
                  'Karma: ' . $userToAdmin->karma . ' ♣<br>';
 
-    } else redirectTo('admin-users', 404);
-
+    } else redirectTo('admin-users', NOT_FOUND);
 }
 
 sendPageToClient(L('Administration'),

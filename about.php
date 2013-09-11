@@ -7,7 +7,9 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$html = getFromCache('body', ONE_HOUR);
+$pageMaxAge = ONE_DAY;
+
+$html = getFromCache('body', ONE_DAY);
 
 if ($html === false) {
 
@@ -15,10 +17,10 @@ if ($html === false) {
     $successfulAttempts = round(100 * selectCount('realizations', "status='accepted'") / $attemptsNumber);
 
     $html = cache('body',
-                  h2(L('About')) .
-                  h3(L('How it works')) .
+                  h1(a('about', L('About'))) .
+                  h2(L('How it works')) .
                   '<p align=justify>' . L('How it works ...') . '</p>' .
-                  h3(L('Some figures')) .
+                  h2(L('Some figures')) .
                   '<ul>' .
                   li(L('Players') . ': <b>' . selectCount('users') . '</b>') .
                   li(L('Challenges') . ': <b>' . selectCount('challenges') . '</b>') .
@@ -27,7 +29,7 @@ if ($html === false) {
                   li(L('Bets') . ': <b>' . selectCount('bets') . '</b>') .
                   li(L('Comments') . ': <b>' . selectCount('comments') . '</b>') .
                   '</ul>' .
-                  h3(L('Under the hood')) .
+                  h2(L('Under the hood')) .
                   SITE_TITLE . L(' is a project of ') . a('"//boudah.pl"', 'Boudah Talenka') . ', ' .
                   a('"//www.gnu.org/licenses/gpl.html"', L('published under the GPL3+ licence')) . ' ' . L('and') .
                   ' ' . a('"//github.com/talenka/dareyou"', L('freely available on Github')) . '.');

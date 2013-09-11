@@ -9,11 +9,11 @@ require_once 'core.php';
 
 $loginError = false;
 
-if (isFormKeyValid() &&
-    !empty($_POST['mail']) &&
+if (!empty($_POST['mail']) &&
     !empty($_POST['password']) &&
     isBetween(strlen($_POST['mail']), 7, 255) &&
-    isBetween(strlen($_POST['password']), 3, 255)) {
+    isBetween(strlen($_POST['password']), 3, 255) &&
+    isFormKeyValid()) {
 
     $mailHash = $db->real_escape_string(md5(cleanUserMail($_POST['mail'])));
     $password = $db->real_escape_string(hashPassword($_POST['password']));

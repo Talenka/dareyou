@@ -15,6 +15,10 @@ restrictAccessToLoggedInUser();
 //     $signupError[] = L('This password is too common, please choose another');
 // }
 
+if (isFormKeyValid()) {
+
+}
+
 sendPageToClient(L('Edit my profile'),
     h1(L('Edit my profile')) .
     form(usernameField(false, $client->name) .

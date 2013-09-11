@@ -7,6 +7,12 @@ namespace Dareyou;
 
 require_once 'core.php';
 
+/** @var string path of sitemap */
+const SITEMAP_FILE = 'sitemap.xml';
+
+/** @var string path of sitemap */
+const ROBOT_FILE = 'robot.txt';
+
 restrictAccessToAdministrator();
 
 $lastChallenges = array();
@@ -27,39 +33,43 @@ $sql->free();
 *                                                                              *
 *******************************************************************************/
 
-$publicUrls = array(array('loc' => '', 'priority' => 1),
-                    array('loc' => 'about', 'priority' => .3),
-                    array('loc' => 'faq', 'priority' => .3),
-                    array('loc' => 'top', 'priority' => .8),
-                    array('loc' => 'victory', 'priority' => .8),
-                    array('loc' => 'new', 'priority' => .8),
-                    array('loc' => 'prize', 'priority' => .5));
+if (!file_exists(SITEMAP_FILE) || filemtime(SITEMAP_FILE) > NOW - ONE_DAY) {
 
-foreach ($lastChallenges as $c)
+    $publicUrls = array(array('loc' => '', 'priority' => 1),
+                        array('loc' => 'about', 'priority' => .3),
+                        array('loc' => 'faq', 'priority' => .3),
+                        array('loc' => 'top', 'priority' => .8),
+                        array('loc' => 'victory', 'priority' => .8),
+                        array('loc' => 'new', 'priority' => .8),
+                        array('loc' => 'prize', 'priority' => .5));
 
-    array_push($publicUrls, array('loc' => 'challenge?' . urlencode($c->title),
-                                  'priority' => 0.3,
-                                  'lastmod' => date('Y-m-d', $c->created)));
+    foreach ($lastChallenges as $c)
 
-$sitemap = '<?xml version="1.0" encoding="UTF-8"?>' .
-           '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
-           ' xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9' .
-           ' http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"' .
-           ' xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        array_push($publicUrls,
+                   array('loc' => 'challenge?' . urlencode($c->title),
+                         'priority' => 0.3,
+                         'lastmod' => date('Y-m-d', $c->created)));
 
-foreach ($publicUrls as $url)
+    $sitemap = '<?xml version="1.0" encoding="UTF-8"?>' .
+               '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
+               ' xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9' .
+               ' http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"' .
+               ' xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-    $sitemap .= '<url><loc>http://' . SERVER_NAME . '/' . $url['loc'] . '</loc>' .
-                (isset($url['lastmod']) ? '<lastmod>' . $url['lastmod'] . '</lastmod>' : '') .
-                '<priority>' . $url['priority'] . '</priority></url>';
+    foreach ($publicUrls as $url)
 
-$sitemap .= '</urlset>';
+        $sitemap .= '<url><loc>http://' . SERVER_NAME . '/' . $url['loc'] . '</loc>' .
+                    (isset($url['lastmod']) ? '<lastmod>' . $url['lastmod'] . '</lastmod>' : '') .
+                    '<priority>' . $url['priority'] . '</priority></url>';
 
-if (file_put_contents('sitemap.xml', $sitemap))
-    $result .= li(a('sitemap.xml', 'sitemap.xml') . ' created');
+    $sitemap .= '</urlset>';
+    
+    $result .= li(a(SITEMAP_FILE, SITEMAP_FILE) .
+                  (file_put_contents(SITEMAP_FILE, $sitemap) ? '' : ' not') . ' created') .
+               li(a(SITEMAP_FILE . '.gz', SITEMAP_FILE . '.gz') .
+                  (file_put_contents(SITEMAP_FILE . '.gz', gzencode($sitemap, 9)) ? '' : ' not') . ' created');
 
-if (file_put_contents('sitemap.xml.gz', gzencode($sitemap, 9)))
-    $result .= li(a('sitemap.xml.gz', 'sitemap.xml.gz') . ' created');
+} else $result .= li(a(SITEMAP_FILE, SITEMAP_FILE) . ' was already up to date');
 
 /*******************************************************************************
 *                                                                              *
@@ -67,19 +77,22 @@ if (file_put_contents('sitemap.xml.gz', gzencode($sitemap, 9)))
 *                                                                              *
 *******************************************************************************/
 
-$privateUrls = array('/language',
-                     '/signup',
-                     '/login',
-                     '/lost-password');
+if (!file_exists(ROBOT_FILE) || filemtime(ROBOT_FILE) > NOW - ONE_WEEK) {
+    $privateUrls = array('/language',
+                         '/signup',
+                         '/login',
+                         '/lost-password');
 
-$robots = 'User-agent: *';
+    $robots = 'User-agent: *';
 
-foreach ($privateUrls as $url) $robots .= "\nDisallow: " . $url;
+    foreach ($privateUrls as $url) $robots .= "\nDisallow: " . $url;
 
-$robots .= "\nSitemap: /sitemap.xml";
+    $robots .= "\nSitemap: /sitemap.xml";
 
-if (file_put_contents('robots.txt', $robots))
-    $result .= li(a('robots.txt', 'robots.txt') . ' created');
+    $result .= li(a(ROBOT_FILE, ROBOT_FILE) .
+                  (file_put_contents(ROBOT_FILE, $robots) ? '' : ' not') . ' created');
+
+} else $result .= li(a(ROBOT_FILE, ROBOT_FILE) . ' was already up to date');
 
 /*******************************************************************************
 *                                                                              *
