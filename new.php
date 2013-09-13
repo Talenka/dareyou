@@ -9,7 +9,7 @@ require_once 'core.php';
 
 $pageMaxAge = ONE_HOUR;
 
-$body = getFromCache('data', ONE_HOUR);
+$body = getFromCache('body', ONE_HOUR);
 
 if ($body === false)
     $body = cache('body',
