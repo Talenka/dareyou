@@ -11,7 +11,7 @@ require_once 'core.php';
 const SITEMAP_FILE = 'sitemap.xml';
 
 /** @var string path of sitemap */
-const ROBOT_FILE = 'robot.txt';
+const ROBOT_FILE = 'robots.txt';
 
 /** @var string path of atom feed of new challenges */
 const FEED_FILE = 'challenges.atom';
@@ -115,7 +115,8 @@ if (!file_exists(FEED_FILE) || filemtime(FEED_FILE) < NOW - ONE_DAY) {
             '<title>' . SITE_TITLE . '</title>' . "\n" .
             '<subtitle type="html"><![CDATA[' . L('How it works ...') . ']]></subtitle>' . "\n" .
             '<link href="http://' . SERVER_NAME .'/" />' . "\n" .
-            '<link href="http://' . SERVER_NAME .'/' . FEED_FILE . '" rel="self" type="application/atom+xml" />' . "\n" .
+            '<link href="http://' . SERVER_NAME .'/' . FEED_FILE . '" rel="self" type="application/atom+xml" />' .
+            "\n" .
             '<id>tag:' . SERVER_NAME .',2008:challenges</id>' . "\n" .
             '<updated>' . date('c', NOW) . '</updated>';
 
@@ -161,8 +162,8 @@ if (!file_exists($styleOutputFile) ||
     filemtime($styleOutputFile) < filemtime($styleInputFile)) {
 
     if (file_put_contents($styleOutputFile,
-                          str_replace(array("\n", ';}', ' {', "\t", '    ', ': ', '; ', ', '),
-                                      array('',   '}',  '{',  '',   '',     ':',  ';',  ','),
+                          str_replace(array("\n", ';}', ' {', "\t", '    ', ': ', '; ', ', ', '> ', ' >', '0.'),
+                                      array('',   '}',  '{',  '',   '',     ':',  ';',  ',', '>', '>', '.'),
                                       file_get_contents($styleInputFile))))
 
         $result .= li(a($styleOutputFile, $styleOutputFile) . ' created');
@@ -172,4 +173,4 @@ if (!file_exists($styleOutputFile) ||
 sendPageToClient(L('Administration'),
                  h1(a('admin', L('Administration'))) .
                  h2(a('admin-operations', L('Operations'))) .
-                 '<ul>' . $result . '</h2>');
+                 '<ul>' . $result . '</ul>');

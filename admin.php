@@ -11,8 +11,11 @@ restrictAccessToAdministrator();
 
 sendPageToClient(L('Administration'),
                  h1(a('admin', L('Administration'))) .
-                 h2(a('admin-logs', L('Logs'))) .
-                 h2(a('admin-users', L('Users'))) .
-                 h2(a('admin-challenges', L('Challenges'))) .
-                 h2(a('admin-operations', L('Operations'))) .
-                 h2(a('admin-caches', L('Caches'))));
+                 '<ul>' .
+                 li(a('admin-logs', L('Logs'))) .
+                 li(a('admin-users', L('Users'))) .
+                 li(a('admin-challenges', L('Challenges'))) .
+                 li(a('admin-operations', L('Operations'))) .
+                 li(a('admin-caches', L('Caches'))) .
+                 li(a('admin-test', L('Tests'))) .
+                 '</ul>');

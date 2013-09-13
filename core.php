@@ -161,9 +161,9 @@ function isHttps()
 /**
  * Is a number in an interval ?
  *
- * @param number $n
- * @param number $min
- * @param number $max
+ * @param float $n
+ * @param float $min
+ * @param float $max
  * @return boolean true if $n is betwenn $min and $max included, false otherwise
  */
 function isBetween($n, $min, $max)
@@ -218,13 +218,17 @@ function restrictAccessToLoggedInUser()
 /**
  * If user is not logged in or if he is not administrator,
  * then we redirect him to homepage.
+ *
+ * @fixme logActivity does not work.
  */
 function restrictAccessToAdministrator()
 {
     global $client;
 
-    if (!isAdmin($client)) redirectTo(HOME, 403);
-    elseif (!isHttps()) displayError('Administration requires you use https');
+    if (!isAdmin($client)) {
+        logActivity($_SERVER['REMOTE_ADDR'] . ' try to access to admin content');
+        redirectTo(HOME, 403);
+    } elseif (!isHttps()) displayError('Administration requires you use https');
 }
 
 /**
@@ -233,6 +237,8 @@ function restrictAccessToAdministrator()
  */
 function displayError($message = '')
 {
+    logActivity('Error' . $message);
+
     redirectTo('error?' . urlencode($message), 500);
 }
 
@@ -325,7 +331,7 @@ function cleanUserName($userName)
 
 /**
  * Check whether the form key sent by user is valid and not expired.
- * @see generateFormKey()
+ * @see \Dareyou\generateFormKey()
  * @return boolean
  */
 function isFormKeyValid()
@@ -364,25 +370,6 @@ function L($text)
 }
 
 /**
- * Try to associates the session ID to an logged user.
- * @param string $sessionId
- */
-function identifyClient($sessionId = '')
-{
-    global $client, $db;
-
-    if (empty($sessionId)) $sessionId = getSessionCookie();
-
-    $sessId = generateSessionId($db->real_escape_string($sessionId));
-
-    $user = select('users', '*', "session='" . $sessId . "'", 1);
-
-    if ($user->num_rows == 1) $client = $user->fetch_object();
-
-    $user->free();
-}
-
-/**
  * Execute a SQL selection query
  *
  * @param string $table SQL table name.
@@ -390,7 +377,7 @@ function identifyClient($sessionId = '')
  * @param string $where Conditionnal filter.
  * @param string $limit Maximum number of result returned (or a range).
  * @param string $order "ASC"ending or "DESC"ending order
- * @return Object SQL ressource
+ * @return \mysqli_result SQL ressource
  *
  * @SuppressWarnings(PHPMD.NPathComplexity)
  */
@@ -418,11 +405,11 @@ function select($table, $cols = '*', $where = '', $limit = '', $order = '')
  *
  * @param string $table SQL Table name.
  * @param string $where Optionnal conditionnal filter.
- * @return int Number of row in the table satisfying the WHERE condition.
+ * @return integer Number of row in the table satisfying the WHERE condition.
  */
 function selectCount($table, $where = '')
 {
-    return select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
+    return (int) select($table, 'COUNT(*) as n', $where)->fetch_object()->n;
 }
 
 /**
@@ -568,23 +555,25 @@ function usernameField($autofocus = false, $value = '')
 /**
  * Return a HTML [input] field for a user mail
  *
+ * @todo UTF8 validation ?
  * @param boolean $autofocus
  * @param string $value
- * @todo UTF8 validation ?
+ * @param boolean $required
  * @return string Html code for the user's email address field
  */
-function usermailField($autofocus = false, $value = '')
+function usermailField($autofocus = false, $value = '', $required = false)
 {
     if (empty($value) && !empty($_POST['mail'])) $value = $_POST['mail'];
-    return '<input type=email name=mail maxlength=255 pattern="[\w@\.]{6,255}"' .
+    return '<input type=email name=mail maxlength=255' .
            ($autofocus ? ' autofocus' : '') .
            (empty($value) ? '' : ' value="' . $value . '"') .
-           ' placeholder="' . L('Email') . '" required>';
+           ' placeholder="' . L('Email') . '"' . ($required ? ' required' : '') .
+           '>';
 }
 
 /**
  * Return a HTML [input] field for a user password
- * @return Html code for the user's password field
+ * @return string Html code for the user's password field
  */
 function userpasswordField()
 {
@@ -624,6 +613,7 @@ function form($html, $url = '')
 /**
  * Basic form protection against CSRF attack.
  *
+ * @see \Dareyou\isFormKeyValid()
  * @param integer $term Form expiration (in seconds from now, optionnal).
  * @return string Html code for the hidden input containing the key.
  */
@@ -686,7 +676,7 @@ function cacheGravatar($hash, $size = 20)
  */
 function getAvatar($name, $hash)
 {
-    return a('profile?' . $name, '<img src="' .
+    return a('user?' . $name, '<img src="' .
            avatarUrl($hash, 128) . '" width=128 height=128 align=right>');
 }
 
@@ -709,7 +699,7 @@ function gravatarProfile($hash)
  */
 function gravatarProfileLink($hash)
 {
-    return ' ' . a('"' . gravatarProfile($hash) . '" class=b', L('Public profile'));
+    return ' ' . a('"' . gravatarProfile($hash) . '"', L('Public profile'));
 }
 
 /**
@@ -721,7 +711,8 @@ function gravatarProfileLink($hash)
  */
 function karmaButton($name, $karma)
 {
-    return ' ' . a('profile?' . $name . ' class=g', $karma . ' ♣');
+    // return ' ' . a('user?' . $name . ' class=g', $karma . ' ♣');
+    return ' <b class=g>' . $karma . ' ♣</b>';
 }
 
 /**
@@ -732,7 +723,7 @@ function karmaButton($name, $karma)
  */
 function userLink($name)
 {
-    return a('profile?' . $name, ucfirst($name));
+    return a('user?' . $name, ucfirst($name));
 }
 
 /**
@@ -745,8 +736,8 @@ function userLink($name)
  */
 function userLinkWithAvatar($name, $hash, $params = '')
 {
-    return a('profile?' . $name . ' class=u' . $params .
-             ' style="background-image:url(' . avatarUrl($hash, 20) . ')"',
+    return a('user?' . $name . $params .
+             ' style=background-image:url(' . avatarUrl($hash, 20) . ')',
              ucfirst($name));
 }
 
@@ -796,7 +787,7 @@ function challengesList($reals = false,
 
     while ($c = $sql->fetch_object())
 
-        $code .= li('<a href="challenge?' . urlencode($c->title) . '">' .
+        $code .= li('<a href=challenge?' . urlencode($c->title) . '>' .
                  utf8_encode($c->title) . '</a> ' . $verb . ' ' . L('by') .
                  ' ' . userLinkWithAvatar($c->name, $c->mailHash) .
                  ' : <b>+' . $c->$karmaColumn . ' ♣</b> <time>' .
@@ -816,7 +807,7 @@ function challengesList($reals = false,
  */
 function sendPageToClient($title, $body)
 {
-    global $client, $db, $pageMaxAge;
+    global $client, $db, $pageMaxAge; // ,$lang
 
     if (isset($db)) $db->close();
 
@@ -828,20 +819,24 @@ function sendPageToClient($title, $body)
     header('Expires: ' .
            date('r', NOW + (($pageMaxAge === false) ? 0 : $pageMaxAge)), true);
 
-    echo '<!doctype html>' .
+    echo '<!doctype html>',
          '<title>' . $title . ' - ' . SITE_TITLE . '</title>',
-         '<link rel=stylesheet href=s.css>' .
-         '<header><nav>',
+         // '<link rel="alternate" type="application/rss+xml" title="Atom Feed" href="challenges.atom">',
+         '<link rel=stylesheet href=s.css>',
+         '<header>',
+         '<nav>',
          (isset($client) ?
              userLinkWithAvatar($client->name, $client->mailHash) .
              karmaButton($client->name, $client->karma) .
-             ' ' . a('logout class=b', L('Log out')) .
-             (isAdmin($client) ? a('admin class=b', L('Administration')) : '') :
+             ' ' . a('logout', L('Log out')) .
+             (isAdmin($client) ? a('admin', L('Administration')) : '') :
              ((PHP_FILE == '/signup.php') ? '' : a('signup class=g', L('Sign up'))) .
              ((PHP_FILE == '/login.php') ? '' : ' ' . a('login class=t', L('Log in')))
          ),
-         '</nav>' . h1(a('.', SITE_TITLE)) . '</header>',
-         '<section>' . $body . '</section>';
+         '</nav>',
+         h1(a('.', SITE_TITLE)),
+         '</header>',
+         '<main>' . $body . '</main>';
 
     // exit;
 }
@@ -937,5 +932,19 @@ if (PHP_FILE != '/error.php') {
     $db = new \mysqli(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DB);
 
     if ($db->connect_errno) displayError('Unable to access database !');
-    elseif (getSessionCookie() != '') identifyClient();
+    elseif (getSessionCookie() != '') {
+
+        if (empty($sessionId)) $sessionId = getSessionCookie();
+
+        if ($sessionId != '') {
+
+            $sessId = generateSessionId($db->real_escape_string($sessionId));
+
+            $user = select('users', '*', "session='" . $sessId . "'", 1);
+
+            if ($user->num_rows == 1) $client = $user->fetch_object();
+
+            $user->free();
+        }
+    }
 }

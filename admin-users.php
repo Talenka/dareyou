@@ -17,12 +17,10 @@ if (URL_PARAMS == '') {
 
     $usersList = select('users');
 
-    while ($u = $usersList->fetch_object()) {
+    while ($u = $usersList->fetch_object())
 
-        $html .= li(a('admin-users?' . $u->id .
-                    ' class=u style="background-image:url(' . avatarUrl($u->mailHash, 20) . ')"',
-                    ucfirst($u->name)) . ' [' . $u->karma . ' ♣]');
-    }
+        $html .= li(a('admin-users?' . $u->id,
+                      ucfirst($u->name)) . ' [' . $u->karma . ' ♣]');
 
     $usersList->free();
 
@@ -36,13 +34,31 @@ if (URL_PARAMS == '') {
 
     if ($sql->num_rows === 1) {
 
+        if (!empty($_POST['name']) &&
+            isBetween(strlen($_POST['name']), 2, 25) &&
+            (!empty($_POST['mail']) ||
+             isBetween(strlen($_POST['mail']), 6, 255)) &&
+            isFormKeyValid()) {
+
+            /**
+             * @todo verify that these user name and/or mail are not used by anyone else !
+             * @todo lowercase new user name ?
+             * @todo verify that new user name is not forbidden
+             */
+
+            $newMailHash = md5($_POST['mail']);
+
+            // $db->query('UPDATE `users` SET `name`=""' . () . ' AND `mailHash`="' . md5($_POST['mail']) . '"');
+
+        }
+
         $userToAdmin = $sql->fetch_object();
 
         $html = h2(a('admin-users', L('Users')) .
                    ' #' . $userToAdmin->id . ' (' . $userToAdmin->name . ')');
 
-        $html .= form(usernameField(false, $userToAdmin->name) .
-                      usermailField(false, '') .
+        $html .= form(usernameField(true, $userToAdmin->name) .
+                      usermailField(false, '', false) .
                       '<small>(' .
                       L('Leave blank the field above to keep the current mail') .
                       '</small><br>' .

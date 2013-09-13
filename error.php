@@ -1,8 +1,6 @@
 <?php
 /**
  * This page displays an error message that comes with a link to homepage.
- *
- * @todo log activity ?
  */
 
 namespace Dareyou;
@@ -16,6 +14,6 @@ sendPageToClient(L('ERRMSG'), a(HOME, h1(L('ERRMSG'))) .
         '<p>' . L('Try to go back to') .
         ' <a href=# onClick="history.go(-1)">' . L('the previous page') .
         '</a> ' . L('or return to') . ' ' .
-        a(HOME . ' class="b g"', L('the homepage')) . '</p>' .
+        a(HOME . ' class=g', L('the homepage')) . '</p>' .
         '<p>' . L('If the problem persists, do not hesitate') . ' ' .
         a('contact', L('to contact us')) . '.');

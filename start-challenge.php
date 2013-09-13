@@ -64,13 +64,13 @@ if (isFormKeyValid()) {
 $html = form((empty($warnings) ? '' :
         '<div class=w>' . L('There are some errors that prevent starting the challenge:') .
             '<br>' . implode('<br>', $warnings) . '</div>') .
-        '<input type=text name=challengeTitle maxlength=255 placeholder="' .
+        '<input type=text name=challengeTitle maxlength=255 required placeholder="' .
             L('The challenge title (simple and unique)') . '" autofocus pattern="[\w ]{3,255}"' .
             (empty($_POST['challengeTitle']) ? '' : ' value="' . $_POST['challengeTitle'] . '"') . '>' .
         '<textarea name=challengeDescription maxlength=65535 placeholder="' .
             L('Challenge description with details') . '" rows=5>' .
             (empty($_POST['challengeDescription']) ? '' : $_POST['challengeDescription']) . '</textarea>' .
-        '<input type=number name=challengeTimeToDo maxlength=3 min=1 max=365 ' .
+        '<input type=number name=challengeTimeToDo required maxlength=3 min=1 max=365 ' .
             'placeholder="' . L('Time to accomplish the challenge (in days)') . '"' .
             (empty($_POST['challengeTimeToDo']) ? '' : ' value="' . $_POST['challengeTimeToDo'] . '"') . '>' .
         '<input type=url name=challengeImage maxlength=255 placeholder="' .

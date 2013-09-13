@@ -4,6 +4,9 @@
 # Actually just OS- or framework-generated files, nothing interesting
 .*
 
+# Favicon (in various format)
+favicon*
+
 # My personnal configuration file (see config.sample.php)
 config.php
 

@@ -58,5 +58,6 @@ sendPageToClient(L('Search'),
                          ' value="' . $search . '"' .
                          ' maxlength=255 required autofocus style=display:inline-block>' .
                          submitButton(L('Search'), 'class=g'),
-                         'search onSubmit="window.location=\'search?\'+escape(document.getElementById(\'q\').value);return false"')) .
+                         'search onSubmit="return !(window.location=\'search?\'+' .
+                                                    'escape(document.getElementById(\'q\').value))"')) .
                  $result);
