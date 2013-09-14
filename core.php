@@ -829,7 +829,7 @@ function sendPageToClient($title, $body)
              userLinkWithAvatar($client->name, $client->mailHash) .
              karmaButton($client->name, $client->karma) .
              ' ' . a('logout', L('Log out')) .
-             (isAdmin($client) ? a('admin', L('Administration')) : '') :
+             (isAdmin($client) ? ' ' . a('admin', L('Administration')) : '') :
              ((PHP_FILE == '/signup.php') ? '' : a('signup class=g', L('Sign up'))) .
              ((PHP_FILE == '/login.php') ? '' : ' ' . a('login class=t', L('Log in')))
          ),
@@ -923,28 +923,35 @@ if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
     }
 }
 
-// Include the current user language file.
-include_once 'lang.'. $lang . '.php';
+function main()
+{
+    global $lang, $db, $client;
 
-// If this is not an error page, we connect to the database.
-if (PHP_FILE != '/error.php') {
+    // Include the current user language file.
+    include_once 'lang.' . $lang . '.php';
 
-    $db = new \mysqli(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DB);
+    // If this is not an error page, we connect to the database.
+    if (PHP_FILE != '/error.php') {
 
-    if ($db->connect_errno) displayError('Unable to access database !');
-    elseif (getSessionCookie() != '') {
+        $db = new \mysqli(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DB);
 
-        if (empty($sessionId)) $sessionId = getSessionCookie();
+        if ($db->connect_errno) displayError('Unable to access database !');
+        elseif (getSessionCookie() != '') {
 
-        if ($sessionId != '') {
+            if (empty($sessionId)) $sessionId = getSessionCookie();
 
-            $sessId = generateSessionId($db->real_escape_string($sessionId));
+            if ($sessionId != '') {
 
-            $user = select('users', '*', "session='" . $sessId . "'", 1);
+                $sessId = generateSessionId($db->real_escape_string($sessionId));
 
-            if ($user->num_rows == 1) $client = $user->fetch_object();
+                $user = select('users', '*', "session='" . $sessId . "'", 1);
 
-            $user->free();
+                if ($user->num_rows == 1) $client = $user->fetch_object();
+
+                $user->free();
+            }
         }
     }
 }
+
+main();

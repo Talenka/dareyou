@@ -24,12 +24,23 @@ challenge.
 
 ### Under the hood
 
-The code is [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself),
-[PSR](https://github.com/php-fig/fig-standards/) compliant,
-concisely [documented](http://dareyou.be/doc/), but uses no class at all.
-HTML and CSS are lovingly minified down to the last bit. No javascript needed!
+Like this is an exercise, here are the guidelines I set for myself:
 
-Unlike most PHP projects, there is no one entry point. Instead, each file 
-include the [`core.php`](https://github.com/Talenka/dareyou/blob/master/core.php). 
-Each website page have its own file. All files are in the root folder. Why 
-this ? Just for fun, and to see if it is a choice as bad as people say ;-)
+* Best practices:
+    * Complete, concise, public, up-to-date [documentation](http://dareyou.be/doc/) 
+      (with [phpdoc](https://github.com/phpDocumentor/phpDocumentor2))
+    * Follow the [coding style standards](https://github.com/php-fig/fig-standards/)
+      (with [php_cs_fixer](https://github.com/fabpot/PHP-CS-Fixer))
+    * [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) code
+      (with [phpmd](https://github.com/phpmd/phpmd))
+    * [Semantic](https://en.wikipedia.org/wiki/Semantic_HTML),
+      [responsive](https://en.wikipedia.org/wiki/Responsive_Web_Design),
+      [progressively enhanced](https://en.wikipedia.org/wiki/Progressive_Enhancement) HTML5
+    * [Cool URLs](http://www.w3.org/Provider/Style/URI)
+    * [Obsessive minification](https://en.wikipedia.org/wiki/Minification_%28programming%29)
+* For fun:
+    * One view to rule them
+    * No javascript (pure HTML5 on client side)
+    * No classes
+      (purely functional [`core`](https://github.com/Talenka/dareyou/blob/master/core.php) 
+      and purely procedural controllers)
