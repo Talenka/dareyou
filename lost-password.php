@@ -38,7 +38,7 @@ if (URL_PARAMS != '') {
     strlen($_POST['mail']) < 256 &&
     strlen($_POST['mail']) > 6) {
 
-    $mailHash = $db->real_escape_string(md5(cleanUserMail($_POST['mail'])));
+    $mailHash = realEscapeString(md5(cleanUserMail($_POST['mail'])));
 
     $user = select('users', '*', 'mailHash="' . $mailHash . '"', 1);
 

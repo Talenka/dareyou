@@ -21,8 +21,8 @@ if (!empty($search)) {
     $whereClause = array();
 
     foreach ($searchTerms as $term) {
-        array_push($whereClause, 'title LIKE "%' . $db->real_escape_string($term) . '%"');
-        array_push($whereClause, 'description LIKE "%' . $db->real_escape_string($term) . '%"');
+        array_push($whereClause, 'title LIKE "%' . realEscapeString($term) . '%"');
+        array_push($whereClause, 'description LIKE "%' . realEscapeString($term) . '%"');
     }
 
     $searchResults = array();

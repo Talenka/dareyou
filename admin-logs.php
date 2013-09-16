@@ -20,7 +20,7 @@ if (URL_PARAMS == 'purge')
 
 elseif (substr(URL_PARAMS, 0, 7) == 'search/') {
 
-    $search = $db->real_escape_string(urldecode(substr(URL_PARAMS, 7)));
+    $search = realEscapeString(urldecode(substr(URL_PARAMS, 7)));
 
     $whereClause = ' AND (l.text LIKE "%' . $search . '%" OR ' .
                           'l.url LIKE "%' . $search . '%" OR ' .

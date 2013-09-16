@@ -15,8 +15,8 @@ if (!empty($_POST['mail']) &&
     isBetween(strlen($_POST['password']), 3, 255) &&
     isFormKeyValid()) {
 
-    $mailHash = $db->real_escape_string(md5(cleanUserMail($_POST['mail'])));
-    $password = $db->real_escape_string(hashPassword($_POST['password']));
+    $mailHash = realEscapeString(md5(cleanUserMail($_POST['mail'])));
+    $password = realEscapeString(hashPassword($_POST['password']));
 
     $user = select('users', '*', 'mailHash="' . $mailHash . '" AND pass="' . $password . '"', 1);
 

@@ -18,7 +18,7 @@ if (URL_PARAMS == '') redirectTo(HOME, 400);
 
 // We look in the database for the challenge with the specified name
 $challenge = select('challenges c, users u', 'c.*,u.name,u.mailHash',
-                    'c.title="' . addslashes($db->real_escape_string(urldecode(URL_PARAMS))) .
+                    'c.title="' . addslashes(realEscapeString(urldecode(URL_PARAMS))) .
                     '" AND c.author=u.id', 1);
 
 // If there is no result, respond to user that the challenge is not found.
@@ -31,8 +31,6 @@ $c = $challenge->fetch_object();
 $challenge->free();
 
 $attemptsNumber = selectCount('realizations', 'cid=' . (int) $c->cid);
-
-// duration : P[n]D
 
 $html = '<article itemscope itemtype="http://schema.org/CreativeWork">' .
         h1('<a href="challenge?' . urlencode($c->title) . '" itemprop=name>' .

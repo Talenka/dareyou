@@ -30,7 +30,7 @@ if (URL_PARAMS == '') {
 
     $args = explode('/', URL_PARAMS);
 
-    $sql = select('users', '*', 'id = ' . $db->real_escape_string((int) $args[0]), 1);
+    $sql = select('users', '*', 'id = ' . realEscapeString((int) $args[0]), 1);
 
     if ($sql->num_rows === 1) {
 

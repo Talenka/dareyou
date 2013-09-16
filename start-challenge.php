@@ -47,12 +47,12 @@ if (isFormKeyValid()) {
         if ($db->query('INSERT INTO challenges ' .
             '(lang,title,author,description,image,created,timeToDo,forSum,againstSum,completed,totalSum) ' .
             'VALUES("' . $lang . '",' .
-                    '"' . $db->real_escape_string($_POST['challengeTitle']). '",' .
+                    '"' . realEscapeString($_POST['challengeTitle']). '",' .
                     $client->id . ',' .
-                    '"' . $db->real_escape_string($_POST['challengeDescription']) . '",' .
-                    '"' . $db->real_escape_string($_POST['challengeImage']) . '",' .
+                    '"' . realEscapeString($_POST['challengeDescription']) . '",' .
+                    '"' . realEscapeString($_POST['challengeImage']) . '",' .
                     NOW . ',' .
-                    '"' . $db->real_escape_string($_POST['challengeTimeToDo']) . '",' .
+                    '"' . realEscapeString($_POST['challengeTimeToDo']) . '",' .
                     '0,0,0,0)')) {
 
             redirectTo('challenge?' . urlencode($_POST['challengeTitle']));

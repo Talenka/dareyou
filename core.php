@@ -329,6 +329,13 @@ function cleanUserName($userName)
     return substr(preg_replace('/[^a-zA-Z0-9]/', '', $userName), 0, 20);
 }
 
+function realEscapeString($s)
+{
+    global $db;
+
+    return $db->real_escape_string($s);
+}
+
 /**
  * Check whether the form key sent by user is valid and not expired.
  * @see \Dareyou\generateFormKey()
@@ -467,9 +474,9 @@ function logActivity($text, $url = '', $public = false)
 
     $db->query('INSERT INTO `logs` (`date`,`user`,`text`,`public`,`url`) VALUES(' . NOW . ',' .
                (empty($client) ? 0 : $client->id) . ',' .
-               '"' . $db->real_escape_string($text) . '",' .
+               '"' . realEscapeString($text) . '",' .
                (($public === true) ? 1 : 0) . ',' .
-               '"' . $db->real_escape_string($url) . '")');
+               '"' . realEscapeString($url) . '")');
 }
 
 /*******************************************************************************
@@ -928,7 +935,7 @@ function main()
     global $lang, $db, $client;
 
     // Include the current user language file.
-    include_once 'lang.' . $lang . '.php';
+    include_once 'lang.'. $lang . '.php';
 
     // If this is not an error page, we connect to the database.
     if (PHP_FILE != '/error.php') {
@@ -942,7 +949,7 @@ function main()
 
             if ($sessionId != '') {
 
-                $sessId = generateSessionId($db->real_escape_string($sessionId));
+                $sessId = generateSessionId(realEscapeString($sessionId));
 
                 $user = select('users', '*', "session='" . $sessId . "'", 1);
 

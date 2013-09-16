@@ -24,9 +24,9 @@ if (!empty($_POST['name']) &&
 
     else {
 
-        $name = $db->real_escape_string(cleanUserName($_POST['name']));
-        $mailHash = md5($db->real_escape_string(cleanUserMail($_POST['mail'])));
-        $pass = $db->real_escape_string(hashPassword($_POST['password']));
+        $name = realEscapeString(cleanUserName($_POST['name']));
+        $mailHash = md5(realEscapeString(cleanUserMail($_POST['mail'])));
+        $pass = realEscapeString(hashPassword($_POST['password']));
 
         if (in_array(strtolower($_POST['name']), $forbiddenNames))
             $signupError[] = L('This name is forbidden, please choose another');
