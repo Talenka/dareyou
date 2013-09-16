@@ -26,8 +26,8 @@ if (!empty($_POST['mail']) &&
         $sessionId   = generateSessionId($client->id); // stored in the user's browser (cookie)
         $sessionHash = generateSessionId($sessionId); // stored in the database
 
-        if ($db->query("UPDATE users SET session='" . $sessionHash . "' WHERE id=" . $client->id . ' LIMIT 1')) {
-
+        if (dbUpdate('users', "session='$sessionHash'", 'id=' . $client->id)) {
+            
             sendSessionCookie($sessionId);
 
             logActivity('Login');

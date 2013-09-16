@@ -10,7 +10,7 @@ require_once 'core.php';
 restrictAccessToAdministrator();
 
 sendPageToClient(L('Administration'),
-                 h1(a('admin', L('Administration'))) .
+                 h1(L('Administration')) .
                  '<ul>' .
                  li(a('admin-logs', L('Logs'))) .
                  li(a('admin-users', L('Users'))) .

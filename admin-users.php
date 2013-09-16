@@ -49,6 +49,7 @@ if (URL_PARAMS == '') {
             $newMailHash = md5($_POST['mail']);
 
             // $db->query('UPDATE `users` SET `name`=""' . () . ' AND `mailHash`="' . md5($_POST['mail']) . '"');
+            // dbUpdate($table, $sets, $where, $limits = 1)
 
         }
 

@@ -13,51 +13,48 @@ if (isFormKeyValid()) {
 
     $warnings = array();
 
-    if (empty($_POST['challengeTitle'])) {
+    if (empty($_POST['challengeTitle']))
         $warnings[] = L('You have not given a challenge title');
 
-    } elseif (strlen($_POST['challengeTitle']) < 3) {
+    elseif (strlen($_POST['challengeTitle']) < 3)
         $warnings[] = L('Your title is too short (3 letters minimum)');
 
-    } elseif (strlen($_POST['challengeTitle']) > 255) {
+    elseif (strlen($_POST['challengeTitle']) > 255)
         $warnings[] = L('Your title is too long (255 letters maximum)');
-    }
 
-    if (strlen($_POST['challengeDescription']) > 65535) {
+    if (strlen($_POST['challengeDescription']) > 65535)
         $warnings[] = L('Your description is too long (65535 letters maximum)');
-    }
 
-    if ($_POST['challengeTimeToDo'] < 1) {
+    if ($_POST['challengeTimeToDo'] < 1)
         $warnings[] = L('It takes at least 1 day to complete the challenge');
-    } elseif ($_POST['challengeTimeToDo'] > 365) {
-        // The maximum delay is 1 year:
-        $_POST['challengeTimeToDo'] = 365;
-    }
 
-    if (strlen($_POST['challengeImage']) > 255) {
+    elseif ($_POST['challengeTimeToDo'] > 365)
+        $_POST['challengeTimeToDo'] = 365; // The maximum delay is 1 year:
+
+    if (strlen($_POST['challengeImage']) > 255)
         $warnings[] = L('Your image URL is too long (255 characters maximum)');
-    } elseif (substr($_POST['challengeImage'], 0, 4) != 'http') {
+
+    elseif (substr($_POST['challengeImage'], 0, 4) != 'http')
         $warnings[] = L('Your image URL look weird, it should be like <u>http://example.com/image.jpg</u>');
-    }
 
     $_POST['challengeImage'] = preg_replace('/[^\w\/\:\-\.\(\) ]/', '', $_POST['challengeImage']);
 
-    if (sizeof($warnings) == 0) {
+    if (empty($warnings)) {
 
-        if ($db->query('INSERT INTO challenges ' .
-            '(lang,title,author,description,image,created,timeToDo,forSum,againstSum,completed,totalSum) ' .
-            'VALUES("' . $lang . '",' .
-                    '"' . realEscapeString($_POST['challengeTitle']). '",' .
-                    $client->id . ',' .
-                    '"' . realEscapeString($_POST['challengeDescription']) . '",' .
-                    '"' . realEscapeString($_POST['challengeImage']) . '",' .
-                    NOW . ',' .
-                    '"' . realEscapeString($_POST['challengeTimeToDo']) . '",' .
-                    '0,0,0,0)')) {
+        if (dbInsert('challenges',
+                     'lang,title,author,description,image,created,timeToDo,forSum,againstSum,completed,totalSum',
+                     '"' . $lang . '",' .
+                     '"' . realEscapeString($_POST['challengeTitle']). '",' .
+                     $client->id . ',' .
+                     '"' . realEscapeString($_POST['challengeDescription']) . '",' .
+                     '"' . realEscapeString($_POST['challengeImage']) . '",' .
+                     NOW . ',' .
+                     '"' . realEscapeString($_POST['challengeTimeToDo']) . '",' .
+                     '0,0,0,0'))
 
             redirectTo('challenge?' . urlencode($_POST['challengeTitle']));
 
-        } else $warnings[] = L('An error happen so the challenge have not been created, please retry.');
+        else $warnings[] = L('An error happen so the challenge have not been created, please retry.');
     }
 }
 

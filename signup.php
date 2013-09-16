@@ -49,13 +49,12 @@ if (!empty($_POST['name']) &&
 
         if (sizeof($signupError) == 0) {
 
-            if ($db->query('INSERT INTO users (name,mailHash,pass,session,karma) ' .
-                           "VALUES ('" . $name . "','" . $mailHash . "','" . $pass . "','',20)")) {
+            if (dbInsert('users', 'name,mailHash,pass,session,karma', "VALUES ('$name','$mailHash','$pass','',20)")) {
 
                 $newId     = $db->insert_id;
                 $sessionId = generateSessionId($newId);
 
-                if ($db->query('UPDATE users SET session="' . $sessionId . '" WHERE id=' . $newId . ' LIMIT 1')) {
+                if (dbUpdate('users', "session='$sessionId'", 'id=' . $newId)) {
 
                     sendSessionCookie($sessionId);
 

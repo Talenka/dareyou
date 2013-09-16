@@ -329,11 +329,45 @@ function cleanUserName($userName)
     return substr(preg_replace('/[^a-zA-Z0-9]/', '', $userName), 0, 20);
 }
 
+/**
+ * Use the built-in database escape function for strings
+ * @param string $s string to sanitize
+ * @return string
+ */
 function realEscapeString($s)
 {
     global $db;
 
     return $db->real_escape_string($s);
+}
+
+/**
+ * Update database entry
+ * @param string $table Database table to modify
+ * @param string modifications
+ * @param string conditions
+ * @param integer modified entries maximum
+ * @return \mysqli_result
+ */
+function dbUpdate($table, $sets, $where, $limits = 1)
+{
+    global $db;
+
+    return $db->query("UPDATE $table SET $sets WHERE $where LIMIT $limits");
+}
+
+/**
+ * Insert entry in database
+ * @param string $table Database table to modify
+ * @param string columns
+ * @param string values
+ * @return \mysqli_result
+ */
+function dbInsert($table, $columns, $values)
+{
+    global $db;
+
+    return $db->query("INSERT INTO $table ($columns) VALUES($where)");
 }
 
 /**
