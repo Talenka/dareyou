@@ -16,7 +16,3 @@ doc/
 
 # Cache directory, only ephemeral php-generated files
 c/
-
-# This is finally a benchmark file, for obsessive nerd
-# If you want it, just ask ;-)
-admin-test.php
