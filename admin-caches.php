@@ -1,7 +1,6 @@
 <?php
 /**
  * This page shows cached content in static files
- * @todo make admin-caches.php
  */
 
 namespace Dareyou;
@@ -13,14 +12,13 @@ restrictAccessToAdministrator();
 $ignoredFiles = array('.', '..', 'index.php');
 
 if (substr(URL_PARAMS, 0, 6) == 'purge/') {
+
     $fileToPurge = substr(URL_PARAMS, 6);
 
     if (file_exists(CACHE_DIR . '/' . $fileToPurge) &&
         is_file(CACHE_DIR . '/' . $fileToPurge) &&
-        !in_array($fileToPurge, $ignoredFiles)) {
-
+        !in_array($fileToPurge, $ignoredFiles))
         unlink(CACHE_DIR . '/' . $fileToPurge);
-    }
 }
 
 $cacheFileList = array_diff(scandir(CACHE_DIR), $ignoredFiles);
@@ -32,9 +30,9 @@ foreach ($cacheFileList as $cFile) {
 
     $cPath = CACHE_DIR . '/' . $cFile;
     $cSize = filesize($cPath);
+    $since = NOW - filemtime($cPath);
     $totalSize += $cSize;
 
-    $since = NOW - filemtime($cPath);
     $lastUpdate = ($since > ONE_DAY) ? round($since / ONE_DAY) . ' days' :
                    (($since > ONE_HOUR) ? round($since / ONE_HOUR) . ' hours' :
                     (($since > 60) ? round($since / 60) . ' minutes' : $since . ' seconds'));

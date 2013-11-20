@@ -67,81 +67,13 @@ $definedLanguages = array('en' => 'English', 'fr' => 'Français');
 $lang = 'en';
 
 /**
- * @var array List of common passwords, which are forbidden on this website
- */
-$commonPasswords = array('123456','porsche','firebird','prince','rosebud',
-    'password','guitar','butter','beach','jaguar','12345678','chelsea','united',
-    'amateur','great','1234','black','turtle','7777777','cool','pussy',
-    'diamond','steelers','muffin','cooper','12345','nascar','tiffany','redsox',
-    '1313','dragon','jackson','zxcvbn','star','scorpio','qwerty','cameron',
-    'tomcat','testing','mountain','696969','654321','golf','shannon','madison',
-    'mustang','computer','bond007','murphy','987654','letmein','amanda','bear',
-    'frank','brazil','baseball','wizard','tiger','hannah','lauren','master',
-    'xxxxxxxx','doctor','dave','japan','michael','money','gateway','eagle1',
-    'naked','football','phoenix','gators','11111','squirt','shadow','mickey',
-    'angel','mother','stars','monkey','bailey','junior','nathan','apple',
-    'abc123','knight','thx1138','raiders','alexis','pass','iceman','porno',
-    'steve','aaaa','fuckme','tigers','badboy','forever','bonnie','6969',
-    'purple','debbie','angela','peaches','jordan','andrea','spider','viper',
-    'jasmine','harley','horny','melissa','ou812','kevin','ranger','dakota',
-    'booger','jake','matt','iwantu','aaaaaa','1212','lovers','qwertyui',
-    'jennifer','player','flyers','suckit','danielle','hunter','sunshine','fish',
-    'gregory','beaver','fuck','morgan','porn','buddy','4321','2000','starwars',
-    'matrix','whatever','4128','test','boomer','teens','young','runner',
-    'batman','cowboys','scooby','nicholas','swimming','trustno1','edward',
-    'jason','lucky','dolphin','thomas','charles','walter','helpme','gordon',
-    'tigger','girls','cumshot','jackie','casper','robert','booboo','boston',
-    'monica','stupid','access','coffee','braves','midnight','shit','love',
-    'xxxxxx','yankee','college','saturn','buster','bulldog','lover','baby',
-    'gemini','1234567','ncc1701','barney','cunt','apples','soccer','rabbit',
-    'victor','brian','august','hockey','peanut','tucker','mark','3333','killer',
-    'john','princess','startrek','canada','george','johnny','mercedes','sierra',
-    'blazer','sexy','gandalf','5150','leather','cumming','andrew','spanky',
-    'doggie','232323','hunting','charlie','winter','zzzzzz','4444','kitty',
-    'superman','brandy','gunner','beavis','rainbow','asshole','compaq','horney',
-    'bigcock','112233','fuckyou','carlos','bubba','happy','arthur','dallas',
-    'tennis','2112','sophie','cream','jessica','james','fred','ladies','calvin',
-    'panties','mike','johnson','naughty','shaved','pepper','brandon','xxxxx',
-    'giants','surfer','1111','fender','tits','booty','samson','austin',
-    'anthony','member','blonde','kelly','william','blowme','boobs','fucked',
-    'paul','daniel','ferrari','donald','golden','mine','golfer','cookie',
-    'bigdaddy','0','king','summer','chicken','bronco','fire','racing','heather',
-    'maverick','penis','sandra','5555','hammer','chicago','voyager','pookie',
-    'eagle','yankees','joseph','rangers','packers','hentai','joshua','diablo',
-    'birdie','einstein','newyork','maggie','sexsex','trouble','dolphins',
-    'little','biteme','hardcore','white','0','redwings','enter','666666',
-    'topgun','chevy','smith','ashley','willie','bigtits','winston','sticky',
-    'thunder','welcome','bitches','warrior','cocacola','cowboy','chris','green',
-    'sammy','animal','silver','panther','super','slut','broncos','richard',
-    'yamaha','qazwsx','8675309','private','fucker','justin','magic','zxcvbnm',
-    'skippy','orange','banana','lakers','nipples','marvin','merlin','driver',
-    'rachel','power','blondes','michelle','marine','slayer','victoria','enjoy',
-    'corvette','angels','scott','asdfgh','girl','bigdog','fishing','2222',
-    'vagina','apollo','cheese','david','asdf','toyota','parker','matthew',
-    'maddog','video','travis','qwert','121212','hooters','london','hotdog',
-    'time','patrick','wilson','7777','paris','sydney','martin','butthead',
-    'marlboro','rock','women','freedom','dennis','srinivas','xxxx','voodoo',
-    'ginger','fucking','internet','extreme','magnum','blowjob','captain',
-    'action','redskins','juice','nicole','bigdick','carter','erotic','abgrtyu',
-    'sparky','chester','jasper','dirty','777777','yellow','smokey','monster',
-    'ford','dreams','camaro','xavier','teresa','freddy','maxwell','secret',
-    'steven','jeremy','arsenal','music','dick','viking','11111111','access14',
-    'rush2112','falcon','snoopy','bill','wolf','russia','taylor','blue',
-    'crystal','nipple','scorpion','111111','eagles','peter','iloveyou',
-    'rebecca','131313','winner','pussies','alex','tester','123123','samantha',
-    'cock','florida','mistress','bitch','house','beer','eric','phantom','hello',
-    'miller','rocket','legend','billy','scooter','flower','theman','movie',
-    '6666','0','please','jack','oliver','success','albert','azerty','azerazer',
-    'rezareza','ninja','jesus','cheval');
-
-/**
  * @var string List of forbidden user names (for security of confusion reason)
  */
 $forbiddenNames = array('login', 'null', 'true', 'false', 'anonymous', 'exit',
     'root', 'admin', 'administrator', 'moderator', 'mail', 'mysql', 'sql',
     'undefined', 'dareyou', 'google', 'facebook', 'test', 'class', 'function',
     'delete', 'insert', 'update', 'www', 'referee', 'yes', 'logout', 'signup',
-    'challenge', 'karma', 'index', 'home', 'config', 'winner', 'yes');
+    'challenge', 'karma', 'index', 'home', 'config', 'winner', 'yes', 'select');
 
 /*******************************************************************************
 *                                                                              *
@@ -192,13 +124,13 @@ function redirectTo($url, $statusCode = 200)
         429 => '429 Too Many Requests',
         500 => '500 Internal Server Error');
 
-    if (isset($statusCodes[$statusCode])) {
+    if (isset($statusCodes[$statusCode]))
         header('Status: ' . $statusCodes[$statusCode], false, $statusCode);
-    }
 
-    if ($statusCode == 301) {
+    if ($statusCode == 301)
         header('Location: ' . $url, false);
-    } else echo '<!doctype html><script>window.location="' . $url . '";</script>',
+
+    else echo '<!doctype html><script>window.location="' . $url . '";</script>',
               L('If nothing happen, '),
               '<a href="' . $url . '">' . L('click here to continue') . '</a>';
 
@@ -228,6 +160,7 @@ function restrictAccessToAdministrator()
     if (!isAdmin($client)) {
         logActivity($_SERVER['REMOTE_ADDR'] . ' try to access to admin content');
         redirectTo(HOME, 403);
+
     } elseif (!isHttps()) displayError('Administration requires you use https');
 }
 
@@ -301,7 +234,7 @@ function hashText($text)
 
 /**
  * Generates user's session identifier
- * @param int $userId
+ * @param integer $userId
  * @return string
  */
 function generateSessionId($userId)
@@ -313,10 +246,22 @@ function generateSessionId($userId)
  * Sanitize a little bit a user mail input
  * @param string $userMail
  * @return string
+ * @todo clean the right way using: http://www.linuxjournal.com/article/9585
+ * and maybe filter_var($userMail, FILTER_SANITIZE_EMAIL) and/or FILTER_VALIDATE_EMAIL
  */
 function cleanUserMail($userMail)
 {
-    return preg_replace('/[^a-z0-9\.@\-_]/', '', strtolower($userMail));
+    // if (filter_var($userMail, FILTER_VALIDATE_EMAIL))
+    //     return strtolower($userMail);
+
+    // else {
+    //     $userMail = filter_var($userMail, FILTER_SANITIZE_EMAIL);
+
+    //     if (filter_var($userMail, FILTER_VALIDATE_EMAIL))
+    //         return strtolower($userMail);
+    // } else displayError('Invalid mail address');
+
+    return preg_replace('/[^\p{L}\.@\-_]/', '', strtolower($userMail));
 }
 
 /**
@@ -344,9 +289,9 @@ function realEscapeString($s)
 /**
  * Update database entry
  * @param string $table Database table to modify
- * @param string modifications
- * @param string conditions
- * @param integer modified entries maximum
+ * @param string $sets modifications
+ * @param string $where conditions
+ * @param integer $limits modified entries maximum
  * @return \mysqli_result
  */
 function dbUpdate($table, $sets, $where, $limits = 1)
@@ -359,15 +304,16 @@ function dbUpdate($table, $sets, $where, $limits = 1)
 /**
  * Insert entry in database
  * @param string $table Database table to modify
- * @param string columns
- * @param string values
+ * @param string $columns Coma-separated columns list
+ * @param string $values Coma-separated data list
  * @return \mysqli_result
+ * @todo make a try/catch
  */
 function dbInsert($table, $columns, $values)
 {
     global $db;
 
-    return $db->query("INSERT INTO $table ($columns) VALUES($where)");
+    return $db->query("INSERT INTO $table ($columns) VALUES($values)");
 }
 
 /**
@@ -396,6 +342,81 @@ function isFormKeyValid()
 function isAdmin($user)
 {
     return (!empty($user) && ADMIN_HASH == $user->mailHash);
+}
+
+/**
+ * Check is the password is too common, if so it should be forbidden to use.
+ * @param string $pass Password to test.
+ * @return boolean true if the password is common, false otherwise.
+ */
+function isPasswordCommon($pass)
+{
+    $commonPasswords = array('123456','porsche','firebird','prince','rosebud',
+    'password','guitar','butter','beach','jaguar','12345678','chelsea','united',
+    'amateur','great','1234','black','turtle','7777777','cool','pussy',
+    'diamond','steelers','muffin','cooper','12345','nascar','tiffany','redsox',
+    '1313','dragon','jackson','zxcvbn','star','scorpio','qwerty','cameron',
+    'tomcat','testing','mountain','696969','654321','golf','shannon','madison',
+    'mustang','computer','bond007','murphy','987654','letmein','amanda','bear',
+    'frank','brazil','baseball','wizard','tiger','hannah','lauren','master',
+    'xxxxxxxx','doctor','dave','japan','michael','money','gateway','eagle1',
+    'naked','football','phoenix','gators','11111','squirt','shadow','mickey',
+    'angel','mother','stars','monkey','bailey','junior','nathan','apple',
+    'abc123','knight','thx1138','raiders','alexis','pass','iceman','porno',
+    'steve','aaaa','fuckme','tigers','badboy','forever','bonnie','6969',
+    'purple','debbie','angela','peaches','jordan','andrea','spider','viper',
+    'jasmine','harley','horny','melissa','ou812','kevin','ranger','dakota',
+    'booger','jake','matt','iwantu','aaaaaa','1212','lovers','qwertyui',
+    'jennifer','player','flyers','suckit','danielle','hunter','sunshine','fish',
+    'gregory','beaver','fuck','morgan','porn','buddy','4321','2000','starwars',
+    'matrix','whatever','4128','test','boomer','teens','young','runner',
+    'batman','cowboys','scooby','nicholas','swimming','trustno1','edward',
+    'jason','lucky','dolphin','thomas','charles','walter','helpme','gordon',
+    'tigger','girls','cumshot','jackie','casper','robert','booboo','boston',
+    'monica','stupid','access','coffee','braves','midnight','shit','love',
+    'xxxxxx','yankee','college','saturn','buster','bulldog','lover','baby',
+    'gemini','1234567','ncc1701','barney','cunt','apples','soccer','rabbit',
+    'victor','brian','august','hockey','peanut','tucker','mark','3333','killer',
+    'john','princess','startrek','canada','george','johnny','mercedes','sierra',
+    'blazer','sexy','gandalf','5150','leather','cumming','andrew','spanky',
+    'doggie','232323','hunting','charlie','winter','zzzzzz','4444','kitty',
+    'superman','brandy','gunner','beavis','rainbow','asshole','compaq','horney',
+    'bigcock','112233','fuckyou','carlos','bubba','happy','arthur','dallas',
+    'tennis','2112','sophie','cream','jessica','james','fred','ladies','calvin',
+    'panties','mike','johnson','naughty','shaved','pepper','brandon','xxxxx',
+    'giants','surfer','1111','fender','tits','booty','samson','austin',
+    'anthony','member','blonde','kelly','william','blowme','boobs','fucked',
+    'paul','daniel','ferrari','donald','golden','mine','golfer','cookie',
+    'bigdaddy','0','king','summer','chicken','bronco','fire','racing','heather',
+    'maverick','penis','sandra','5555','hammer','chicago','voyager','pookie',
+    'eagle','yankees','joseph','rangers','packers','hentai','joshua','diablo',
+    'birdie','einstein','newyork','maggie','sexsex','trouble','dolphins',
+    'little','biteme','hardcore','white','0','redwings','enter','666666',
+    'topgun','chevy','smith','ashley','willie','bigtits','winston','sticky',
+    'thunder','welcome','bitches','warrior','cocacola','cowboy','chris','green',
+    'sammy','animal','silver','panther','super','slut','broncos','richard',
+    'yamaha','qazwsx','8675309','private','fucker','justin','magic','zxcvbnm',
+    'skippy','orange','banana','lakers','nipples','marvin','merlin','driver',
+    'rachel','power','blondes','michelle','marine','slayer','victoria','enjoy',
+    'corvette','angels','scott','asdfgh','girl','bigdog','fishing','2222',
+    'vagina','apollo','cheese','david','asdf','toyota','parker','matthew',
+    'maddog','video','travis','qwert','121212','hooters','london','hotdog',
+    'time','patrick','wilson','7777','paris','sydney','martin','butthead',
+    'marlboro','rock','women','freedom','dennis','srinivas','xxxx','voodoo',
+    'ginger','fucking','internet','extreme','magnum','blowjob','captain',
+    'action','redskins','juice','nicole','bigdick','carter','erotic','abgrtyu',
+    'sparky','chester','jasper','dirty','777777','yellow','smokey','monster',
+    'ford','dreams','camaro','xavier','teresa','freddy','maxwell','secret',
+    'steven','jeremy','arsenal','music','dick','viking','11111111','access14',
+    'rush2112','falcon','snoopy','bill','wolf','russia','taylor','blue',
+    'crystal','nipple','scorpion','111111','eagles','peter','iloveyou',
+    'rebecca','131313','winner','pussies','alex','tester','123123','samantha',
+    'cock','florida','mistress','bitch','house','beer','eric','phantom','hello',
+    'miller','rocket','legend','billy','scooter','flower','theman','movie',
+    '6666','0','please','jack','oliver','success','albert','azerty','azerazer',
+    'rezareza','ninja','jesus','cheval');
+
+    return in_array(strtolower($pass), $commonPasswords);
 }
 
 /**
@@ -560,7 +581,7 @@ function h3($html)
  */
 function li($html)
 {
-    return '<li>' . $html . '</li>';
+    return '<li>' . $html;
 }
 
 /**
@@ -705,7 +726,40 @@ function cacheGravatar($hash, $size = 20)
 
     $gravatar = file_get_contents('http:' . gravatarUrl($hash, $size));
 
-    return ($gravatar !== false && file_put_contents($cacheFile, $gravatar));
+    return ($gravatar !== false && file_put_contents($cacheFile, $gravatar, LOCK_EX));
+}
+
+/**
+ * Challenge image url
+ *
+ * @param string $url original image url.
+ * @param integer $size wanted width & height (in pixels).
+ * @return string Cached file if it exists, original url otherwise.
+ */
+function challengeImage($url, $size = 280)
+{
+    $hash = md5($url);
+    $cacheFile = CACHE_DIR . '/' . substr($hash, 0, 6) . ($size % 7) . '.jpg';
+
+    if (file_exists($cacheFile)) return $cacheFile;
+    else return chacheChallengeImage($hash, $size) ? $cacheFile : $url;
+}
+
+/**
+ * Caches challenge image
+ *
+ * @param string $url original image url.
+ * @param integer $size Avatar width & height (in pixels).
+ * @return boolean true if image is cached, false otherwise.
+ */
+function cacheChallengeImage($hash, $size = 280)
+{
+    $hash = md5($url);
+    $cacheFile = CACHE_DIR . '/' . substr($hash, 0, 6) . ($size % 7) . '.jpg';
+
+    $remoteImage = file_get_contents($url);
+
+    return ($gravatar !== false && file_put_contents($cacheFile, $gravatar, LOCK_EX));
 }
 
 /**
@@ -725,7 +779,7 @@ function getAvatar($name, $hash)
  * Gravatar public profile url
  *
  * @param string $hash MD5 hash of mail address.
- * @return Gravatar profile URL.
+ * @return string Gravatar profile URL.
  */
 function gravatarProfile($hash)
 {
@@ -736,7 +790,7 @@ function gravatarProfile($hash)
  * Link to the gravatar public profile.
  *
  * @param string $hash MD5 hash of mail address.
- * @return Gravatar profile link.
+ * @return string Gravatar profile link.
  */
 function gravatarProfileLink($hash)
 {
@@ -793,7 +847,7 @@ function languageSelector()
     $langs = array();
 
     foreach ($definedLanguages as $lg => $language)
-        if ($lg != $lang) $langs[] = a('language?' . $lg . ' title=' . L($language), $language);
+        if ($lg != $lang) $langs[] = a('lang?' . $lg . ' title=' . L($language), $language);
     return L('In other languages') . ' : ' . implode(', ', $langs);
 }
 
@@ -860,10 +914,54 @@ function sendPageToClient($title, $body)
     header('Expires: ' .
            date('r', NOW + (($pageMaxAge === false) ? 0 : $pageMaxAge)), true);
 
+    // This is not for wimps, this is HTML5!
     echo '<!doctype html>',
+
+         // Old XHTML1 doctype: fuck it
+         // '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"' .
+         // ' "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+         // Or HTML4, better but still too complex and dated:
+         // '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">',
+
+         // Html code opening with xhtml namespace : USELESS, thanks HTML5!
+         // '<html xmlns="http://www.w3.org/1999/xhtml" lang="' . $lang . '">',
+
+         // '<head>',
+
+         // Explicit character encoding (useless because it's in headers)
+         // '<meta charset=utf-8>',
+         // Or worst, HTML4 style:
+         // '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">',
+
+         // Explicit content language (useless because no one cares?)
+         // '<meta name=Content-Language content="' . $lang . '">',
+
+         // Idevice mobile viewport specification
+         // '<meta name=viewport content="width=device-width,initial-scale=1.0">',
+
+         // Explicit favorite/browser tab icon (useless because it's standard)
+         // '<link rel=icon type="image/x-icon" href="/favicon.ico">',
+         // '<link rel="shortcut icon" href="/favicon.ico">',
+
+         // New challenges RSS/ATOM feed
+         // '<link rel=alternate type="application/rss+xml" title="Atom Feed" href="challenges.atom">',
+
+         // Search engine description (useless, google do it its own way)
+         // '<meta name=description content="' . L('What are you gonna do awesome today?') . '">',
+
+         // Open search (mozilla only, but its cool)
+         // '<link rel=search type="application/opensearchdescription+xml"' .
+         // ' href="/opensearch.xml" title="' . SITE_TITLE . '">',
+
+         // Weird Metadata that tells Internet Explorer to use its better render mode (lol)
+         // '<meta http-equiv="X-UA-Compatible" content="IE=edge">',
+
          '<title>' . $title . ' - ' . SITE_TITLE . '</title>',
-         // '<link rel="alternate" type="application/rss+xml" title="Atom Feed" href="challenges.atom">',
          '<link rel=stylesheet href=s.css>',
+
+         // '</head>',
+         // '<body>',
+
          '<header>',
          '<nav>',
          (isset($client) ?
@@ -878,6 +976,9 @@ function sendPageToClient($title, $body)
          h1(a('.', SITE_TITLE)),
          '</header>',
          '<main>' . $body . '</main>';
+
+         // '</body>',
+         // '</html>'
 
     // exit;
 }
@@ -908,7 +1009,7 @@ function cacheFilePath($id)
  */
 function cache($id, $content = '')
 {
-    file_put_contents(cacheFilePath($id), $content);
+    file_put_contents(cacheFilePath($id), $content, LOCK_EX);
 
     return $content;
 }
@@ -926,50 +1027,51 @@ function getFromCache($id, $term = 300)
     return (!file_exists($cFile) || filemtime($cFile) < NOW - $term) ? false : file_get_contents($cFile);
 }
 
-/*******************************************************************************
-*                                                                              *
-*                            MAIN SCRIPT BEGINS HERE                           *
-*                                                                              *
-*******************************************************************************/
-
-// If we are not on the canonical server, we redirect user to him:
-// if ($_SERVER['SERVER_NAME'] != SERVER_NAME)
-//     redirectTo('http://' . SERVER_NAME .
-//                ((PHP_FILE == '/index.php') ? '/' : PHP_FILE) .
-//                ((URL_PARAMS == '') ?
-//                 '' :
-//                 '?' . URL_PARAMS),
-//                301);
-
-if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-
-    $langs = (empty($_COOKIE['lang'])) ? explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) :
-                                         array($_COOKIE['lang']);
-
-    $i = 0;
-
-    $j = sizeof($langs);
-
-    while ($i < $j) {
-
-        $language = substr($langs[$i], 0, 2);
-
-        if (file_exists('lang.' . $language . '.php')) {
-
-            $lang = $language;
-            break;
-        }
-
-        ++$i;
-    }
-}
-
-function main()
+/**
+ * Define client language using cookie and http header "HTTP_ACCEPT_LANGUAGE".
+ */
+function defineClientLanguage()
 {
-    global $lang, $db, $client;
+    global $lang;
+
+    // If we are not on the canonical server, we redirect user to him:
+    if ($_SERVER['SERVER_NAME'] != SERVER_NAME)
+        redirectTo('http://' . SERVER_NAME .
+                   ((PHP_FILE == '/index.php') ? '/' : PHP_FILE) .
+                   ((URL_PARAMS == '') ? '' : '?' . URL_PARAMS), 301);
+
+    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+
+        $langs = (empty($_COOKIE['lang'])) ?
+                     explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) :
+                     array($_COOKIE['lang']);
+
+        for ($i = 0, $j = sizeof($langs); $i < $j; $i++) {
+
+            $language = substr($langs[$i], 0, 2);
+
+            if (file_exists("lang.$language.php")) {
+
+                $lang = $language;
+                break;
+            }
+        }
+    }
 
     // Include the current user language file.
-    include_once 'lang.'. $lang . '.php';
+    include_once "lang.$lang.php";
+}
+
+/**
+ * The main function
+ *
+ * Called just after its definition, and in most case before anything else.
+ */
+function main()
+{
+    global $db, $client;
+
+    defineClientLanguage();
 
     // If this is not an error page, we connect to the database.
     if (PHP_FILE != '/error.php') {
@@ -985,7 +1087,7 @@ function main()
 
                 $sessId = generateSessionId(realEscapeString($sessionId));
 
-                $user = select('users', '*', "session='" . $sessId . "'", 1);
+                $user = select('users', '*', "session='$sessId'", 1);
 
                 if ($user->num_rows == 1) $client = $user->fetch_object();
 

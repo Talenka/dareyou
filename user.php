@@ -51,7 +51,7 @@ $html = '<nav>' .
         '</ul>';
 
 $completedChallenges = selectCount('realizations',
-                                   'uid=' . ((int) $client->id) . ' AND status="done"');
+                                   'uid=' . ((int) $user->id) . ' AND status="done"');
 
 if ($completedChallenges > 0)
     $html .= '<h3 id=completed-challenges><b>' . $completedChallenges . '</b> ' .
@@ -59,7 +59,7 @@ if ($completedChallenges > 0)
              challengesList(true, 'r.status="done"', 'r.end DESC');
 
 $acceptedChallenges = selectCount('realizations',
-                                  'uid=' . ((int) $client->id) . ' AND status="accepted"');
+                                  'uid=' . ((int) $user->id) . ' AND status="accepted"');
 
 if ($acceptedChallenges > 0)
     $html .= '<h3 id=accepted-challenges><b>' . $acceptedChallenges . '</b> ' .
@@ -67,7 +67,7 @@ if ($acceptedChallenges > 0)
              challengesList(true, 'r.status="accepted"', 'r.end DESC');
 
 $failedChallenges = selectCount('realizations',
-                                'uid=' . ((int) $client->id) . ' AND status="failed"');
+                                'uid=' . ((int) $user->id) . ' AND status="failed"');
 
 if ($failedChallenges > 0)
     $html .= '<h3 id=failed-challenges><b>' . $failedChallenges . '</b> ' .

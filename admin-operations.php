@@ -68,9 +68,9 @@ if (!file_exists(SITEMAP_FILE) || filemtime(SITEMAP_FILE) < NOW - ONE_DAY) {
     $sitemap .= '</urlset>';
 
     $result .= li(a(SITEMAP_FILE, SITEMAP_FILE) .
-                  (file_put_contents(SITEMAP_FILE, $sitemap) ? '' : ' not') . ' created') .
+                  (file_put_contents(SITEMAP_FILE, $sitemap, LOCK_EX) ? '' : ' not') . ' created') .
                li(a(SITEMAP_FILE . '.gz', SITEMAP_FILE . '.gz') .
-                  (file_put_contents(SITEMAP_FILE . '.gz', gzencode($sitemap, 9)) ? '' : ' not') . ' created');
+                  (file_put_contents(SITEMAP_FILE . '.gz', gzencode($sitemap, 9), LOCK_EX) ? '' : ' not') . ' created');
 
 } else $result .= li(a(SITEMAP_FILE, SITEMAP_FILE) . ' was already up to date');
 
@@ -81,7 +81,7 @@ if (!file_exists(SITEMAP_FILE) || filemtime(SITEMAP_FILE) < NOW - ONE_DAY) {
 *******************************************************************************/
 
 if (!file_exists(ROBOT_FILE) || filemtime(ROBOT_FILE) < NOW - ONE_WEEK) {
-    $privateUrls = array('/language',
+    $privateUrls = array('/lang',
                          '/signup',
                          '/login',
                          '/lost-password');
@@ -93,7 +93,7 @@ if (!file_exists(ROBOT_FILE) || filemtime(ROBOT_FILE) < NOW - ONE_WEEK) {
     $robots .= "\nSitemap: /sitemap.xml";
 
     $result .= li(a(ROBOT_FILE, ROBOT_FILE) .
-                  (file_put_contents(ROBOT_FILE, $robots) ? '' : ' not') . ' created');
+                  (file_put_contents(ROBOT_FILE, $robots, LOCK_EX) ? '' : ' not') . ' created');
 
 } else $result .= li(a(ROBOT_FILE, ROBOT_FILE) . ' was already up to date');
 
@@ -133,7 +133,7 @@ if (!file_exists(FEED_FILE) || filemtime(FEED_FILE) < NOW - ONE_DAY) {
     $atom .= '</feed>';
 
     $result .= li(a(FEED_FILE, FEED_FILE) .
-                  (file_put_contents(FEED_FILE, $atom) ? '' : ' not') . ' created');
+                  (file_put_contents(FEED_FILE, $atom, LOCK_EX) ? '' : ' not') . ' created');
 
 } else $result .= li(a(FEED_FILE, FEED_FILE) . ' was already up to date');
 
@@ -164,7 +164,7 @@ if (!file_exists($styleOutputFile) ||
     if (file_put_contents($styleOutputFile,
                           str_replace(array("\n", ';}', ' {', "\t", '    ', ': ', '; ', ', ', '> ', ' >', '0.'),
                                       array('',   '}',  '{',  '',   '',     ':',  ';',  ',', '>', '>', '.'),
-                                      file_get_contents($styleInputFile))))
+                                      file_get_contents($styleInputFile)), LOCK_EX))
 
         $result .= li(a($styleOutputFile, $styleOutputFile) . ' created');
 

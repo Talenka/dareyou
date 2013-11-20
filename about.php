@@ -17,7 +17,7 @@ if ($body === false) {
     $successfulAttempts = round(100 * selectCount('realizations', "status='accepted'") / $attemptsNumber);
 
     $body = cache('body',
-                  h1(a('about', L('About'))) .
+                  h1(L('About')) .
                   h2(L('How it works')) .
                   '<p align=justify>' . L('How it works ...') . '</p>' .
                   h2(L('Some figures')) .

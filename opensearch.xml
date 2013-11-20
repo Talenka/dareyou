@@ -1,0 +1,9 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>Dareyou!</ShortName>
+  <Description>Search Dareyou!</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="16" height="16" type="image/x-icon">http://dareyou.be/favicon.ico</Image>
+  <Url type="text/html" method="get" template="http://dareyou.be/search?{searchTerms}"/>
+  <moz:SearchForm>https://dareyou.be/search</moz:SearchForm>
+</OpenSearchDescription>

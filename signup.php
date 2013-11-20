@@ -44,7 +44,7 @@ if (!empty($_POST['name']) &&
         if ($user->num_rows > 0)
             $signupError[] = L('This email is already used by another user');
 
-        if (in_array(strtolower($_POST['password']), $commonPasswords))
+        if (isPasswordCommon($_POST['password']))
             $signupError[] = L('This password is too common, please choose another');
 
         if (sizeof($signupError) == 0) {

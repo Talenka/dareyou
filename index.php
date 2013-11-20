@@ -7,9 +7,9 @@ namespace Dareyou;
 
 require_once 'core.php';
 
-$pageMaxAge = 10;
+$pageMaxAge = 5;
 
-$news = getFromCache('news', 60);
+$news = getFromCache('news', 120);
 
 if ($news === false)
     $news = cache('news',

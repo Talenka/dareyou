@@ -11,9 +11,6 @@ points, plus any other rewards specified in the bet / challenge. The losers
 lose karma points, and may need to perform a task ingratte specified in the
 challenge.
 
-© [Boudah Talenka](http://boudah.pl) 2012, published under the
-[GNU General Public Licence](http://www.gnu.org/licenses/gpl.html).
-
 ### Installation
 
 0. Works with PHP 5.3 and MySql 5.1

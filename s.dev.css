@@ -168,15 +168,6 @@ time
     margin: 3px auto;
 }
 
-a[href^=user], nav > a[href^=user]
-{
-    background-position: 2px 40%;
-    background-repeat: no-repeat;
-    padding-left: 26px;
-    border: none;
-    color: #468;
-}
-
 .i
 {
     max-width: 35%;
@@ -184,4 +175,13 @@ a[href^=user], nav > a[href^=user]
     height: auto;
     float: right;
     margin: 10px;
+}
+
+a[href^=user]
+{
+    background-position: 2px 40%;
+    background-repeat: no-repeat;
+    padding-left: 26px;
+    border: none;
+    color: #468;
 }

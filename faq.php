@@ -14,7 +14,7 @@ $body = getFromCache('body', ONE_DAY);
 if ($body === false)
     $body = cache('body',
             '<nav>' . a('contact class=b', L('Contact us')) . '</nav>' .
-            h1(a('faq', L('Frequently Asked Questions'))) .
+            h1(L('Frequently Asked Questions')) .
             '<ul>' .
                 li('<a href=#ie>'.L('I cannot use Internet Explorer here, why?').'</a>') .
                 li('<a href=#earn-karma>' . L('How to earn karma points?') . '</a>') .

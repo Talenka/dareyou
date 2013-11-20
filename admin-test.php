@@ -143,6 +143,17 @@ elseif (URL_PARAMS == 'run-comparison') {
                  round(100 / sqrt($iterations)) . '%</nav>' .
                  h2(a('admin-test', L('Tests'))) .
                  $result);
+
+} elseif (URL_PARAMS == 'run-unit-tests') {
+
+    unitTest(true, 'isBetween', 5, 2, 10);
+    unitTest(false, 'isBetween', 5, 2, 4);
+    unitTest(true, 'isBetween', 5.1, 2, 5.11);
+    unitTest('exception', 'isBetween', 'a', 2, 4);
+
+    if (isBetween()) array_push('isBetween() should return');
+
+
 } else
 
     sendPageToClient(L('Administration'),
