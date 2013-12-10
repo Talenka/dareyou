@@ -1,18 +1,27 @@
-# SublimeText is a great editor, but you may not care about these files 
+# Images
+*.ico
+*.jpg
+*.png
+*.svg
+
+# SublimeText files
 *.sublime-*
 
-# Actually just OS- or framework-generated files, nothing interesting
-.*
+# Documentation (since it is available online)
+doc/
 
-# Favicon (in various format)
-favicon*
+# Hidden files
+.DS_Store
+.htaccess
+
+# RSS/Atom Feeds
+*.xml
+
+# Google webmaster file
+google*
 
 # My personnal configuration file (see config.sample.php)
 config.php
-
-# Documentation is available online at:
-# http://dareyou.be/doc/
-doc/
 
 # Cache directory, only ephemeral php-generated files
 c/
